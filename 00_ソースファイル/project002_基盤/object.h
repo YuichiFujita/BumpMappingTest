@@ -58,19 +58,12 @@ public:
 		LABEL_NONE = 0,		// なし
 		LABEL_UI,			// UI
 		LABEL_NUMBER,		// 数字
+		LABEL_TEAPOT,		// ティーポット
 		LABEL_PLAYER,		// プレイヤー
-		LABEL_FRIEND,		// 友達
-		LABEL_BUILDING,		// ビル
-		LABEL_WINDOW,		// 窓
-		LABEL_SIGNBOARD,	// 看板
-		LABEL_OBSTACLE,		// 障害物
-		LABEL_SAVEPOINT,	// セーブポイント
-		LABEL_GOALPOINT,	// ゴールポイント
 		LABEL_FIELD,		// 地面
 		LABEL_WALL,			// 壁
 		LABEL_SCENERY,		// 景色
 		LABEL_SKY,			// 空
-		LABEL_SEA,			// 海
 		LABEL_EFFECT,		// エフェクト
 		LABEL_PARTICLE,		// パーティクル
 		LABEL_MAX			// この列挙型の総数

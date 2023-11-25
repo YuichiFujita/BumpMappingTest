@@ -159,6 +159,7 @@
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="debugproc.cpp" />
+    <ClCompile Include="DXUTMesh.cpp" />
     <ClCompile Include="effect2D.cpp" />
     <ClCompile Include="effect3D.cpp" />
     <ClCompile Include="fade.cpp" />
@@ -215,6 +216,7 @@
     <ClCompile Include="sky.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="stage.cpp" />
+    <ClCompile Include="teapot.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="timerManager.cpp" />
     <ClCompile Include="titleManager.cpp" />
@@ -230,6 +232,7 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="debugproc.h" />
+    <ClInclude Include="DXUTMesh.h" />
     <ClInclude Include="effect2D.h" />
     <ClInclude Include="effect3D.h" />
     <ClInclude Include="fade.h" />
@@ -282,6 +285,7 @@
     <ClInclude Include="sky.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="stage.h" />
+    <ClInclude Include="teapot.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="timerManager.h" />
     <ClInclude Include="titleManager.h" />

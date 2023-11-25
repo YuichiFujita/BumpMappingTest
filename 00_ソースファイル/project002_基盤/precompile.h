@@ -22,6 +22,9 @@
 #include <time.h>
 #include <assert.h>
 
+// DirectXのデバッグ表示の高精度化
+#define D3D_DEBUG_INFO
+
 #include <d3dx9.h>
 
 // ビルド時の警告対処用マクロ

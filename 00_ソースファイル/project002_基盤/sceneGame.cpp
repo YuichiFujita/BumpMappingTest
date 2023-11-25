@@ -18,6 +18,10 @@
 #include "pause.h"
 #include "player.h"
 
+// TODO：シェーダーチェック用
+#include "teapot.h"
+#include "wall.h"
+
 //************************************************************
 //	マクロ定義
 //************************************************************
@@ -49,8 +53,8 @@ CGameManager	*CSceneGame::m_pGameManager  = NULL;	// ゲームマネージャー
 CTimerManager	*CSceneGame::m_pTimerManager = NULL;	// タイマーマネージャー
 CPause	*CSceneGame::m_pPause	= NULL;					// ポーズ
 
-bool CSceneGame::m_bControlCamera = false;	// カメラの操作状況
-bool CSceneGame::m_bDrawUI = true;			// UIの描画状況
+bool CSceneGame::m_bControlCamera = true;	// カメラの操作状況
+bool CSceneGame::m_bDrawUI = false;			// UIの描画状況
 bool CSceneGame::m_bDrawPause = true;		// ポーズの描画状況
 
 //************************************************************
@@ -125,15 +129,26 @@ HRESULT CSceneGame::Init(void)
 		return E_FAIL;
 	}
 
+	// シェーダーチェック用直書き
+#if 1
+
+	// ティーポットの生成
+	CTeapot::Create(D3DXVECTOR3(0.0f, 200.0f, 0.0f), VEC3_ZERO);
+
+#endif
+
 	//--------------------------------------------------------
 	//	初期設定
 	//--------------------------------------------------------
 	// カメラを設定
-	CManager::GetInstance()->GetCamera()->SetState(CCamera::STATE_FOLLOW);	// カメラを追従状態に設定
+	//CManager::GetInstance()->GetCamera()->SetState(CCamera::STATE_FOLLOW);	// カメラを追従状態に設定
 
 	// プレイヤーを出現
 	//CScene::GetPlayer()->SetSpawn();
 	//CScene::GetPlayer()->SetEnableDraw(false);	// 描画はOFFにする
+
+	// カメラの操作状況を設定
+	SetEnableControlCamera(m_bControlCamera);
 
 	// UIの描画状況を設定
 	SetEnableDrawUI(m_bDrawUI);
