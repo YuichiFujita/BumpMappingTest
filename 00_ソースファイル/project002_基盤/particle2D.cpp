@@ -307,17 +307,17 @@ void CParticle2D::GetItem(const D3DXVECTOR3& rPos, const D3DXCOLOR& rCol)
 CParticle2D *CParticle2D::Create(const EType type, const D3DXVECTOR3& rPos, const D3DXCOLOR& rCol)
 {
 	// ポインタを宣言
-	CParticle2D *pParticle2D = NULL;	// パーティクル2D生成用
+	CParticle2D *pParticle2D = nullptr;	// パーティクル2D生成用
 
-	if (pParticle2D == NULL)
+	if (pParticle2D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pParticle2D = new CParticle2D;	// パーティクル2D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pParticle2D != NULL)
+	if (pParticle2D != nullptr)
 	{ // 確保に成功している場合
 
 		// パーティクル2Dの初期化
@@ -326,14 +326,14 @@ CParticle2D *CParticle2D::Create(const EType type, const D3DXVECTOR3& rPos, cons
 
 			// メモリ開放
 			delete pParticle2D;
-			pParticle2D = NULL;
+			pParticle2D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pParticle2D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

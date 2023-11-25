@@ -51,7 +51,7 @@ CPause::CPause()
 {
 	// メンバ変数をクリア
 	memset(&m_apSelect[0], 0, sizeof(m_apSelect));	// 選択情報
-	m_pBG		 = NULL;			// 背景情報
+	m_pBG		 = nullptr;			// 背景情報
 	m_nSelect	 = SELECT_RESUME;	// 現在の選択
 	m_nOldSelect = SELECT_RESUME;	// 前回の選択
 	m_bPause	 = false;			// ポーズ状況
@@ -75,7 +75,7 @@ HRESULT CPause::Init(void)
 
 	// メンバ変数を初期化
 	memset(&m_apSelect[0], 0, sizeof(m_apSelect));	// 選択情報
-	m_pBG		 = NULL;			// 背景情報
+	m_pBG		 = nullptr;			// 背景情報
 	m_nSelect	 = SELECT_RESUME;	// 現在の選択
 	m_nOldSelect = SELECT_RESUME;	// 前回の選択
 	m_bPause	 = false;			// ポーズ状況
@@ -88,7 +88,7 @@ HRESULT CPause::Init(void)
 		VEC3_ZERO,		// 向き
 		BG_COL			// 色
 	);
-	if (m_pBG == NULL)
+	if (m_pBG == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -110,7 +110,7 @@ HRESULT CPause::Init(void)
 			VEC3_ZERO,	// 向き
 			DEFAULT_COL	// 色
 		);
-		if (m_apSelect[nCntPause] == NULL)
+		if (m_apSelect[nCntPause] == nullptr)
 		{ // 非使用中の場合
 
 			// 失敗を返す
@@ -251,17 +251,17 @@ void CPause::SetEnableDraw(const bool bDraw)
 CPause *CPause::Create(void)
 {
 	// ポインタを宣言
-	CPause *pPause = NULL;		// ポーズ生成用
+	CPause *pPause = nullptr;		// ポーズ生成用
 
-	if (pPause == NULL)
+	if (pPause == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pPause = new CPause;	// ポーズ
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pPause != NULL)
+	if (pPause != nullptr)
 	{ // 確保に成功している場合
 
 		// ポーズの初期化
@@ -270,16 +270,16 @@ CPause *CPause::Create(void)
 
 			// メモリ開放
 			delete pPause;
-			pPause = NULL;
+			pPause = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pPause;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -287,7 +287,7 @@ CPause *CPause::Create(void)
 //============================================================
 HRESULT CPause::Release(CPause *&prPause)
 {
-	if (prPause != NULL)
+	if (prPause != nullptr)
 	{ // 使用中の場合
 
 		// ポーズの終了
@@ -295,7 +295,7 @@ HRESULT CPause::Release(CPause *&prPause)
 
 		// メモリ開放
 		delete prPause;
-		prPause = NULL;
+		prPause = nullptr;
 
 		// 成功を返す
 		return S_OK;

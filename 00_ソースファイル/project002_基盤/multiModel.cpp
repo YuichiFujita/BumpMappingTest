@@ -23,8 +23,8 @@ CMultiModel::CMultiModel()
 	// メンバ変数をクリア
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pParent = NULL;		// 親モデルへのポインタ
-	m_pMat	= NULL;			// マテリアルへのポインタ
+	m_pParent = nullptr;	// 親モデルへのポインタ
+	m_pMat	= nullptr;		// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ZERO;	// 拡大率
@@ -39,8 +39,8 @@ CMultiModel::CMultiModel(const CObject::ELabel label, const int nPriority) : COb
 	// メンバ変数をクリア
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pParent = NULL;		// 親モデルへのポインタ
-	m_pMat	= NULL;			// マテリアルへのポインタ
+	m_pParent = nullptr;	// 親モデルへのポインタ
+	m_pMat	= nullptr;		// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ZERO;	// 拡大率
@@ -63,8 +63,8 @@ HRESULT CMultiModel::Init(void)
 	// メンバ変数を初期化
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pParent = NULL;		// 親モデルへのポインタ
-	m_pMat	= NULL;			// マテリアルへのポインタ
+	m_pParent = nullptr;	// 親モデルへのポインタ
+	m_pMat	= nullptr;		// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ONE;		// 拡大率
@@ -84,12 +84,12 @@ HRESULT CMultiModel::Init(void)
 void CMultiModel::Uninit(void)
 {
 	// マテリアルへのポインタを破棄
-	if (m_pMat != NULL)
+	if (m_pMat != nullptr)
 	{ // ポインタが使用されていた場合
 
 		// メモリ開放
 		delete[] m_pMat;
-		m_pMat = NULL;
+		m_pMat = nullptr;
 	}
 
 	// マルチモデルを破棄
@@ -134,7 +134,7 @@ void CMultiModel::Draw(void)
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
 	// 親マトリックスを設定
-	if (m_pParent == NULL)
+	if (m_pParent == nullptr)
 	{ // 親が存在しない場合
 
 		// 現在のマトリックスを取得
@@ -190,7 +190,7 @@ void CMultiModel::BindModel(const int nModelID)
 {
 	// ポインタを宣言
 	CModel *pModel = CManager::GetInstance()->GetModel();	// モデルへのポインタ
-	if (pModel == NULL)
+	if (pModel == nullptr)
 	{ // モデルポインタが存在しない場合
 
 		// 関数を抜ける
@@ -220,7 +220,7 @@ void CMultiModel::BindModel(const char *pModelPass)
 {
 	// ポインタを宣言
 	CModel *pModel = CManager::GetInstance()->GetModel();	// モデルへのポインタ
-	if (pModel == NULL)
+	if (pModel == nullptr)
 	{ // モデルポインタが存在しない場合
 
 		// 関数を抜ける
@@ -228,7 +228,7 @@ void CMultiModel::BindModel(const char *pModelPass)
 		return;
 	}
 
-	if (pModelPass != NULL)
+	if (pModelPass != nullptr)
 	{ // 割り当てるモデルパスが存在する場合
 
 		// モデルインデックスを代入
@@ -356,17 +356,17 @@ D3DXMATRIX CMultiModel::GetMtxWorld(void) const
 CMultiModel *CMultiModel::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& rRot, const D3DXVECTOR3& rScale)
 {
 	// ポインタを宣言
-	CMultiModel *pMultiModel = NULL;	// マルチモデル生成用
+	CMultiModel *pMultiModel = nullptr;	// マルチモデル生成用
 
-	if (pMultiModel == NULL)
+	if (pMultiModel == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pMultiModel = new CMultiModel;	// マルチモデル
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pMultiModel != NULL)
+	if (pMultiModel != nullptr)
 	{ // 確保に成功している場合
 
 		// マルチモデルの初期化
@@ -375,10 +375,10 @@ CMultiModel *CMultiModel::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& rRo
 
 			// メモリ開放
 			delete pMultiModel;
-			pMultiModel = NULL;
+			pMultiModel = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -393,7 +393,7 @@ CMultiModel *CMultiModel::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& rRo
 		// 確保したアドレスを返す
 		return pMultiModel;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -548,8 +548,8 @@ void CMultiModel::SetParentModel(CMultiModel *pModel)
 //============================================================
 void CMultiModel::DeleteParentObject(void)
 {
-	// 親オブジェクトをNULLにする
-	m_pParent = NULL;
+	// 親オブジェクトをnullptrにする
+	m_pParent = nullptr;
 }
 
 //============================================================
@@ -581,21 +581,21 @@ HRESULT CMultiModel::SetOriginMaterial(const LPD3DXBUFFER pBuffMat, const int nN
 	//--------------------------------------------------------
 	//	メモリ開放・確保
 	//--------------------------------------------------------
-	if (m_pMat != NULL)
+	if (m_pMat != nullptr)
 	{ // ポインタが使用されていた場合
 
 		// メモリ開放
 		delete[] m_pMat;
-		m_pMat = NULL;
+		m_pMat = nullptr;
 	}
 
-	if (m_pMat == NULL)
+	if (m_pMat == nullptr)
 	{ // ポインタが使用されていない場合
 
 		// マテリアル数分のメモリ確保
 		m_pMat = new D3DXMATERIAL[nNumMat];
 
-		if (m_pMat != NULL)
+		if (m_pMat != nullptr)
 		{ // 確保に成功した場合
 
 			// メモリクリア

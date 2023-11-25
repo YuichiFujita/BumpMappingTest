@@ -105,17 +105,17 @@ void CLight::Update(void)
 CLight *CLight::Create(void)
 {
 	// ポインタを宣言
-	CLight *pLight = NULL;	// ライト生成用
+	CLight *pLight = nullptr;	// ライト生成用
 
-	if (pLight == NULL)
+	if (pLight == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pLight = new CLight;	// ライト
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pLight != NULL)
+	if (pLight != nullptr)
 	{ // 確保に成功している場合
 
 		// ライトの初期化
@@ -124,16 +124,16 @@ CLight *CLight::Create(void)
 
 			// メモリ開放
 			delete pLight;
-			pLight = NULL;
+			pLight = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pLight;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -141,7 +141,7 @@ CLight *CLight::Create(void)
 //============================================================
 HRESULT CLight::Release(CLight *&prLight)
 {
-	if (prLight != NULL)
+	if (prLight != nullptr)
 	{ // 使用中の場合
 
 		// ライトの終了
@@ -149,7 +149,7 @@ HRESULT CLight::Release(CLight *&prLight)
 
 		// メモリ開放
 		delete prLight;
-		prLight = NULL;
+		prLight = nullptr;
 
 		// 成功を返す
 		return S_OK;

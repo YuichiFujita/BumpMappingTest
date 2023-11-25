@@ -18,7 +18,7 @@
 //************************************************************
 //	静的メンバ変数宣言
 //************************************************************
-CResultManager *CSceneResult::m_pResultManager = NULL;	// リザルトマネージャー
+CResultManager *CSceneResult::m_pResultManager = nullptr;	// リザルトマネージャー
 
 //************************************************************
 //	子クラス [CSceneResult] のメンバ関数
@@ -49,7 +49,7 @@ HRESULT CSceneResult::Init(void)
 	//--------------------------------------------------------
 	// リザルトマネージャーの生成
 	m_pResultManager = CResultManager::Create();
-	if (m_pResultManager == NULL)
+	if (m_pResultManager == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -105,7 +105,7 @@ void CSceneResult::Update(void)
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "　[デバッグ情報]\n");
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "======================================\n");
 
-	if (m_pResultManager != NULL)
+	if (m_pResultManager != nullptr)
 	{ // 使用中の場合
 
 		// リザルトマネージャーの更新

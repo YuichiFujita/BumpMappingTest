@@ -22,13 +22,13 @@
 CRenderer::CRenderer()
 {
 	// メンバ変数をクリア
-	m_pD3D			= NULL;	// Direct3Dオブジェクト
-	m_pD3DDevice	= NULL;	// Direct3Dデバイス
-	m_pRenderTexture			= NULL;	// テクスチャへのポインタ
-	m_pRenderTextureSurface		= NULL;	// 描画サーフェイスへのポインタ
-	m_pDepthStencilSurface		= NULL;	// Zバッファ・ステンシルバッファのサーフェイスへのポインタ
-	m_pDefRenderTextureSurface	= NULL;	// 元の描画サーフェイス保存用
-	m_pDefDepthStencilSurface	= NULL;	// 元のZバッファ・ステンシルバッファのサーフェイス保存用
+	m_pD3D			= nullptr;	// Direct3Dオブジェクト
+	m_pD3DDevice	= nullptr;	// Direct3Dデバイス
+	m_pRenderTexture			= nullptr;	// テクスチャへのポインタ
+	m_pRenderTextureSurface		= nullptr;	// 描画サーフェイスへのポインタ
+	m_pDepthStencilSurface		= nullptr;	// Zバッファ・ステンシルバッファのサーフェイスへのポインタ
+	m_pDefRenderTextureSurface	= nullptr;	// 元の描画サーフェイス保存用
+	m_pDefDepthStencilSurface	= nullptr;	// 元のZバッファ・ステンシルバッファのサーフェイス保存用
 }
 
 //============================================================
@@ -50,17 +50,17 @@ HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 	D3DPRESENT_PARAMETERS	d3dpp;	// プレゼンテーションパラメータ
 
 	// メンバ変数を初期化
-	m_pD3D			= NULL;	// Direct3Dオブジェクト
-	m_pD3DDevice	= NULL;	// Direct3Dデバイス
-	m_pRenderTexture			= NULL;	// テクスチャへのポインタ
-	m_pRenderTextureSurface		= NULL;	// 描画サーフェイスへのポインタ
-	m_pDepthStencilSurface		= NULL;	// Zバッファ・ステンシルバッファのサーフェイスへのポインタ
-	m_pDefRenderTextureSurface	= NULL;	// 元の描画サーフェイス保存用
-	m_pDefDepthStencilSurface	= NULL;	// 元のZバッファ・ステンシルバッファのサーフェイス保存用
+	m_pD3D			= nullptr;	// Direct3Dオブジェクト
+	m_pD3DDevice	= nullptr;	// Direct3Dデバイス
+	m_pRenderTexture			= nullptr;	// テクスチャへのポインタ
+	m_pRenderTextureSurface		= nullptr;	// 描画サーフェイスへのポインタ
+	m_pDepthStencilSurface		= nullptr;	// Zバッファ・ステンシルバッファのサーフェイスへのポインタ
+	m_pDefRenderTextureSurface	= nullptr;	// 元の描画サーフェイス保存用
+	m_pDefDepthStencilSurface	= nullptr;	// 元のZバッファ・ステンシルバッファのサーフェイス保存用
 
 	// Direct3Dオブジェクトの生成
 	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
-	if (m_pD3D == NULL)
+	if (m_pD3D == nullptr)
 	{ // オブジェクトの生成に失敗した場合
 
 		// 失敗を返す
@@ -129,7 +129,7 @@ HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 		0,								// 品質レベル
 		FALSE,							// Zバッファ破棄の有効/無効
 		&m_pDepthStencilSurface,		// Zバッファ・ステンシルバッファのサーフェイスへのポインタ
-		NULL							// NULL
+		nullptr							// nullptr
 	);
 	if (FAILED(hr))
 	{ // 描画先の生成に失敗した場合
@@ -200,66 +200,66 @@ HRESULT CRenderer::Init(HWND hWnd, BOOL bWindow)
 void CRenderer::Uninit(void)
 {
 	// Direct3Dデバイスの破棄
-	if (m_pD3DDevice != NULL)
+	if (m_pD3DDevice != nullptr)
 	{ // Direct3Dデバイスが使用中の場合
 
 		// メモリ開放
 		m_pD3DDevice->Release();
-		m_pD3DDevice = NULL;
+		m_pD3DDevice = nullptr;
 	}
 
 	// Direct3Dオブジェクトの破棄
-	if (m_pD3D != NULL)
+	if (m_pD3D != nullptr)
 	{ // Direct3Dオブジェクトが使用中の場合
 
 		// メモリ開放
 		m_pD3D->Release();
-		m_pD3D = NULL;
+		m_pD3D = nullptr;
 	}
 
 	// テクスチャの破棄
-	if (m_pRenderTexture != NULL)
+	if (m_pRenderTexture != nullptr)
 	{ // テクスチャが使用中の場合
 
 		// メモリ開放
 		m_pRenderTexture->Release();
-		m_pRenderTexture = NULL;
+		m_pRenderTexture = nullptr;
 	}
 
 	// 描画サーフェイスの破棄
-	if (m_pRenderTextureSurface != NULL)
+	if (m_pRenderTextureSurface != nullptr)
 	{ // 描画サーフェイスが使用中の場合
 
 		// メモリ開放
 		m_pRenderTextureSurface->Release();
-		m_pRenderTextureSurface = NULL;
+		m_pRenderTextureSurface = nullptr;
 	}
 
 	//  Zバッファ・ステンシルバッファのサーフェイスの破棄
-	if (m_pDepthStencilSurface != NULL)
+	if (m_pDepthStencilSurface != nullptr)
 	{ // Zバッファ・ステンシルバッファのサーフェイスが使用中の場合
 
 		// メモリ開放
 		m_pDepthStencilSurface->Release();
-		m_pDepthStencilSurface = NULL;
+		m_pDepthStencilSurface = nullptr;
 	}
 
 	// 元の描画サーフェイスの破棄
-	if (m_pDefRenderTextureSurface != NULL)
+	if (m_pDefRenderTextureSurface != nullptr)
 	{ // 元の描画サーフェイスが使用中の場合
 
 		// メモリ開放
 		m_pDefRenderTextureSurface->Release();
-		m_pDefRenderTextureSurface = NULL;
+		m_pDefRenderTextureSurface = nullptr;
 	}
 
 	// 元のZバッファ・ステンシルバッファのサーフェイス破棄
-	if (m_pDefDepthStencilSurface != NULL)
+	if (m_pDefDepthStencilSurface != nullptr)
 	{ // 元のZバッファ・ステンシルバッファのサーフェイスが使用中の場合
 
 		// メモリ開放
 		m_pDefDepthStencilSurface->Release();
-		m_pDefDepthStencilSurface = NULL;
+		m_pDefDepthStencilSurface = nullptr;
 	}
 }
 
@@ -293,7 +293,7 @@ void CRenderer::Draw(void)
 	if (FAILED(hr)) { assert(false); }
 
 	// バックバッファとZバッファのクリア
-	hr = m_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+	hr = m_pD3DDevice->Clear(0, nullptr, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 	if (FAILED(hr)) { assert(false); }
 
 	// テクスチャ作成用の描画
@@ -329,7 +329,7 @@ void CRenderer::Draw(void)
 	if (FAILED(hr)) { assert(false); }
 
 	// バックバッファとZバッファのクリア
-	hr = m_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+	hr = m_pD3DDevice->Clear(0, nullptr, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 	if (FAILED(hr)) { assert(false); }
 
 	// 画面の描画
@@ -357,7 +357,7 @@ void CRenderer::Draw(void)
 	}
 
 	// バックバッファとフロントバッファの入れ替え
-	hr = m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+	hr = m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
 	if (FAILED(hr)) { assert(false); }
 }
 
@@ -376,17 +376,17 @@ LPDIRECT3DDEVICE9 CRenderer::GetDevice(void) const
 CRenderer *CRenderer::Create(HWND hWnd, BOOL bWindow)
 {
 	// ポインタを宣言
-	CRenderer *pRenderer = NULL;	// レンダラー生成用
+	CRenderer *pRenderer = nullptr;	// レンダラー生成用
 
-	if (pRenderer == NULL)
+	if (pRenderer == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pRenderer = new CRenderer;	// レンダラー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pRenderer != NULL)
+	if (pRenderer != nullptr)
 	{ // 確保に成功している場合
 
 		// レンダラーの初期化
@@ -395,16 +395,16 @@ CRenderer *CRenderer::Create(HWND hWnd, BOOL bWindow)
 
 			// メモリ開放
 			delete pRenderer;
-			pRenderer = NULL;
+			pRenderer = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pRenderer;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -412,7 +412,7 @@ CRenderer *CRenderer::Create(HWND hWnd, BOOL bWindow)
 //============================================================
 HRESULT CRenderer::Release(CRenderer *&prRenderer)
 {
-	if (prRenderer != NULL)
+	if (prRenderer != nullptr)
 	{ // 使用中の場合
 
 		// レンダラーの終了
@@ -420,7 +420,7 @@ HRESULT CRenderer::Release(CRenderer *&prRenderer)
 
 		// メモリ開放
 		delete prRenderer;
-		prRenderer = NULL;
+		prRenderer = nullptr;
 
 		// 成功を返す
 		return S_OK;

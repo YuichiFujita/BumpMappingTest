@@ -36,7 +36,7 @@
 CFade::CFade()
 {
 	// メンバ変数をクリア
-	m_pObject2D	= NULL;					// フェード表示の情報
+	m_pObject2D	= nullptr;				// フェード表示の情報
 	m_fade		= FADE_NONE;			// フェード状態
 	m_modeNext	= CScene::MODE_TITLE;	// 次のシーンモード
 	m_nCounterWait = 0;					// 余韻管理カウンター
@@ -56,7 +56,7 @@ CFade::~CFade()
 HRESULT CFade::Init(void)
 {
 	// メンバ変数を初期化
-	m_pObject2D = NULL;			// フェード表示の情報
+	m_pObject2D = nullptr;		// フェード表示の情報
 	m_fade		= FADE_IN;		// フェード状態
 	m_modeNext	= INIT_SCENE;	// 次のシーンモード
 	m_nCounterWait = 0;			// 余韻管理カウンター
@@ -69,7 +69,7 @@ HRESULT CFade::Init(void)
 		VEC3_ZERO,	// 向き
 		XCOL_WHITE	// 色
 	);
-	if (m_pObject2D == NULL)
+	if (m_pObject2D == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -222,17 +222,17 @@ CFade::EFade CFade::GetState(void) const
 CFade *CFade::Create(void)
 {
 	// ポインタを宣言
-	CFade *pFade = NULL;	// フェード生成用
+	CFade *pFade = nullptr;	// フェード生成用
 
-	if (pFade == NULL)
+	if (pFade == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pFade = new CFade;	// フェード
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pFade != NULL)
+	if (pFade != nullptr)
 	{ // 確保に成功している場合
 
 		// フェードの初期化
@@ -241,16 +241,16 @@ CFade *CFade::Create(void)
 
 			// メモリ開放
 			delete pFade;
-			pFade = NULL;
+			pFade = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pFade;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -258,7 +258,7 @@ CFade *CFade::Create(void)
 //============================================================
 HRESULT CFade::Release(CFade *&prFade)
 {
-	if (prFade != NULL)
+	if (prFade != nullptr)
 	{ // 使用中の場合
 
 		// フェードの終了
@@ -266,7 +266,7 @@ HRESULT CFade::Release(CFade *&prFade)
 
 		// メモリ開放
 		delete prFade;
-		prFade = NULL;
+		prFade = nullptr;
 
 		// 成功を返す
 		return S_OK;

@@ -58,6 +58,7 @@ public:
 	D3DXVECTOR2 GetVec2Sizing(void) const override;			// 大きさ取得
 	void SetColor(const D3DXCOLOR& rCol) override;			// 色設定
 	D3DXCOLOR GetColor(void) const override;				// 色取得
+	D3DXMATRIX GetMtxWorld(void) const override;			// マトリックス取得
 
 	// 静的メンバ関数
 	static CObjectMeshWall *Create	// 生成

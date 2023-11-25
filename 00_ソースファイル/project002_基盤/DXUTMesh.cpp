@@ -21,14 +21,14 @@
 CDXUTMesh::CDXUTMesh( LPCWSTR strName )
 {
     StringCchCopy( m_strName, 512, strName );
-    m_pMesh              = NULL;
-    m_pMaterials         = NULL;
-    m_pTextures          = NULL;
+    m_pMesh              = nullptr;
+    m_pMaterials         = nullptr;
+    m_pTextures          = nullptr;
     m_bUseMaterials      = TRUE;
-    m_pVB                = NULL;
-    m_pIB                = NULL;
-    m_pDecl              = NULL;
-    m_strMaterials       = NULL;
+    m_pVB                = nullptr;
+    m_pIB                = nullptr;
+    m_pDecl              = nullptr;
+    m_strMaterials       = nullptr;
     m_dwNumMaterials     = 0;
     m_dwNumVertices      = 0;
     m_dwNumFaces         = 0;
@@ -51,8 +51,8 @@ CDXUTMesh::~CDXUTMesh()
 HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strFilename )
 {
     WCHAR        strPath[MAX_PATH];
-    LPD3DXBUFFER pAdjacencyBuffer = NULL;
-    LPD3DXBUFFER pMtrlBuffer = NULL;
+    LPD3DXBUFFER pAdjacencyBuffer = nullptr;
+    LPD3DXBUFFER pMtrlBuffer = nullptr;
     HRESULT      hr;
 
     // Cleanup previous mesh if any
@@ -63,7 +63,7 @@ HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strFilename )
 
     // Load the mesh
     if( FAILED( hr = D3DXLoadMeshFromX( strPath, D3DXMESH_MANAGED, pd3dDevice, 
-                                        &pAdjacencyBuffer, &pMtrlBuffer, NULL,
+                                        &pAdjacencyBuffer, &pMtrlBuffer, nullptr,
                                         &m_dwNumMaterials, &m_pMesh ) ) )
     {
         return hr;
@@ -72,7 +72,7 @@ HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strFilename )
     // Optimize the mesh for performance
     if( FAILED( hr = m_pMesh->OptimizeInplace(
                         D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
-                        (DWORD*)pAdjacencyBuffer->GetBufferPointer(), NULL, NULL, NULL ) ) )
+                        (DWORD*)pAdjacencyBuffer->GetBufferPointer(), nullptr, nullptr, nullptr ) ) )
     {
         SAFE_RELEASE( pAdjacencyBuffer );
         SAFE_RELEASE( pMtrlBuffer );
@@ -110,8 +110,8 @@ HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strFilename )
 HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice,
                            LPD3DXFILEDATA pFileData )
 {
-    LPD3DXBUFFER pMtrlBuffer = NULL;
-    LPD3DXBUFFER pAdjacencyBuffer = NULL;
+    LPD3DXBUFFER pMtrlBuffer = nullptr;
+    LPD3DXBUFFER pAdjacencyBuffer = nullptr;
     HRESULT      hr;
 
     // Cleanup previous mesh if any
@@ -119,7 +119,7 @@ HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice,
 
     // Load the mesh from the DXFILEDATA object
     if( FAILED( hr = D3DXLoadMeshFromXof( pFileData, D3DXMESH_MANAGED, pd3dDevice,
-                                          &pAdjacencyBuffer, &pMtrlBuffer, NULL,
+                                          &pAdjacencyBuffer, &pMtrlBuffer, nullptr,
                                           &m_dwNumMaterials, &m_pMesh ) ) )
     {
         return hr;
@@ -128,7 +128,7 @@ HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice,
     // Optimize the mesh for performance
     if( FAILED( hr = m_pMesh->OptimizeInplace(
                         D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
-                        (DWORD*)pAdjacencyBuffer->GetBufferPointer(), NULL, NULL, NULL ) ) )
+                        (DWORD*)pAdjacencyBuffer->GetBufferPointer(), nullptr, nullptr, nullptr ) ) )
     {
         SAFE_RELEASE( pAdjacencyBuffer );
         SAFE_RELEASE( pMtrlBuffer );
@@ -163,9 +163,9 @@ HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice, ID3DXMesh* pInMesh,
     Destroy();
 
     // Optimize the mesh for performance
-    DWORD *rgdwAdjacency = NULL;
+    DWORD *rgdwAdjacency = nullptr;
     rgdwAdjacency = new DWORD[pInMesh->GetNumFaces() * 3];
-    if( rgdwAdjacency == NULL )
+    if( rgdwAdjacency == nullptr )
         return E_OUTOFMEMORY;
     pInMesh->GenerateAdjacency(1e-6f,rgdwAdjacency);
 
@@ -177,8 +177,8 @@ HRESULT CDXUTMesh::Create( LPDIRECT3DDEVICE9 pd3dDevice, ID3DXMesh* pInMesh,
     dwOptions |= D3DXMESH_MANAGED;
     dwOptions |= D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE;
 
-    ID3DXMesh* pTempMesh = NULL;
-    if( FAILED( pInMesh->Optimize( dwOptions, rgdwAdjacency, NULL, NULL, NULL, &pTempMesh ) ) )
+    ID3DXMesh* pTempMesh = nullptr;
+    if( FAILED( pInMesh->Optimize( dwOptions, rgdwAdjacency, nullptr, nullptr, nullptr, &pTempMesh ) ) )
     {
         SAFE_DELETE_ARRAY( rgdwAdjacency );
         return E_FAIL;
@@ -214,13 +214,13 @@ HRESULT CDXUTMesh::CreateMaterials( LPCWSTR strPath, IDirect3DDevice9 *pd3dDevic
     {
         // Allocate memory for the materials and textures
         m_pMaterials = new D3DMATERIAL9[m_dwNumMaterials];
-        if( m_pMaterials == NULL )
+        if( m_pMaterials == nullptr )
             return E_OUTOFMEMORY;
         m_pTextures = new LPDIRECT3DBASETEXTURE9[m_dwNumMaterials];
-        if( m_pTextures == NULL )
+        if( m_pTextures == nullptr )
             return E_OUTOFMEMORY;
         m_strMaterials = new CHAR[m_dwNumMaterials][MAX_PATH];
-        if( m_strMaterials == NULL )
+        if( m_strMaterials == nullptr )
             return E_OUTOFMEMORY;
 
         // Copy each material and create its texture
@@ -228,7 +228,7 @@ HRESULT CDXUTMesh::CreateMaterials( LPCWSTR strPath, IDirect3DDevice9 *pd3dDevic
         {
             // Copy the material
             m_pMaterials[i]         = d3dxMtrls[i].MatD3D;
-            m_pTextures[i]          = NULL;
+            m_pTextures[i]          = nullptr;
 
             // Create a texture
             if( d3dxMtrls[i].pTextureFilename )
@@ -306,7 +306,7 @@ HRESULT CDXUTMesh::CreateMaterials( LPCWSTR strPath, IDirect3DDevice9 *pd3dDevic
 //-----------------------------------------------------------------------------
 HRESULT CDXUTMesh::SetFVF( LPDIRECT3DDEVICE9 pd3dDevice, DWORD dwFVF )
 {
-    LPD3DXMESH pTempMesh = NULL;
+    LPD3DXMESH pTempMesh = nullptr;
 
     if( m_pMesh )
     {
@@ -326,7 +326,7 @@ HRESULT CDXUTMesh::SetFVF( LPDIRECT3DDEVICE9 pd3dDevice, DWORD dwFVF )
         // the old mesh does not have them.
         if( !(dwOldFVF & D3DFVF_NORMAL) && dwFVF & D3DFVF_NORMAL )
         {
-            D3DXComputeNormals( m_pMesh, NULL );
+            D3DXComputeNormals( m_pMesh, nullptr );
         }
     }
 
@@ -343,7 +343,7 @@ HRESULT CDXUTMesh::SetVertexDecl( LPDIRECT3DDEVICE9 pd3dDevice, const D3DVERTEXE
                                   bool bAutoComputeNormals, bool bAutoComputeTangents, 
                                   bool bSplitVertexForOptimalTangents )
 {
-    LPD3DXMESH pTempMesh = NULL;
+    LPD3DXMESH pTempMesh = nullptr;
 
     if( m_pMesh )
     {
@@ -403,7 +403,7 @@ HRESULT CDXUTMesh::SetVertexDecl( LPDIRECT3DDEVICE9 pd3dDevice, const D3DVERTEXE
         if( !bHadNormal && bHaveNormalNow && bAutoComputeNormals )
         {
             // Compute normals in case the meshes have them
-            D3DXComputeNormals( m_pMesh, NULL );
+            D3DXComputeNormals( m_pMesh, nullptr );
         }
 
         if( bHaveNormalNow && !bHadTangent && bHaveTangentNow && bAutoComputeTangents )
@@ -411,9 +411,9 @@ HRESULT CDXUTMesh::SetVertexDecl( LPDIRECT3DDEVICE9 pd3dDevice, const D3DVERTEXE
             ID3DXMesh* pNewMesh;
             HRESULT hr;
 
-            DWORD *rgdwAdjacency = NULL;
+            DWORD *rgdwAdjacency = nullptr;
             rgdwAdjacency = new DWORD[m_pMesh->GetNumFaces() * 3];
-            if( rgdwAdjacency == NULL )
+            if( rgdwAdjacency == nullptr )
                 return E_OUTOFMEMORY;
             V( m_pMesh->GenerateAdjacency(1e-6f,rgdwAdjacency) );
 
@@ -441,7 +441,7 @@ HRESULT CDXUTMesh::SetVertexDecl( LPDIRECT3DDEVICE9 pd3dDevice, const D3DVERTEXE
                                             D3DDECLUSAGE_NORMAL, 0,
                                             0, rgdwAdjacency, 
                                             fPartialEdgeThreshold, fSingularPointThreshold, fNormalEdgeThreshold, 
-                                            &pNewMesh, NULL );
+                                            &pNewMesh, nullptr );
 
             SAFE_DELETE_ARRAY( rgdwAdjacency );
             if( FAILED(hr) )
@@ -504,7 +504,7 @@ HRESULT CDXUTMesh::Destroy()
 HRESULT CDXUTMesh::Render( LPDIRECT3DDEVICE9 pd3dDevice, bool bDrawOpaqueSubsets,
                           bool bDrawAlphaSubsets )
 {
-    if( NULL == m_pMesh )
+    if( nullptr == m_pMesh )
         return E_FAIL;
 
     // Frist, draw the subsets without alpha
@@ -555,7 +555,7 @@ HRESULT CDXUTMesh::Render( ID3DXEffect *pEffect,
                            bool bDrawOpaqueSubsets,
                            bool bDrawAlphaSubsets )
 {
-    if( NULL == m_pMesh )
+    if( nullptr == m_pMesh )
         return E_FAIL;
 
     UINT cPasses;
@@ -642,10 +642,10 @@ CDXUTMeshFrame::CDXUTMeshFrame( LPCWSTR strName )
 {
     StringCchCopy( m_strName, 512, strName );
     D3DXMatrixIdentity( &m_mat );
-    m_pMesh  = NULL;
+    m_pMesh  = nullptr;
 
-    m_pChild = NULL;
-    m_pNext  = NULL;
+    m_pChild = nullptr;
+    m_pNext  = nullptr;
 }
 
 
@@ -688,14 +688,14 @@ CDXUTMesh* CDXUTMeshFrame::FindMesh( LPCWSTR strMeshName )
             return m_pMesh;
 
     if( m_pChild )
-        if( NULL != ( pMesh = m_pChild->FindMesh( strMeshName ) ) )
+        if( nullptr != ( pMesh = m_pChild->FindMesh( strMeshName ) ) )
             return pMesh;
 
     if( m_pNext )
-        if( NULL != ( pMesh = m_pNext->FindMesh( strMeshName ) ) )
+        if( nullptr != ( pMesh = m_pNext->FindMesh( strMeshName ) ) )
             return pMesh;
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -710,14 +710,14 @@ CDXUTMeshFrame* CDXUTMeshFrame::FindFrame( LPCWSTR strFrameName )
         return this;
 
     if( m_pChild )
-        if( NULL != ( pFrame = m_pChild->FindFrame( strFrameName ) ) )
+        if( nullptr != ( pFrame = m_pChild->FindFrame( strFrameName ) ) )
             return pFrame;
 
     if( m_pNext )
-        if( NULL != ( pFrame = m_pNext->FindFrame( strFrameName ) ) )
+        if( nullptr != ( pFrame = m_pNext->FindFrame( strFrameName ) ) )
             return pFrame;
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -773,7 +773,7 @@ HRESULT CDXUTMeshFrame::Render( LPDIRECT3DDEVICE9 pd3dDevice, bool bDrawOpaqueSu
 
     D3DXMATRIX matSavedWorld, matWorld;
 
-    if ( NULL == pmatWorldMatrix )
+    if ( nullptr == pmatWorldMatrix )
         pd3dDevice->GetTransform( D3DTS_WORLD, &matSavedWorld );
     else
         matSavedWorld = *pmatWorldMatrix;
@@ -803,7 +803,7 @@ HRESULT CDXUTMeshFile::LoadFrame( LPDIRECT3DDEVICE9 pd3dDevice,
                              LPD3DXFILEDATA pFileData,
                              CDXUTMeshFrame* pParentFrame )
 {
-    LPD3DXFILEDATA   pChildData = NULL;
+    LPD3DXFILEDATA   pChildData = nullptr;
     GUID Guid;
     SIZE_T      cbSize;
     CDXUTMeshFrame*  pCurrentFrame;
@@ -844,7 +844,7 @@ HRESULT CDXUTMeshFile::LoadFrame( LPDIRECT3DDEVICE9 pd3dDevice,
 
         // Create the frame
         pCurrentFrame = new CDXUTMeshFrame( strName );
-        if( pCurrentFrame == NULL )
+        if( pCurrentFrame == nullptr )
             return E_OUTOFMEMORY;
 
         pCurrentFrame->m_pNext = pParentFrame->m_pChild;
@@ -895,7 +895,7 @@ HRESULT CDXUTMeshFile::LoadMesh( LPDIRECT3DDEVICE9 pd3dDevice,
 
     // Create the mesh
     pParentFrame->m_pMesh = new CDXUTMesh( strName );
-    if( pParentFrame->m_pMesh == NULL )
+    if( pParentFrame->m_pMesh == nullptr )
         return E_OUTOFMEMORY;
     pParentFrame->m_pMesh->Create( pd3dDevice, pFileData );
 
@@ -908,9 +908,9 @@ HRESULT CDXUTMeshFile::LoadMesh( LPDIRECT3DDEVICE9 pd3dDevice,
 //-----------------------------------------------------------------------------
 HRESULT CDXUTMeshFile::CreateFromResource( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strResource, LPCWSTR strType )
 {
-    LPD3DXFILE           pDXFile   = NULL;
-    LPD3DXFILEENUMOBJECT pEnumObj  = NULL;
-    LPD3DXFILEDATA       pFileData = NULL;
+    LPD3DXFILE           pDXFile   = nullptr;
+    LPD3DXFILEENUMOBJECT pEnumObj  = nullptr;
+    LPD3DXFILEDATA       pFileData = nullptr;
     HRESULT hr;
     SIZE_T cChildren;
 
@@ -929,14 +929,14 @@ HRESULT CDXUTMeshFile::CreateFromResource( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR
     CHAR strTypeAnsi[MAX_PATH];
     CHAR strResourceAnsi[MAX_PATH];
 
-    WideCharToMultiByte( CP_ACP, 0, strType, -1, strTypeAnsi, MAX_PATH, NULL, NULL );
+    WideCharToMultiByte( CP_ACP, 0, strType, -1, strTypeAnsi, MAX_PATH, nullptr, nullptr );
     strTypeAnsi[MAX_PATH-1] = 0;
 
-    WideCharToMultiByte( CP_ACP, 0, strResource, -1, strResourceAnsi, MAX_PATH, NULL, NULL );
+    WideCharToMultiByte( CP_ACP, 0, strResource, -1, strResourceAnsi, MAX_PATH, nullptr, nullptr );
     strResourceAnsi[MAX_PATH-1] = 0;
 
     D3DXF_FILELOADRESOURCE dxlr;
-    dxlr.hModule = NULL;
+    dxlr.hModule = nullptr;
     dxlr.lpName = strResourceAnsi;
     dxlr.lpType = strTypeAnsi;
 
@@ -980,9 +980,9 @@ HRESULT CDXUTMeshFile::CreateFromResource( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR
 //-----------------------------------------------------------------------------
 HRESULT CDXUTMeshFile::Create( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strFilename )
 {
-    LPD3DXFILE           pDXFile   = NULL;
-    LPD3DXFILEENUMOBJECT pEnumObj  = NULL;
-    LPD3DXFILEDATA       pFileData = NULL;
+    LPD3DXFILE           pDXFile   = nullptr;
+    LPD3DXFILEENUMOBJECT pEnumObj  = nullptr;
+    LPD3DXFILEDATA       pFileData = nullptr;
     HRESULT hr;
     SIZE_T cChildren;
 
@@ -1004,7 +1004,7 @@ HRESULT CDXUTMeshFile::Create( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strFilename
     DXUTFindDXSDKMediaFileCch( strPath, sizeof(strPath) / sizeof(WCHAR), strFilename );
     
     
-    WideCharToMultiByte( CP_ACP, 0, strPath, -1, strPathANSI, MAX_PATH, NULL, NULL );
+    WideCharToMultiByte( CP_ACP, 0, strPath, -1, strPathANSI, MAX_PATH, nullptr, nullptr );
     strPathANSI[MAX_PATH-1] = 0;
 
     
@@ -1055,7 +1055,7 @@ HRESULT CDXUTMeshFile::Render( LPDIRECT3DDEVICE9 pd3dDevice, D3DXMATRIX* pmatWor
     // Set up the world transformation
     D3DXMATRIX matSavedWorld, matWorld;
 
-    if ( NULL == pmatWorldMatrix )
+    if ( nullptr == pmatWorldMatrix )
         pd3dDevice->GetTransform( D3DTS_WORLD, &matSavedWorld );
     else
         matSavedWorld = *pmatWorldMatrix;

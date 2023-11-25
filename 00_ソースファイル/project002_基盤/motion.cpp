@@ -25,9 +25,9 @@ CMotion::CMotion()
 {
 	// メンバ変数をクリア
 	memset(&m_info, 0, sizeof(m_info));	// モーション情報
-	m_ppModel = NULL;	// モデル情報
-	m_nNumModel = 0;	// モデルのパーツ数
-	m_bUpdate = true;	// 更新状況
+	m_ppModel = nullptr;	// モデル情報
+	m_nNumModel = 0;		// モデルのパーツ数
+	m_bUpdate = true;		// 更新状況
 }
 
 //============================================================
@@ -45,9 +45,9 @@ HRESULT CMotion::Init(void)
 {
 	// メンバ変数をクリア
 	memset(&m_info, 0, sizeof(m_info));	// モーション情報
-	m_ppModel = NULL;	// モデル情報
-	m_nNumModel = 0;	// モデルのパーツ数
-	m_bUpdate = true;	// 更新状況
+	m_ppModel = nullptr;	// モデル情報
+	m_nNumModel = 0;		// モデルのパーツ数
+	m_bUpdate = true;		// 更新状況
 
 	// モーションを終了状態にする
 	m_info.bFinish = true;
@@ -265,17 +265,17 @@ bool CMotion::IsLoop(const int nType) const
 CMotion *CMotion::Create(void)
 {
 	// ポインタを宣言
-	CMotion *pMotion = NULL;	// モーション生成用
+	CMotion *pMotion = nullptr;	// モーション生成用
 
-	if (pMotion == NULL)
+	if (pMotion == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pMotion = new CMotion;	// モーション
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pMotion != NULL)
+	if (pMotion != nullptr)
 	{ // 確保に成功している場合
 
 		// モーションの初期化
@@ -284,16 +284,16 @@ CMotion *CMotion::Create(void)
 
 			// メモリ開放
 			delete pMotion;
-			pMotion = NULL;
+			pMotion = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pMotion;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -301,7 +301,7 @@ CMotion *CMotion::Create(void)
 //============================================================
 HRESULT CMotion::Release(CMotion *&prMotion)
 {
-	if (prMotion != NULL)
+	if (prMotion != nullptr)
 	{ // 使用中の場合
 
 		// モーションの終了
@@ -309,7 +309,7 @@ HRESULT CMotion::Release(CMotion *&prMotion)
 
 		// メモリ開放
 		delete prMotion;
-		prMotion = NULL;
+		prMotion = nullptr;
 
 		// 成功を返す
 		return S_OK;

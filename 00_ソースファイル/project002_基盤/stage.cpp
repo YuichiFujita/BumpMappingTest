@@ -62,19 +62,19 @@ HRESULT CStage::Init(void)
 	memset(&m_stageLimit, 0, sizeof(m_stageLimit));	// 範囲
 
 	// 地面の情報を初期化
-	m_field.ppField = NULL;	// 地面の情報
+	m_field.ppField = nullptr;	// 地面の情報
 	m_field.nNum = 0;		// 地面の総数
 
 	// 壁の情報を初期化
-	m_wall.ppWall = NULL;	// 壁の情報
+	m_wall.ppWall = nullptr;	// 壁の情報
 	m_wall.nNum = 0;		// 壁の総数
 
 	// 景色の情報を初期化
-	m_scenery.ppScenery = NULL;	// 景色の情報
+	m_scenery.ppScenery = nullptr;	// 景色の情報
 	m_scenery.nNum = 0;			// 景色の総数
 
 	// 空の情報を初期化
-	m_sky.ppSky = NULL;	// 空の情報
+	m_sky.ppSky = nullptr;	// 空の情報
 	m_sky.nNum = 0;		// 空の総数
 
 	// 成功を返す
@@ -87,39 +87,39 @@ HRESULT CStage::Init(void)
 void CStage::Uninit(void)
 {
 	// 地面の破棄
-	if (m_field.ppField != NULL)
+	if (m_field.ppField != nullptr)
 	{ // 地面が使用されている場合
 
 		// メモリ開放
 		delete[] m_field.ppField;
-		m_field.ppField = NULL;
+		m_field.ppField = nullptr;
 	}
 
 	// 壁の破棄
-	if (m_wall.ppWall != NULL)
+	if (m_wall.ppWall != nullptr)
 	{ // 壁が使用されている場合
 
 		// メモリ開放
 		delete[] m_wall.ppWall;
-		m_wall.ppWall = NULL;
+		m_wall.ppWall = nullptr;
 	}
 
 	// 景色の破棄
-	if (m_scenery.ppScenery != NULL)
+	if (m_scenery.ppScenery != nullptr)
 	{ // 景色が使用されている場合
 
 		// メモリ開放
 		delete[] m_scenery.ppScenery;
-		m_scenery.ppScenery = NULL;
+		m_scenery.ppScenery = nullptr;
 	}
 
 	// 空の破棄
-	if (m_sky.ppSky != NULL)
+	if (m_sky.ppSky != nullptr)
 	{ // 空が使用されている場合
 
 		// メモリ開放
 		delete[] m_sky.ppSky;
-		m_sky.ppSky = NULL;
+		m_sky.ppSky = nullptr;
 	}
 }
 
@@ -218,13 +218,13 @@ bool CStage::LandLimitPosition(D3DXVECTOR3& rPos, D3DXVECTOR3& rMove, const floa
 bool CStage::LandFieldPosition(D3DXVECTOR3& rPos, D3DXVECTOR3& rMove)
 {
 	// 変数を宣言
-	CField *pCurrentField = NULL;	// 着地予定の地面
+	CField *pCurrentField = nullptr;	// 着地予定の地面
 	float fCurrentPos = m_stageLimit.fField;	// 着地予定のY座標
 
 	for (int nCntField = 0; nCntField < m_field.nNum; nCntField++)
 	{ // 地面の総数分繰り返す
 
-		if (m_field.ppField[nCntField] != NULL)
+		if (m_field.ppField[nCntField] != nullptr)
 		{ // 地面が使用されている場合
 
 			if (m_field.ppField[nCntField]->IsPositionRange(rPos))
@@ -247,7 +247,7 @@ bool CStage::LandFieldPosition(D3DXVECTOR3& rPos, D3DXVECTOR3& rMove)
 		else { assert(false); }	// 非使用中
 	}
 
-	if (pCurrentField != NULL)
+	if (pCurrentField != nullptr)
 	{ // 着地予定の地面が存在する場合
 
 		// メッシュの着地
@@ -269,7 +269,7 @@ bool CStage::IsFieldPositionRange(const D3DXVECTOR3&rPos)
 	for (int nCntField = 0; nCntField < m_field.nNum; nCntField++)
 	{ // 地面の総数分繰り返す
 
-		if (m_field.ppField[nCntField] != NULL)
+		if (m_field.ppField[nCntField] != nullptr)
 		{ // 地面が使用されている場合
 
 			if (m_field.ppField[nCntField]->IsPositionRange(rPos))
@@ -292,13 +292,13 @@ bool CStage::IsFieldPositionRange(const D3DXVECTOR3&rPos)
 float CStage::GetFieldPositionHeight(const D3DXVECTOR3&rPos)
 {
 	// 変数を宣言
-	CField *pCurrentField = NULL;	// 着地予定の地面
+	CField *pCurrentField = nullptr;	// 着地予定の地面
 	float fCurrentPos = m_stageLimit.fField;	// 着地予定のY座標
 
 	for (int nCntField = 0; nCntField < m_field.nNum; nCntField++)
 	{ // 地面の総数分繰り返す
 
-		if (m_field.ppField[nCntField] != NULL)
+		if (m_field.ppField[nCntField] != nullptr)
 		{ // 地面が使用されている場合
 
 			if (m_field.ppField[nCntField]->IsPositionRange(rPos))
@@ -321,7 +321,7 @@ float CStage::GetFieldPositionHeight(const D3DXVECTOR3&rPos)
 		else { assert(false); }	// 非使用中
 	}
 
-	if (pCurrentField != NULL)
+	if (pCurrentField != nullptr)
 	{ // 着地予定の地面が存在する場合
 
 		// 着地位置を返す
@@ -341,17 +341,17 @@ float CStage::GetFieldPositionHeight(const D3DXVECTOR3&rPos)
 CStage *CStage::Create(const ELoad load)
 {
 	// ポインタを宣言
-	CStage *pStage = NULL;		// ステージ生成用
+	CStage *pStage = nullptr;		// ステージ生成用
 
-	if (pStage == NULL)
+	if (pStage == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pStage = new CStage;	// ステージ
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pStage != NULL)
+	if (pStage != nullptr)
 	{ // 確保に成功している場合
 
 		// ステージの初期化
@@ -360,7 +360,7 @@ CStage *CStage::Create(const ELoad load)
 
 			// 失敗を返す
 			assert(false);
-			return NULL;
+			return nullptr;
 		}
 
 		// セットアップの読込
@@ -369,13 +369,13 @@ CStage *CStage::Create(const ELoad load)
 
 			// 失敗を返す
 			assert(false);
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pStage;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -383,7 +383,7 @@ CStage *CStage::Create(const ELoad load)
 //============================================================
 HRESULT CStage::Release(CStage *&prStage)
 {
-	if (prStage != NULL)
+	if (prStage != nullptr)
 	{ // 使用中の場合
 
 		// ステージの終了
@@ -391,7 +391,7 @@ HRESULT CStage::Release(CStage *&prStage)
 
 		// メモリ開放
 		delete prStage;
-		prStage = NULL;
+		prStage = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -416,7 +416,7 @@ HRESULT CStage::LoadSetup(CStage *pStage, const ELoad load)
 	// ファイルを読み込み形式で開く
 	pFile = fopen(SETUP_TXT[load], "r");
 
-	if (pFile != NULL)
+	if (pFile != nullptr)
 	{ // ファイルが開けた場合
 
 		while (1)
@@ -487,7 +487,7 @@ HRESULT CStage::LoadSetup(CStage *pStage, const ELoad load)
 	{ // ファイルが開けなかった場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "ステージセットアップの読み込みに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "ステージセットアップの読み込みに失敗！", "警告！", MB_ICONWARNING);
 
 		// 失敗を返す
 		return E_FAIL;
@@ -505,7 +505,7 @@ HRESULT CStage::LoadLimit(const char* pString, FILE *pFile, CStage *pStage)
 	// 変数配列を宣言
 	char aString[MAX_STRING];	// テキストの文字列の代入用
 
-	if (pString == NULL || pFile == NULL || pStage == NULL)
+	if (pString == nullptr || pFile == nullptr || pStage == nullptr)
 	{ // 文字列・ファイル・ステージが存在しない場合
 
 		// 失敗を返す
@@ -613,7 +613,7 @@ HRESULT CStage::LoadField(const char* pString, FILE *pFile, CStage *pStage)
 	// 変数配列を宣言
 	char aString[MAX_STRING];	// テキストの文字列の代入用
 
-	if (pString == NULL || pFile == NULL || pStage == NULL)
+	if (pString == nullptr || pFile == nullptr || pStage == nullptr)
 	{ // 文字列・ファイル・ステージが存在しない場合
 
 		// 失敗を返す
@@ -643,13 +643,13 @@ HRESULT CStage::LoadField(const char* pString, FILE *pFile, CStage *pStage)
 				if (pStage->m_field.nNum > 0)
 				{ // 読み込むものがある場合
 
-					if (pStage->m_field.ppField == NULL)
+					if (pStage->m_field.ppField == nullptr)
 					{ // 地面が使用されていない場合
 
 						// 地面の読み込み数分メモリ確保
 						pStage->m_field.ppField = new CField*[pStage->m_field.nNum];
 
-						if (pStage->m_field.ppField != NULL)
+						if (pStage->m_field.ppField != nullptr)
 						{ // 確保に成功した場合
 
 							// メモリクリア
@@ -737,12 +737,12 @@ HRESULT CStage::LoadField(const char* pString, FILE *pFile, CStage *pStage)
 					}
 				} while (strcmp(&aString[0], "END_FIELDSET") != 0);	// 読み込んだ文字列が END_FIELDSET ではない場合ループ
 
-				if (pStage->m_field.ppField[nCurrentID] == NULL)
+				if (pStage->m_field.ppField[nCurrentID] == nullptr)
 				{ // 使用されていない場合
 
 					// 地面オブジェクトの生成
 					pStage->m_field.ppField[nCurrentID] = CField::Create((CField::ETexture)nTextureID, pos, D3DXToRadian(rot), size, col, part, cull, bLight);
-					if (pStage->m_field.ppField[nCurrentID] == NULL)
+					if (pStage->m_field.ppField[nCurrentID] == nullptr)
 					{ // 確保に失敗した場合
 
 						// 失敗を返す
@@ -789,7 +789,7 @@ HRESULT CStage::LoadWall(const char* pString, FILE *pFile, CStage *pStage)
 	// 変数配列を宣言
 	char aString[MAX_STRING];	// テキストの文字列の代入用
 
-	if (pString == NULL || pFile == NULL || pStage == NULL)
+	if (pString == nullptr || pFile == nullptr || pStage == nullptr)
 	{ // 文字列・ファイル・ステージが存在しない場合
 
 		// 失敗を返す
@@ -819,13 +819,13 @@ HRESULT CStage::LoadWall(const char* pString, FILE *pFile, CStage *pStage)
 				if (pStage->m_wall.nNum > 0)
 				{ // 読み込むものがある場合
 
-					if (pStage->m_wall.ppWall == NULL)
+					if (pStage->m_wall.ppWall == nullptr)
 					{ // 壁が使用されていない場合
 
 						// 壁の読み込み数分メモリ確保
 						pStage->m_wall.ppWall = new CWall*[pStage->m_wall.nNum];
 
-						if (pStage->m_wall.ppWall != NULL)
+						if (pStage->m_wall.ppWall != nullptr)
 						{ // 確保に成功した場合
 
 							// メモリクリア
@@ -913,12 +913,12 @@ HRESULT CStage::LoadWall(const char* pString, FILE *pFile, CStage *pStage)
 					}
 				} while (strcmp(&aString[0], "END_WALLSET") != 0);	// 読み込んだ文字列が END_WALLSET ではない場合ループ
 
-				if (pStage->m_wall.ppWall[nCurrentID] == NULL)
+				if (pStage->m_wall.ppWall[nCurrentID] == nullptr)
 				{ // 使用されていない場合
 
 					// 壁オブジェクトの生成
 					pStage->m_wall.ppWall[nCurrentID] = CWall::Create((CWall::ETexture)nTextureID, pos, D3DXToRadian(rot), size, col, part, cull, bLight);
-					if (pStage->m_wall.ppWall[nCurrentID] == NULL)
+					if (pStage->m_wall.ppWall[nCurrentID] == nullptr)
 					{ // 確保に失敗した場合
 
 						// 失敗を返す
@@ -963,7 +963,7 @@ HRESULT CStage::LoadScenery(const char* pString, FILE *pFile, CStage *pStage)
 	// 変数配列を宣言
 	char aString[MAX_STRING];	// テキストの文字列の代入用
 
-	if (pString == NULL || pFile == NULL || pStage == NULL)
+	if (pString == nullptr || pFile == nullptr || pStage == nullptr)
 	{ // 文字列・ファイル・ステージが存在しない場合
 
 		// 失敗を返す
@@ -993,13 +993,13 @@ HRESULT CStage::LoadScenery(const char* pString, FILE *pFile, CStage *pStage)
 				if (pStage->m_scenery.nNum > 0)
 				{ // 読み込むものがある場合
 
-					if (pStage->m_scenery.ppScenery == NULL)
+					if (pStage->m_scenery.ppScenery == nullptr)
 					{ // 景色が使用されていない場合
 
 						// 景色の読み込み数分メモリ確保
 						pStage->m_scenery.ppScenery = new CScenery*[pStage->m_scenery.nNum];
 
-						if (pStage->m_scenery.ppScenery != NULL)
+						if (pStage->m_scenery.ppScenery != nullptr)
 						{ // 確保に成功した場合
 
 							// メモリクリア
@@ -1077,12 +1077,12 @@ HRESULT CStage::LoadScenery(const char* pString, FILE *pFile, CStage *pStage)
 					}
 				} while (strcmp(&aString[0], "END_SCENERYSET") != 0);	// 読み込んだ文字列が END_SCENERYSET ではない場合ループ
 
-				if (pStage->m_scenery.ppScenery[nCurrentID] == NULL)
+				if (pStage->m_scenery.ppScenery[nCurrentID] == nullptr)
 				{ // 使用されていない場合
 
 					// 景色オブジェクトの生成
 					pStage->m_scenery.ppScenery[nCurrentID] = CScenery::Create((CScenery::ETexture)nTextureID, pos, D3DXToRadian(rot), col, part, fRadius, fHeight);
-					if (pStage->m_scenery.ppScenery[nCurrentID] == NULL)
+					if (pStage->m_scenery.ppScenery[nCurrentID] == nullptr)
 					{ // 確保に失敗した場合
 
 						// 失敗を返す
@@ -1126,7 +1126,7 @@ HRESULT CStage::LoadSky(const char* pString, FILE *pFile, CStage *pStage)
 	// 変数配列を宣言
 	char aString[MAX_STRING];	// テキストの文字列の代入用
 
-	if (pString == NULL || pFile == NULL || pStage == NULL)
+	if (pString == nullptr || pFile == nullptr || pStage == nullptr)
 	{ // 文字列・ファイル・ステージが存在しない場合
 
 		// 失敗を返す
@@ -1156,13 +1156,13 @@ HRESULT CStage::LoadSky(const char* pString, FILE *pFile, CStage *pStage)
 				if (pStage->m_sky.nNum > 0)
 				{ // 読み込むものがある場合
 
-					if (pStage->m_sky.ppSky == NULL)
+					if (pStage->m_sky.ppSky == nullptr)
 					{ // 空が使用されていない場合
 
 						// 空の読み込み数分メモリ確保
 						pStage->m_sky.ppSky = new CSky*[pStage->m_sky.nNum];
 
-						if (pStage->m_sky.ppSky != NULL)
+						if (pStage->m_sky.ppSky != nullptr)
 						{ // 確保に成功した場合
 
 							// メモリクリア
@@ -1234,12 +1234,12 @@ HRESULT CStage::LoadSky(const char* pString, FILE *pFile, CStage *pStage)
 					}
 				} while (strcmp(&aString[0], "END_SKYSET") != 0);	// 読み込んだ文字列が END_SKYSET ではない場合ループ
 
-				if (pStage->m_sky.ppSky[nCurrentID] == NULL)
+				if (pStage->m_sky.ppSky[nCurrentID] == nullptr)
 				{ // 使用されていない場合
 
 					// 空オブジェクトの生成
 					pStage->m_sky.ppSky[nCurrentID] = CSky::Create((CSky::ETexture)nTextureID, pos, D3DXToRadian(rot), col, part, fRadius);
-					if (pStage->m_sky.ppSky[nCurrentID] == NULL)
+					if (pStage->m_sky.ppSky[nCurrentID] == nullptr)
 					{ // 確保に失敗した場合
 
 						// 失敗を返す

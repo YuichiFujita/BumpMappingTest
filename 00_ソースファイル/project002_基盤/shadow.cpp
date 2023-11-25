@@ -42,7 +42,7 @@ const char *CShadow::mc_apTextureFile[] =	// テクスチャ定数
 CShadow::CShadow(const float fMinAlpha, const float fMaxAlpha) : CObject3D(CObject::LABEL_NONE, SHADOW_PRIO), m_fMinAlpha(fMinAlpha), m_fMaxAlpha(fMaxAlpha)
 {
 	// メンバ変数をクリア
-	m_pParentObject = NULL;	// 親オブジェクト
+	m_pParentObject = nullptr;	// 親オブジェクト
 }
 
 //============================================================
@@ -59,7 +59,7 @@ CShadow::~CShadow()
 HRESULT CShadow::Init(void)
 {
 	// メンバ変数を初期化
-	m_pParentObject = NULL;	// 親オブジェクト
+	m_pParentObject = nullptr;	// 親オブジェクト
 
 	// オブジェクト3Dの初期化
 	if (FAILED(CObject3D::Init()))
@@ -151,17 +151,17 @@ CShadow *CShadow::Create
 
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CShadow *pShadow = NULL;	// 影生成用
+	CShadow *pShadow = nullptr;	// 影生成用
 
-	if (pShadow == NULL)
+	if (pShadow == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pShadow = new CShadow(fMinAlpha, fMaxAlpha);	// 影
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pShadow != NULL)
+	if (pShadow != nullptr)
 	{ // 確保に成功している場合
 
 		// 影の初期化
@@ -170,7 +170,7 @@ CShadow *CShadow::Create
 
 			// 失敗を返す
 			assert(false);
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録
@@ -191,17 +191,17 @@ CShadow *CShadow::Create
 
 			// メモリ開放
 			delete pShadow;
-			pShadow = NULL;
+			pShadow = nullptr;
 
 			// 失敗を返す
 			assert(false);
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pShadow;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -221,7 +221,7 @@ void CShadow::SetScalingOrigin(const D3DXVECTOR3& rSize)
 //============================================================
 HRESULT CShadow::SetDrawInfo(void)
 {
-	if (m_pParentObject != NULL)
+	if (m_pParentObject != nullptr)
 	{ // 親オブジェクトが使用されていた場合
 
 		// 変数を宣言
@@ -274,7 +274,7 @@ D3DXVECTOR3 CShadow::SetDrawPosition(void)
 
 	// ポインタを宣言
 	CStage *pStage = CScene::GetStage();	// ステージの情報
-	if (pStage == NULL)
+	if (pStage == nullptr)
 	{ // ステージが存在しない場合
 
 		// 関数を抜ける
@@ -315,6 +315,6 @@ void CShadow::SetParentObject(CObject *pObject)
 //============================================================
 void CShadow::DeleteObjectParent(void)
 {
-	// 親オブジェクトをNULLにする
-	m_pParentObject = NULL;
+	// 親オブジェクトをnullptrにする
+	m_pParentObject = nullptr;
 }

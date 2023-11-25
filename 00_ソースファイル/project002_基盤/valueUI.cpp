@@ -28,8 +28,8 @@
 CValueUI::CValueUI() : CObject(CObject::LABEL_NONE, VALUE_UI_PRIO)
 {
 	// メンバ変数をクリア
-	m_pTitle = NULL;		// タイトル情報
-	m_pValue = NULL;		// 数字情報
+	m_pTitle = nullptr;		// タイトル情報
+	m_pValue = nullptr;		// 数字情報
 	m_pos = VEC3_ZERO;		// 位置
 	m_space = VEC3_ZERO;	// 行間
 }
@@ -48,14 +48,14 @@ CValueUI::~CValueUI()
 HRESULT CValueUI::Init(void)
 {
 	// メンバ変数を初期化
-	m_pTitle = NULL;		// タイトル情報
-	m_pValue = NULL;		// 数字情報
+	m_pTitle = nullptr;		// タイトル情報
+	m_pValue = nullptr;		// 数字情報
 	m_pos = VEC3_ZERO;		// 位置
 	m_space = VEC3_ZERO;	// 行間
 
 	// タイトル情報の生成
 	m_pTitle = CObject2D::Create(VEC3_ZERO);
-	if (m_pTitle == NULL)
+	if (m_pTitle == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -68,7 +68,7 @@ HRESULT CValueUI::Init(void)
 
 	// 数字情報の生成
 	m_pValue = CMultiValue::Create(CValue::TEXTURE_NORMAL, 0, 1, VEC3_ZERO, VEC3_ONE, VEC3_ZERO);
-	if (m_pValue == NULL)
+	if (m_pValue == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -178,17 +178,17 @@ CValueUI *CValueUI::Create
 )
 {
 	// ポインタを宣言
-	CValueUI *pValueUI = NULL;	// 数字UI生成用
+	CValueUI *pValueUI = nullptr;	// 数字UI生成用
 
-	if (pValueUI == NULL)
+	if (pValueUI == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pValueUI = new CValueUI;	// 数字UI
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pValueUI != NULL)
+	if (pValueUI != nullptr)
 	{ // 確保に成功している場合
 
 		// 数字UIの初期化
@@ -197,10 +197,10 @@ CValueUI *CValueUI::Create
 
 			// メモリ開放
 			delete pValueUI;
-			pValueUI = NULL;
+			pValueUI = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 数字の桁数を設定
@@ -242,7 +242,7 @@ CValueUI *CValueUI::Create
 		// 確保したアドレスを返す
 		return pValueUI;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================

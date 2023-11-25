@@ -85,12 +85,12 @@ void CField::Uninit(void)
 	for (int nCntField = 0; nCntField < TERRAIN_MAX; nCntField++)
 	{ // 地形情報の最大数分繰り返す
 
-		if (m_aTerrainInfo[nCntField].pPosGap != NULL)
+		if (m_aTerrainInfo[nCntField].pPosGap != nullptr)
 		{ // 頂点座標のずれ量情報が使用中の場合
 
 			// メモリ開放
 			delete[] m_aTerrainInfo[nCntField].pPosGap;
-			m_aTerrainInfo[nCntField].pPosGap = NULL;
+			m_aTerrainInfo[nCntField].pPosGap = nullptr;
 		}
 	}
 }
@@ -133,17 +133,17 @@ CField *CField::Create
 
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CField *pField = NULL;	// 地面生成用
+	CField *pField = nullptr;	// 地面生成用
 
-	if (pField == NULL)
+	if (pField == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pField = new CField;	// 地面
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pField != NULL)
+	if (pField != nullptr)
 	{ // 確保に成功している場合
 
 		// 地面の初期化
@@ -152,10 +152,10 @@ CField *CField::Create
 
 			// メモリ開放
 			delete pField;
-			pField = NULL;
+			pField = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録
@@ -188,16 +188,16 @@ CField *CField::Create
 
 			// メモリ開放
 			delete pField;
-			pField = NULL;
+			pField = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pField;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -234,12 +234,12 @@ void CField::LoadSetup(void)
 	for (int nCntField = 0; nCntField < TERRAIN_MAX; nCntField++)
 	{ // 地形情報の最大数分繰り返す
 
-		if (m_aTerrainInfo[nCntField].pPosGap != NULL)
+		if (m_aTerrainInfo[nCntField].pPosGap != nullptr)
 		{ // 頂点座標のずれ量情報が使用中の場合
 
 			// メモリ開放
 			delete[] m_aTerrainInfo[nCntField].pPosGap;
-			m_aTerrainInfo[nCntField].pPosGap = NULL;
+			m_aTerrainInfo[nCntField].pPosGap = nullptr;
 		}
 	}
 
@@ -249,7 +249,7 @@ void CField::LoadSetup(void)
 	// ファイルを読み込み形式で開く
 	pFile = fopen(FIELD_SETUP_TXT, "r");
 
-	if (pFile != NULL)
+	if (pFile != nullptr)
 	{ // ファイルが開けた場合
 
 		do
@@ -287,14 +287,14 @@ void CField::LoadSetup(void)
 								// 頂点数を設定
 								nNumVtx = (m_aTerrainInfo[nID].part.x + 1) * (m_aTerrainInfo[nID].part.y + 1);
 
-								if (m_aTerrainInfo[nID].pPosGap == NULL)
+								if (m_aTerrainInfo[nID].pPosGap == nullptr)
 								{ // ポインタが使用されていない場合
 
 									// 頂点数分メモリ確保
 									m_aTerrainInfo[nID].pPosGap = new D3DXVECTOR3[nNumVtx];
 
 									// 例外処理
-									assert(m_aTerrainInfo[nID].pPosGap != NULL);	// 非使用中
+									assert(m_aTerrainInfo[nID].pPosGap != nullptr);	// 非使用中
 								}
 								else { assert(false); }	// 使用中
 							}
@@ -326,6 +326,6 @@ void CField::LoadSetup(void)
 	{ // ファイルが開けなかった場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "地面セットアップの読み込みに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "地面セットアップの読み込みに失敗！", "警告！", MB_ICONWARNING);
 	}
 }

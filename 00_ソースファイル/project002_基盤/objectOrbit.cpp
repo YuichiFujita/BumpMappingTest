@@ -35,7 +35,7 @@ const D3DXVECTOR3 CObjectOrbit::mc_aOffset[][MAX_OFFSET]	// オフセットの位置加減
 CObjectOrbit::CObjectOrbit()
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
 	m_state = STATE_NORMAL;	// 状態
 	m_nCounterState = 0;	// 状態管理カウンター
 	m_nNumVtx = 0;			// 必要頂点数
@@ -49,7 +49,7 @@ CObjectOrbit::CObjectOrbit()
 CObjectOrbit::CObjectOrbit(const CObject::ELabel label, const int nPriority) : CObject(label, nPriority)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
 	m_state = STATE_NORMAL;	// 状態
 	m_nCounterState = 0;	// 状態管理カウンター
 	m_nNumVtx = 0;			// 必要頂点数
@@ -71,7 +71,7 @@ CObjectOrbit::~CObjectOrbit()
 HRESULT CObjectOrbit::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff = NULL;			// 頂点バッファ
+	m_pVtxBuff = nullptr;			// 頂点バッファ
 	m_state = STATE_NORMAL;		// 状態
 	m_nCounterState = 0;		// 状態管理カウンター
 	m_nNumVtx = 0;				// 必要頂点数
@@ -79,9 +79,9 @@ HRESULT CObjectOrbit::Init(void)
 
 	// 軌跡の情報を初期化
 	memset(&m_orbit.mtxVanish, 0, sizeof(m_orbit.mtxVanish));	// 消失開始時の親のマトリックス
-	m_orbit.pMtxParent = NULL;	// 親のマトリックス
-	m_orbit.pPosPoint = NULL;	// 各頂点座標
-	m_orbit.pColPoint = NULL;	// 各頂点カラー
+	m_orbit.pMtxParent = nullptr;	// 親のマトリックス
+	m_orbit.pPosPoint = nullptr;	// 各頂点座標
+	m_orbit.pColPoint = nullptr;	// 各頂点カラー
 	m_orbit.nPart = 1;			// 分割数
 	m_orbit.nTexPart = 1;		// テクスチャ分割数
 	m_orbit.bAlpha = false;		// 透明化状況
@@ -112,30 +112,30 @@ HRESULT CObjectOrbit::Init(void)
 void CObjectOrbit::Uninit(void)
 {
 	// 各頂点座標の破棄
-	if (m_orbit.pPosPoint != NULL)
+	if (m_orbit.pPosPoint != nullptr)
 	{ // 各頂点座標が使用中の場合
 
 		// メモリ開放
 		delete[] m_orbit.pPosPoint;
-		m_orbit.pPosPoint = NULL;
+		m_orbit.pPosPoint = nullptr;
 	}
 
 	// 各頂点カラーの破棄
-	if (m_orbit.pColPoint != NULL)
+	if (m_orbit.pColPoint != nullptr)
 	{ // 各頂点カラーが使用中の場合
 
 		// メモリ開放
 		delete[] m_orbit.pColPoint;
-		m_orbit.pColPoint = NULL;
+		m_orbit.pColPoint = nullptr;
 	}
 
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// オブジェクト軌跡を破棄
@@ -358,7 +358,7 @@ void CObjectOrbit::BindTexture(const char *pTexturePass)
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // テクスチャポインタが存在しない場合
 
 		// 関数を抜ける
@@ -366,7 +366,7 @@ void CObjectOrbit::BindTexture(const char *pTexturePass)
 		return;
 	}
 
-	if (pTexturePass != NULL)
+	if (pTexturePass != nullptr)
 	{ // 割り当てるテクスチャパスが存在する場合
 
 		// テクスチャインデックスを代入
@@ -411,17 +411,17 @@ CObjectOrbit *CObjectOrbit::Create
 )
 {
 	// ポインタを宣言
-	CObjectOrbit *pObjectOrbit = NULL;		// オブジェクト軌跡生成用
+	CObjectOrbit *pObjectOrbit = nullptr;		// オブジェクト軌跡生成用
 
-	if (pObjectOrbit == NULL)
+	if (pObjectOrbit == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectOrbit = new CObjectOrbit;	// オブジェクト軌跡
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectOrbit != NULL)
+	if (pObjectOrbit != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクト軌跡の初期化
@@ -430,10 +430,10 @@ CObjectOrbit *CObjectOrbit::Create
 
 			// メモリ開放
 			delete pObjectOrbit;
-			pObjectOrbit = NULL;
+			pObjectOrbit = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 親のマトリックスを設定
@@ -457,16 +457,16 @@ CObjectOrbit *CObjectOrbit::Create
 
 			// メモリ開放
 			delete pObjectOrbit;
-			pObjectOrbit = NULL;
+			pObjectOrbit = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pObjectOrbit;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -477,8 +477,8 @@ void CObjectOrbit::DeleteMatrixParent(void)
 	// 消失状態にする
 	SetState(STATE_VANISH);
 
-	// 親マトリックスをNULLにする
-	m_orbit.pMtxParent = NULL;
+	// 親マトリックスをnullptrにする
+	m_orbit.pMtxParent = nullptr;
 }
 
 //============================================================
@@ -591,22 +591,22 @@ HRESULT CObjectOrbit::SetLength(const int nPart)
 	//	各頂点座標の破棄・生成
 	//--------------------------------------------------------
 	// 各頂点座標の破棄
-	if (m_orbit.pPosPoint != NULL)
+	if (m_orbit.pPosPoint != nullptr)
 	{ // 各頂点座標が使用中の場合
 
 		// メモリ開放
 		delete[] m_orbit.pPosPoint;
-		m_orbit.pPosPoint = NULL;
+		m_orbit.pPosPoint = nullptr;
 	}
 
 	// 各頂点座標の情報を設定
-	if (m_orbit.pPosPoint == NULL)
+	if (m_orbit.pPosPoint == nullptr)
 	{ // 非使用中の場合
 
 		// 各頂点座標のメモリ確保
 		m_orbit.pPosPoint = new D3DXVECTOR3[m_nNumVtx];
 
-		if (m_orbit.pPosPoint != NULL)
+		if (m_orbit.pPosPoint != nullptr)
 		{ // 確保に成功した場合
 
 			// メモリクリア
@@ -620,22 +620,22 @@ HRESULT CObjectOrbit::SetLength(const int nPart)
 	//	各頂点カラーの破棄・生成
 	//--------------------------------------------------------
 	// 各頂点カラーの破棄
-	if (m_orbit.pColPoint != NULL)
+	if (m_orbit.pColPoint != nullptr)
 	{ // 各頂点カラーが使用中の場合
 
 		// メモリ開放
 		delete[] m_orbit.pColPoint;
-		m_orbit.pColPoint = NULL;
+		m_orbit.pColPoint = nullptr;
 	}
 
 	// 各頂点カラーの情報を設定
-	if (m_orbit.pColPoint == NULL)
+	if (m_orbit.pColPoint == nullptr)
 	{ // 非使用中の場合
 
 		// 各頂点カラーのメモリ確保
 		m_orbit.pColPoint = new D3DXCOLOR[m_nNumVtx];
 
-		if (m_orbit.pColPoint != NULL)
+		if (m_orbit.pColPoint != nullptr)
 		{ // 確保に成功した場合
 
 			// メモリクリア
@@ -649,16 +649,16 @@ HRESULT CObjectOrbit::SetLength(const int nPart)
 	//	頂点バッファの破棄・生成
 	//--------------------------------------------------------
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// 頂点バッファの情報を設定
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -669,7 +669,7 @@ HRESULT CObjectOrbit::SetLength(const int nPart)
 			FVF_VERTEX_3D,		// 頂点フォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pVtxBuff,		// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -695,7 +695,7 @@ void CObjectOrbit::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 軌跡の頂点バッファが使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得

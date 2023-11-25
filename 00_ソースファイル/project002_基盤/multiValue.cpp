@@ -64,7 +64,7 @@ void CMultiValue::Uninit(void)
 	for (int nCntValue = 0; nCntValue < MAX_DIGIT; nCntValue++)
 	{ // 桁数の最大数分繰り返す
 
-		if (m_apValue[nCntValue] != NULL)
+		if (m_apValue[nCntValue] != nullptr)
 		{ // 使用されている場合
 
 			// 数字の終了
@@ -84,7 +84,7 @@ void CMultiValue::Update(void)
 	for (int nCntValue = 0; nCntValue < MAX_DIGIT; nCntValue++)
 	{ // 桁数の最大数分繰り返す
 
-		if (m_apValue[nCntValue] != NULL)
+		if (m_apValue[nCntValue] != nullptr)
 		{ // 使用されている場合
 
 			// 数字の更新
@@ -173,7 +173,7 @@ void CMultiValue::SetVec3Rotation(const D3DXVECTOR3& rRot)
 D3DXVECTOR3 CMultiValue::GetVec3Rotation(void) const
 {
 	// 例外処理
-	assert(m_apValue[0] != NULL);	// 非使用チェック
+	assert(m_apValue[0] != nullptr);	// 非使用チェック
 
 	// 先頭数字の向きを返す
 	return m_apValue[0]->GetVec3Rotation();
@@ -198,7 +198,7 @@ void CMultiValue::SetVec3Sizing(const D3DXVECTOR3& rSize)
 D3DXVECTOR3 CMultiValue::GetVec3Sizing(void) const
 {
 	// 例外処理
-	assert(m_apValue[0] != NULL);	// 非使用チェック
+	assert(m_apValue[0] != nullptr);	// 非使用チェック
 
 	// 先頭数字の大きさを返す
 	return m_apValue[0]->GetVec3Sizing();
@@ -223,7 +223,7 @@ void CMultiValue::SetColor(const D3DXCOLOR& rCol)
 D3DXCOLOR CMultiValue::GetColor(void) const
 {
 	// 例外処理
-	assert(m_apValue[0] != NULL);	// 非使用チェック
+	assert(m_apValue[0] != nullptr);	// 非使用チェック
 
 	// 先頭数字の色を返す
 	return m_apValue[0]->GetColor();
@@ -245,17 +245,17 @@ CMultiValue *CMultiValue::Create
 )
 {
 	// ポインタを宣言
-	CMultiValue *pMultiValue = NULL;	// マルチ数字生成用
+	CMultiValue *pMultiValue = nullptr;	// マルチ数字生成用
 
-	if (pMultiValue == NULL)
+	if (pMultiValue == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pMultiValue = new CMultiValue;	// マルチ数字
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pMultiValue != NULL)
+	if (pMultiValue != nullptr)
 	{ // 確保に成功している場合
 
 		// マルチ数字の初期化
@@ -264,10 +264,10 @@ CMultiValue *CMultiValue::Create
 
 			// メモリ開放
 			delete pMultiValue;
-			pMultiValue = NULL;
+			pMultiValue = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 桁数を設定
@@ -297,7 +297,7 @@ CMultiValue *CMultiValue::Create
 		// 確保したアドレスを返す
 		return pMultiValue;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -347,7 +347,7 @@ HRESULT CMultiValue::SetDigit(const int nDigit)
 	// 引数の桁数を設定
 	m_nDigit = nDigit;
 
-	if (m_apValue[0] != NULL)
+	if (m_apValue[0] != nullptr)
 	{ // 先頭が使用されている場合
 
 		// 現在の設定を取得
@@ -363,7 +363,7 @@ HRESULT CMultiValue::SetDigit(const int nDigit)
 	for (int nCntValue = 0; nCntValue < MAX_DIGIT; nCntValue++)
 	{ // 桁数の最大数分繰り返す
 
-		if (m_apValue[nCntValue] != NULL)
+		if (m_apValue[nCntValue] != nullptr)
 		{ // 使用されている場合
 
 			// 数字の終了
@@ -377,7 +377,7 @@ HRESULT CMultiValue::SetDigit(const int nDigit)
 
 		// 数字の生成
 		m_apValue[nCntValue] = CValue::Create(CValue::TEXTURE_NORMAL);
-		if (m_apValue[nCntValue] == NULL)
+		if (m_apValue[nCntValue] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -560,7 +560,7 @@ void CMultiValue::SetTexNum(void)
 	for (int nCntValue = 0; nCntValue < m_nDigit; nCntValue++)
 	{ // 桁数分繰り返す
 
-		if (m_apValue[nCntValue] != NULL)
+		if (m_apValue[nCntValue] != nullptr)
 		{ // 使用されている場合
 
 			// 数字の設定

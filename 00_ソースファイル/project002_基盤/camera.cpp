@@ -325,7 +325,7 @@ void CCamera::SetDestFollow(void)
 		return;
 	}
 
-	if (CScene::GetPlayer() != NULL)
+	if (CScene::GetPlayer() != nullptr)
 	{ // プレイヤーが使用されている場合
 
 		// 変数を宣言
@@ -459,17 +459,17 @@ D3DXVECTOR3 CCamera::GetVec3DestRotation(void) const
 CCamera *CCamera::Create(void)
 {
 	// ポインタを宣言
-	CCamera *pCamera = NULL;	// カメラ生成用
+	CCamera *pCamera = nullptr;	// カメラ生成用
 
-	if (pCamera == NULL)
+	if (pCamera == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pCamera = new CCamera;	// カメラ
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pCamera != NULL)
+	if (pCamera != nullptr)
 	{ // 確保に成功している場合
 
 		// カメラの初期化
@@ -478,16 +478,16 @@ CCamera *CCamera::Create(void)
 
 			// メモリ開放
 			delete pCamera;
-			pCamera = NULL;
+			pCamera = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pCamera;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -495,7 +495,7 @@ CCamera *CCamera::Create(void)
 //============================================================
 HRESULT CCamera::Release(CCamera *&prCamera)
 {
-	if (prCamera != NULL)
+	if (prCamera != nullptr)
 	{ // 使用中の場合
 
 		// カメラの終了
@@ -503,7 +503,7 @@ HRESULT CCamera::Release(CCamera *&prCamera)
 
 		// メモリ開放
 		delete prCamera;
-		prCamera = NULL;
+		prCamera = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -546,7 +546,7 @@ void CCamera::Rotate(void)
 //============================================================
 void CCamera::Follow(void)
 {
-	if (CScene::GetPlayer() != NULL)
+	if (CScene::GetPlayer() != nullptr)
 	{ // プレイヤーが使用されている場合
 
 		// 変数を宣言

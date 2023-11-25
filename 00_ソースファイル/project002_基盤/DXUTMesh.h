@@ -44,12 +44,12 @@ public:
                     bool bDrawOpaqueSubsets = true,
                     bool bDrawAlphaSubsets = true );
     HRESULT Render( ID3DXEffect *pEffect,
-                    D3DXHANDLE hTexture = NULL,
-                    D3DXHANDLE hDiffuse = NULL,
-                    D3DXHANDLE hAmbient = NULL,
-                    D3DXHANDLE hSpecular = NULL,
-                    D3DXHANDLE hEmissive = NULL,
-                    D3DXHANDLE hPower = NULL,
+                    D3DXHANDLE hTexture = nullptr,
+                    D3DXHANDLE hDiffuse = nullptr,
+                    D3DXHANDLE hAmbient = nullptr,
+                    D3DXHANDLE hSpecular = nullptr,
+                    D3DXHANDLE hEmissive = nullptr,
+                    D3DXHANDLE hPower = nullptr,
                     bool bDrawOpaqueSubsets = true,
                     bool bDrawAlphaSubsets = true );
 
@@ -111,7 +111,7 @@ public:
     HRESULT Render( LPDIRECT3DDEVICE9 pd3dDevice, 
                     bool bDrawOpaqueSubsets = true,
                     bool bDrawAlphaSubsets = true,
-                    D3DXMATRIX* pmatWorldMatrix = NULL);
+                    D3DXMATRIX* pmatWorldMatrix = nullptr);
 
     CDXUTMeshFrame( LPCWSTR strName = L"CDXUTMeshFile_Frame" );
     virtual ~CDXUTMeshFrame();
@@ -135,7 +135,7 @@ public:
     HRESULT CreateFromResource( LPDIRECT3DDEVICE9 pd3dDevice, LPCWSTR strResource, LPCWSTR strType );
     // For pure devices, specify the world transform. If the world transform is not
     // specified on pure devices, this function will fail.
-    HRESULT Render( LPDIRECT3DDEVICE9 pd3dDevice, D3DXMATRIX* pmatWorldMatrix = NULL );
+    HRESULT Render( LPDIRECT3DDEVICE9 pd3dDevice, D3DXMATRIX* pmatWorldMatrix = nullptr );
 
     CDXUTMeshFile() : CDXUTMeshFrame( L"CDXUTMeshFile_Root" ) {}
 };

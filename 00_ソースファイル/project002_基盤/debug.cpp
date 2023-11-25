@@ -104,17 +104,17 @@ int CDebug::GetFps(void) const
 CDebug *CDebug::Create(void)
 {
 	// ポインタを宣言
-	CDebug *pDebug = NULL;	// デバッグ生成用
+	CDebug *pDebug = nullptr;	// デバッグ生成用
 
-	if (pDebug == NULL)
+	if (pDebug == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pDebug = new CDebug;	// デバッグ
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pDebug != NULL)
+	if (pDebug != nullptr)
 	{ // 確保に成功している場合
 
 		// デバッグの初期化
@@ -123,16 +123,16 @@ CDebug *CDebug::Create(void)
 
 			// メモリ開放
 			delete pDebug;
-			pDebug = NULL;
+			pDebug = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pDebug;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -140,7 +140,7 @@ CDebug *CDebug::Create(void)
 //============================================================
 HRESULT CDebug::Release(CDebug *&prDebug)
 {
-	if (prDebug != NULL)
+	if (prDebug != nullptr)
 	{ // 使用中の場合
 
 		// デバッグの終了
@@ -148,7 +148,7 @@ HRESULT CDebug::Release(CDebug *&prDebug)
 
 		// メモリ開放
 		delete prDebug;
-		prDebug = NULL;
+		prDebug = nullptr;
 
 		// 成功を返す
 		return S_OK;

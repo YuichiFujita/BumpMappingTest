@@ -10,6 +10,7 @@
 #include "teapot.h"
 #include "manager.h"
 #include "renderer.h"
+#include "camera.h"
 
 //************************************************************
 //	マクロ定義
@@ -32,7 +33,8 @@ const char *CTeapot::mc_apModelFile[] =	// モデル定数
 //============================================================
 CTeapot::CTeapot() : CObjectModel(CObject::LABEL_TEAPOT, TEAPOT_PRIO)
 {
-
+	// メンバ変数をクリア
+	m_pEffect = nullptr;	// エフェクトポインタ
 }
 
 //============================================================
@@ -48,6 +50,9 @@ CTeapot::~CTeapot()
 //============================================================
 HRESULT CTeapot::Init(void)
 {
+	// メンバ変数を初期化
+	m_pEffect = nullptr;	// エフェクトポインタ
+
 	// オブジェクトモデルの初期化
 	if (FAILED(CObjectModel::Init()))
 	{ // 初期化に失敗した場合
@@ -56,6 +61,19 @@ HRESULT CTeapot::Init(void)
 		assert(false);
 		return E_FAIL;
 	}
+
+	// エフェクトファイルの読み込み
+	D3DXCreateEffectFromFile
+	( // 引数
+		CManager::GetInstance()->GetRenderer()->GetDevice(),	// デバイスへのポインタ
+		_T("first_create_mat.fx"),	// エフェクトファイル
+		nullptr,	// プリプロセッサ定義
+		nullptr,	// インクルード操作
+		0,			// 読込オプションフラグ
+		nullptr,	// グローバル変数インターフェース
+		&m_pEffect,	// エフェクトインターフェース
+		nullptr		// コンパイルエラー情報
+	);
 
 	// 成功を返す
 	return S_OK;
@@ -66,6 +84,9 @@ HRESULT CTeapot::Init(void)
 //============================================================
 void CTeapot::Uninit(void)
 {
+	// エフェクトの破棄
+	SAFE_RELEASE(m_pEffect);
+
 	// オブジェクトモデルの終了
 	CObjectModel::Uninit();
 }
@@ -84,8 +105,33 @@ void CTeapot::Update(void)
 //============================================================
 void CTeapot::Draw(void)
 {
+	// カメラ情報
+	CCamera::SCamera cameraInfo = CManager::GetInstance()->GetCamera()->GetCamera(CCamera::TYPE_MAIN);	// カメラ取得
+
+	// ビュー変換・射影変換
+	D3DXMATRIX View = cameraInfo.mtxView;
+	D3DXMATRIX Projection = cameraInfo.mtxProjection;
+
+	// ワールドマトリックス・ワールドビュー射影変換行列
+	D3DXMATRIX mtxWorld = GetMtxWorld();
+	D3DXMATRIX mtxWorldViewProj;
+
+	// エフェクト内のワールドビュー射影変換行列を設定
+	mtxWorldViewProj = mtxWorld * View * Projection;
+	m_pEffect->SetMatrix("mtxWorldViewProj", &mtxWorldViewProj);
+
+	// 描画開始
+	m_pEffect->SetTechnique("BasicTec");
+	UINT numPass;
+	m_pEffect->Begin(&numPass, 0);
+	m_pEffect->BeginPass(0);
+
 	// オブジェクトモデルの描画
 	CObjectModel::Draw();
+
+	// 描画終了
+	m_pEffect->EndPass();
+	m_pEffect->End();
 }
 
 //============================================================
@@ -98,17 +144,17 @@ CTeapot *CTeapot::Create
 )
 {
 	// ポインタを宣言
-	CTeapot *pTeapot = NULL;	// ティーポット生成用
+	CTeapot *pTeapot = nullptr;	// ティーポット生成用
 
-	if (pTeapot == NULL)
+	if (pTeapot == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pTeapot = new CTeapot;	// ティーポット
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pTeapot != NULL)
+	if (pTeapot != nullptr)
 	{ // 確保に成功している場合
 
 		// ティーポットの初期化
@@ -117,10 +163,10 @@ CTeapot *CTeapot::Create
 
 			// メモリ開放
 			delete pTeapot;
-			pTeapot = NULL;
+			pTeapot = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// モデルを登録・割当
@@ -135,5 +181,5 @@ CTeapot *CTeapot::Create
 		// 確保したアドレスを返す
 		return pTeapot;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

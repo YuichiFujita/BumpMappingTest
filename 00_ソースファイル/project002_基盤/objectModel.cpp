@@ -23,7 +23,7 @@ CObjectModel::CObjectModel()
 	// メンバ変数をクリア
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pMat	= NULL;			// マテリアルへのポインタ
+	m_pMat	= nullptr;			// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ZERO;	// 拡大率
@@ -38,7 +38,7 @@ CObjectModel::CObjectModel(const CObject::ELabel label, const int nPriority) : C
 	// メンバ変数をクリア
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pMat	= NULL;			// マテリアルへのポインタ
+	m_pMat	= nullptr;			// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ZERO;	// 拡大率
@@ -61,7 +61,7 @@ HRESULT CObjectModel::Init(void)
 	// メンバ変数を初期化
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pMat	= NULL;			// マテリアルへのポインタ
+	m_pMat	= nullptr;			// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ONE;		// 拡大率
@@ -77,12 +77,12 @@ HRESULT CObjectModel::Init(void)
 void CObjectModel::Uninit(void)
 {
 	// マテリアルへのポインタを破棄
-	if (m_pMat != NULL)
+	if (m_pMat != nullptr)
 	{ // ポインタが使用されていた場合
 
 		// メモリ開放
 		delete[] m_pMat;
-		m_pMat = NULL;
+		m_pMat = nullptr;
 	}
 
 	// オブジェクトモデルを破棄
@@ -165,7 +165,7 @@ void CObjectModel::BindModel(const int nModelID)
 {
 	// ポインタを宣言
 	CModel *pModel = CManager::GetInstance()->GetModel();	// モデルへのポインタ
-	if (pModel == NULL)
+	if (pModel == nullptr)
 	{ // モデルポインタが存在しない場合
 
 		// 関数を抜ける
@@ -195,7 +195,7 @@ void CObjectModel::BindModel(const char *pModelPass)
 {
 	// ポインタを宣言
 	CModel *pModel = CManager::GetInstance()->GetModel();	// モデルへのポインタ
-	if (pModel == NULL)
+	if (pModel == nullptr)
 	{ // モデルポインタが存在しない場合
 
 		// 関数を抜ける
@@ -203,7 +203,7 @@ void CObjectModel::BindModel(const char *pModelPass)
 		return;
 	}
 
-	if (pModelPass != NULL)
+	if (pModelPass != nullptr)
 	{ // 割り当てるモデルパスが存在する場合
 
 		// モデルインデックスを代入
@@ -331,17 +331,17 @@ D3DXMATRIX CObjectModel::GetMtxWorld(void) const
 CObjectModel *CObjectModel::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& rRot, const D3DXVECTOR3& rScale)
 {
 	// ポインタを宣言
-	CObjectModel *pObjectModel = NULL;		// オブジェクトモデル生成用
+	CObjectModel *pObjectModel = nullptr;		// オブジェクトモデル生成用
 
-	if (pObjectModel == NULL)
+	if (pObjectModel == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectModel = new CObjectModel;	// オブジェクトモデル
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectModel != NULL)
+	if (pObjectModel != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクトモデルの初期化
@@ -350,10 +350,10 @@ CObjectModel *CObjectModel::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& r
 
 			// メモリ開放
 			delete pObjectModel;
-			pObjectModel = NULL;
+			pObjectModel = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -368,7 +368,7 @@ CObjectModel *CObjectModel::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& r
 		// 確保したアドレスを返す
 		return pObjectModel;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -529,21 +529,21 @@ HRESULT CObjectModel::SetOriginMaterial(const LPD3DXBUFFER pBuffMat, const int n
 	//--------------------------------------------------------
 	//	メモリ開放・確保
 	//--------------------------------------------------------
-	if (m_pMat != NULL)
+	if (m_pMat != nullptr)
 	{ // ポインタが使用されていた場合
 
 		// メモリ開放
 		delete[] m_pMat;
-		m_pMat = NULL;
+		m_pMat = nullptr;
 	}
 
-	if (m_pMat == NULL)
+	if (m_pMat == nullptr)
 	{ // ポインタが使用されていない場合
 
 		// マテリアル数分のメモリ確保
 		m_pMat = new D3DXMATERIAL[nNumMat];
 
-		if (m_pMat != NULL)
+		if (m_pMat != nullptr)
 		{ // 確保に成功した場合
 
 			// メモリクリア

@@ -216,17 +216,17 @@ CEffect3D *CEffect3D::Create
 
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CEffect3D *pEffect3D = NULL;	// エフェクト3D生成用
+	CEffect3D *pEffect3D = nullptr;	// エフェクト3D生成用
 
-	if (pEffect3D == NULL)
+	if (pEffect3D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pEffect3D = new CEffect3D(type, label);	// エフェクト3D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pEffect3D != NULL)
+	if (pEffect3D != nullptr)
 	{ // 確保に成功している場合
 
 		// エフェクト3Dの初期化
@@ -235,10 +235,10 @@ CEffect3D *CEffect3D::Create
 
 			// メモリ開放
 			delete pEffect3D;
-			pEffect3D = NULL;
+			pEffect3D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録
@@ -269,5 +269,5 @@ CEffect3D *CEffect3D::Create
 		// 確保したアドレスを返す
 		return pEffect3D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

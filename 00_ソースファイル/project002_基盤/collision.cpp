@@ -84,7 +84,7 @@ bool collision::Circle2D
 	fLength = (centerPos.x - targetPos.x) * (centerPos.x - targetPos.x)
 			+ (centerPos.z - targetPos.z) * (centerPos.z - targetPos.z);
 
-	if (pLength != NULL)
+	if (pLength != nullptr)
 	{ // ポインタが使用されている場合
 
 		// 判定目標との距離を代入
@@ -160,7 +160,7 @@ bool collision::Sector
 	fLength = (centerPos.x - targetPos.x) * (centerPos.x - targetPos.x)
 			+ (centerPos.z - targetPos.z) * (centerPos.z - targetPos.z);
 
-	if (pLength != NULL)
+	if (pLength != nullptr)
 	{ // ポインタが使用されている場合
 
 		// 判定目標との距離を代入
@@ -364,14 +364,14 @@ bool collision::ResponseBox3D
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->x = 0.0f;
 			}
 
-			if (pSide != NULL)
+			if (pSide != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 横に当たっている状態を設定
@@ -388,14 +388,14 @@ bool collision::ResponseBox3D
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->x = 0.0f;
 			}
 
-			if (pSide != NULL)
+			if (pSide != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 横に当たっている状態を設定
@@ -421,14 +421,14 @@ bool collision::ResponseBox3D
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->y = 0.0f;
 			}
 
-			if (pDown != NULL)
+			if (pDown != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 下に当たっている状態を設定
@@ -445,14 +445,14 @@ bool collision::ResponseBox3D
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->y = 0.0f;
 			}
 
-			if (pUp != NULL)
+			if (pUp != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 上に当たっている状態を設定
@@ -478,14 +478,14 @@ bool collision::ResponseBox3D
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->z = 0.0f;
 			}
 
-			if (pSide != NULL)
+			if (pSide != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 横に当たっている状態を設定
@@ -502,14 +502,14 @@ bool collision::ResponseBox3D
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->z = 0.0f;
 			}
 
-			if (pSide != NULL)
+			if (pSide != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 横に当たっている状態を設定
@@ -559,14 +559,14 @@ bool collision::ResponseSingleX
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->x = 0.0f;
 			}
 
-			if (pLeft != NULL)
+			if (pLeft != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 左に当たっている状態を設定
@@ -583,14 +583,14 @@ bool collision::ResponseSingleX
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->x = 0.0f;
 			}
 
-			if (pRight != NULL)
+			if (pRight != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 右に当たっている状態を設定
@@ -640,14 +640,14 @@ bool collision::ResponseSingleY
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->y = 0.0f;
 			}
 
-			if (pDown != NULL)
+			if (pDown != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 下に当たっている状態を設定
@@ -664,14 +664,14 @@ bool collision::ResponseSingleY
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->y = 0.0f;
 			}
 
-			if (pUp != NULL)
+			if (pUp != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 上に当たっている状態を設定
@@ -721,14 +721,14 @@ bool collision::ResponseSingleZ
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->z = 0.0f;
 			}
 
-			if (pBefore != NULL)
+			if (pBefore != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 前に当たっている状態を設定
@@ -745,14 +745,14 @@ bool collision::ResponseSingleZ
 			// 衝突状態にする
 			bHit = true;
 
-			if (pMove != NULL)
+			if (pMove != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 移動量を初期化
 				pMove->z = 0.0f;
 			}
 
-			if (pAfter != NULL)
+			if (pAfter != nullptr)
 			{ // ポインタが使用されている場合
 
 				// 後に当たっている状態を設定

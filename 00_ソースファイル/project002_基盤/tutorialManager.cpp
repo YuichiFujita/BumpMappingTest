@@ -59,8 +59,8 @@ const char *CTutorialManager::mc_apLessonTextureFile[] =	// レッスンテクスチャ定
 CTutorialManager::CTutorialManager()
 {
 	// メンバ変数をクリア
-	m_pExplain = NULL;	// 説明表示の情報
-	m_pControl = NULL;	// 操作説明の情報
+	m_pExplain = nullptr;	// 説明表示の情報
+	m_pControl = nullptr;	// 操作説明の情報
 }
 
 //============================================================
@@ -77,8 +77,8 @@ CTutorialManager::~CTutorialManager()
 HRESULT CTutorialManager::Init(void)
 {
 	// メンバ変数を初期化
-	m_pExplain = NULL;	// 説明表示の情報
-	m_pControl = NULL;	// 操作説明の情報
+	m_pExplain = nullptr;	// 説明表示の情報
+	m_pControl = nullptr;	// 操作説明の情報
 
 	// 説明表示の生成
 	m_pExplain = CObject2D::Create
@@ -86,7 +86,7 @@ HRESULT CTutorialManager::Init(void)
 		lesson::POS,	// 位置
 		lesson::SIZE	// 大きさ
 	);
-	if (m_pExplain == NULL)
+	if (m_pExplain == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -103,7 +103,7 @@ HRESULT CTutorialManager::Init(void)
 		control::POS,	// 位置
 		control::SIZE	// 大きさ
 	);
-	if (m_pControl == NULL)
+	if (m_pControl == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -164,17 +164,17 @@ void CTutorialManager::Update(void)
 CTutorialManager *CTutorialManager::Create(void)
 {
 	// ポインタを宣言
-	CTutorialManager *pTutorialManager = NULL;	// チュートリアルマネージャー生成用
+	CTutorialManager *pTutorialManager = nullptr;	// チュートリアルマネージャー生成用
 
-	if (pTutorialManager == NULL)
+	if (pTutorialManager == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pTutorialManager = new CTutorialManager;	// チュートリアルマネージャー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pTutorialManager != NULL)
+	if (pTutorialManager != nullptr)
 	{ // 使用されている場合
 		
 		// チュートリアルマネージャーの初期化
@@ -183,16 +183,16 @@ CTutorialManager *CTutorialManager::Create(void)
 
 			// メモリ開放
 			delete pTutorialManager;
-			pTutorialManager = NULL;
+			pTutorialManager = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pTutorialManager;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -200,7 +200,7 @@ CTutorialManager *CTutorialManager::Create(void)
 //============================================================
 HRESULT CTutorialManager::Release(CTutorialManager *&prTutorialManager)
 {
-	if (prTutorialManager != NULL)
+	if (prTutorialManager != nullptr)
 	{ // 使用中の場合
 
 		// チュートリアルマネージャーの終了
@@ -209,7 +209,7 @@ HRESULT CTutorialManager::Release(CTutorialManager *&prTutorialManager)
 
 			// メモリ開放
 			delete prTutorialManager;
-			prTutorialManager = NULL;
+			prTutorialManager = nullptr;
 
 			// 失敗を返す
 			assert(false);
@@ -218,7 +218,7 @@ HRESULT CTutorialManager::Release(CTutorialManager *&prTutorialManager)
 
 		// メモリ開放
 		delete prTutorialManager;
-		prTutorialManager = NULL;
+		prTutorialManager = nullptr;
 
 		// 成功を返す
 		return S_OK;

@@ -22,7 +22,7 @@
 //************************************************************
 //	静的メンバ変数宣言
 //************************************************************
-CTutorialManager *CSceneTutorial::m_pTutorialManager = NULL;	// チュートリアルマネージャー
+CTutorialManager *CSceneTutorial::m_pTutorialManager = nullptr;	// チュートリアルマネージャー
 
 //************************************************************
 //	子クラス [CSceneTutorial] のメンバ関数
@@ -53,7 +53,7 @@ HRESULT CSceneTutorial::Init(void)
 	//--------------------------------------------------------
 	// チュートリアルマネージャーの生成
 	m_pTutorialManager = CTutorialManager::Create();
-	if (m_pTutorialManager == NULL)
+	if (m_pTutorialManager == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -111,7 +111,7 @@ void CSceneTutorial::Update(void)
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "　[デバッグ情報]\n");
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "======================================\n");
 
-	if (m_pTutorialManager != NULL)
+	if (m_pTutorialManager != nullptr)
 	{ // 使用中の場合
 
 		// チュートリアルマネージャーの更新

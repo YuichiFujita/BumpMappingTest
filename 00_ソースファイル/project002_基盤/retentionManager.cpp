@@ -58,17 +58,17 @@ void CRetentionManager::Uninit(void)
 CRetentionManager *CRetentionManager::Create(void)
 {
 	// ポインタを宣言
-	CRetentionManager *pRetentionManager = NULL;	// データ保存マネージャー生成用
+	CRetentionManager *pRetentionManager = nullptr;	// データ保存マネージャー生成用
 
-	if (pRetentionManager == NULL)
+	if (pRetentionManager == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pRetentionManager = new CRetentionManager;	// データ保存マネージャー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pRetentionManager != NULL)
+	if (pRetentionManager != nullptr)
 	{ // 使用されている場合
 		
 		// データ保存マネージャーの初期化
@@ -77,16 +77,16 @@ CRetentionManager *CRetentionManager::Create(void)
 
 			// メモリ開放
 			delete pRetentionManager;
-			pRetentionManager = NULL;
+			pRetentionManager = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pRetentionManager;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -94,7 +94,7 @@ CRetentionManager *CRetentionManager::Create(void)
 //============================================================
 HRESULT CRetentionManager::Release(CRetentionManager *&prRetentionManager)
 {
-	if (prRetentionManager != NULL)
+	if (prRetentionManager != nullptr)
 	{ // 使用中の場合
 
 		// データ保存マネージャーの終了
@@ -102,7 +102,7 @@ HRESULT CRetentionManager::Release(CRetentionManager *&prRetentionManager)
 
 		// メモリ開放
 		delete prRetentionManager;
-		prRetentionManager = NULL;
+		prRetentionManager = nullptr;
 
 		// 成功を返す
 		return S_OK;

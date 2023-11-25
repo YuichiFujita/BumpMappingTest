@@ -198,17 +198,17 @@ void CScroll2D::SetColor(const D3DXCOLOR& rCol)
 CScroll2D *CScroll2D::Create(const float fMoveU, const float fMoveV, const D3DXVECTOR3& rPos, const D3DXVECTOR3& rSize, const D3DXVECTOR3& rRot, const D3DXCOLOR& rCol)
 {
 	// ポインタを宣言
-	CScroll2D *pScroll2D = NULL;	// スクロール2D生成用
+	CScroll2D *pScroll2D = nullptr;	// スクロール2D生成用
 
-	if (pScroll2D == NULL)
+	if (pScroll2D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pScroll2D = new CScroll2D;	// スクロール2D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pScroll2D != NULL)
+	if (pScroll2D != nullptr)
 	{ // 確保に成功している場合
 
 		// スクロール2Dの初期化
@@ -217,10 +217,10 @@ CScroll2D *CScroll2D::Create(const float fMoveU, const float fMoveV, const D3DXV
 
 			// メモリ開放
 			delete pScroll2D;
-			pScroll2D = NULL;
+			pScroll2D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -238,7 +238,7 @@ CScroll2D *CScroll2D::Create(const float fMoveU, const float fMoveV, const D3DXV
 		// 確保したアドレスを返す
 		return pScroll2D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================

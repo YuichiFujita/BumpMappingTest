@@ -101,8 +101,8 @@ CRankingManager::CRankingManager()
 	// メンバ変数をクリア
 	memset(&m_apTime[0], 0, sizeof(m_apTime));	// クリアタイムの情報
 	memset(&m_apRank[0], 0, sizeof(m_apRank));	// 順位の情報
-	m_pLogo		= NULL;			// ランキングロゴの情報
-	m_pFade		= NULL;			// フェードの情報
+	m_pLogo		= nullptr;			// ランキングロゴの情報
+	m_pFade		= nullptr;			// フェードの情報
 	m_state		= STATE_NONE;	// 状態
 	m_fScale	= 0.0f;			// ポリゴン拡大率
 	m_nCounterState = 0;		// 状態管理カウンター
@@ -125,8 +125,8 @@ HRESULT CRankingManager::Init(void)
 	// メンバ変数を初期化
 	memset(&m_apTime[0], 0, sizeof(m_apTime));	// クリアタイムの情報
 	memset(&m_apRank[0], 0, sizeof(m_apRank));	// 順位の情報
-	m_pLogo		= NULL;					// ランキングロゴの情報
-	m_pFade		= NULL;					// フェードの情報
+	m_pLogo		= nullptr;					// ランキングロゴの情報
+	m_pFade		= nullptr;					// フェードの情報
 	m_state		= STATE_FADEIN;			// 状態
 	m_fScale	= 0.0f;					// ポリゴン拡大率
 	m_nCounterState = 0;				// 状態管理カウンター
@@ -146,7 +146,7 @@ HRESULT CRankingManager::Init(void)
 		VEC3_ZERO,		// 向き
 		fade::INIT_COL	// 色
 	);
-	if (m_pFade == NULL)
+	if (m_pFade == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -166,7 +166,7 @@ HRESULT CRankingManager::Init(void)
 		logo::POS,						// 位置
 		logo::SIZE * logo::SET_SCALE	// 大きさ
 	);
-	if (m_pLogo == NULL)
+	if (m_pLogo == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -199,7 +199,7 @@ HRESULT CRankingManager::Init(void)
 			VEC3_ZERO,										// 向き
 			rank::INIT_COL									// 色
 		);
-		if (m_apRank[nCntRank] == NULL)
+		if (m_apRank[nCntRank] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -233,7 +233,7 @@ HRESULT CRankingManager::Init(void)
 			time::SPACE_VAL,								// 数字の空白
 			time::SPACE_PART								// 区切りの空白
 		);
-		if (m_apTime[nCntRank] == NULL)
+		if (m_apTime[nCntRank] == nullptr)
 		{ // 非使用中の場合
 	
 			// 失敗を返す
@@ -417,17 +417,17 @@ void CRankingManager::Set(const long nValue)
 CRankingManager *CRankingManager::Create(void)
 {
 	// ポインタを宣言
-	CRankingManager *pRankingManager = NULL;	// ランキングマネージャー生成用
+	CRankingManager *pRankingManager = nullptr;	// ランキングマネージャー生成用
 
-	if (pRankingManager == NULL)
+	if (pRankingManager == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pRankingManager = new CRankingManager;	// ランキングマネージャー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pRankingManager != NULL)
+	if (pRankingManager != nullptr)
 	{ // 使用されている場合
 		
 		// ランキングマネージャーの初期化
@@ -436,16 +436,16 @@ CRankingManager *CRankingManager::Create(void)
 
 			// メモリ開放
 			delete pRankingManager;
-			pRankingManager = NULL;
+			pRankingManager = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pRankingManager;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -453,7 +453,7 @@ CRankingManager *CRankingManager::Create(void)
 //============================================================
 HRESULT CRankingManager::Release(CRankingManager *&prRankingManager)
 {
-	if (prRankingManager != NULL)
+	if (prRankingManager != nullptr)
 	{ // 使用中の場合
 
 		// ランキングマネージャーの終了
@@ -462,7 +462,7 @@ HRESULT CRankingManager::Release(CRankingManager *&prRankingManager)
 
 			// メモリ開放
 			delete prRankingManager;
-			prRankingManager = NULL;
+			prRankingManager = nullptr;
 
 			// 失敗を返す
 			assert(false);
@@ -471,7 +471,7 @@ HRESULT CRankingManager::Release(CRankingManager *&prRankingManager)
 
 		// メモリ開放
 		delete prRankingManager;
-		prRankingManager = NULL;
+		prRankingManager = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -872,7 +872,7 @@ void CRankingManager::Save(void)
 	// バイナリファイルを書き出し方式で開く
 	pFile = fopen(RANKING_BIN, "wb");
 
-	if (pFile != NULL)
+	if (pFile != nullptr)
 	{ // ファイルが開けた場合
 
 		// ファイルに数値を書き出す
@@ -885,7 +885,7 @@ void CRankingManager::Save(void)
 	{ // ファイルが開けなかった場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "ランキングファイルの書き出しに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "ランキングファイルの書き出しに失敗！", "警告！", MB_ICONWARNING);
 	}
 }
 
@@ -900,7 +900,7 @@ void CRankingManager::Load(void)
 	// バイナリファイルを読み込み方式で開く
 	pFile = fopen(RANKING_BIN, "rb");
 
-	if (pFile != NULL)
+	if (pFile != nullptr)
 	{ // ファイルが開けた場合
 
 		// ファイルの数値を読み込む
@@ -913,12 +913,12 @@ void CRankingManager::Load(void)
 	{ // ファイルが開けなかった場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "ランキングファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "ランキングファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
 
 		// バイナリファイルを書き出し方式で開く
 		pFile = fopen(RANKING_BIN, "wb");
 
-		if (pFile != NULL)
+		if (pFile != nullptr)
 		{ // ファイルが開けた場合
 
 			// 変数配列を宣言
@@ -941,7 +941,7 @@ void CRankingManager::Load(void)
 		{ // ファイルが開けなかった場合
 
 			// エラーメッセージボックス
-			MessageBox(NULL, "ランキングファイルの書き出しに失敗！", "警告！", MB_ICONWARNING);
+			MessageBox(nullptr, "ランキングファイルの書き出しに失敗！", "警告！", MB_ICONWARNING);
 		}
 	}
 }

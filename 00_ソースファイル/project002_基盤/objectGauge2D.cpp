@@ -23,7 +23,7 @@
 //************************************************************
 const char *CObjectGauge2D::mc_apTextureFile[] =	// テクスチャ定数
 {
-	NULL,	// フレーム無し
+	nullptr,	// フレーム無し
 	"data\\TEXTURE\\lifeGauge2D000.png",	// 経験値フレーム
 };
 
@@ -36,7 +36,7 @@ const char *CObjectGauge2D::mc_apTextureFile[] =	// テクスチャ定数
 CObjectGauge2D::CObjectGauge2D() : m_nFrame(0)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff	= NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff	= nullptr;			// 頂点バッファへのポインタ
 	m_pos		= VEC3_ZERO;	// 位置
 	m_sizeGauge	= VEC3_ZERO;	// ゲージ大きさ
 	m_sizeFrame	= VEC3_ZERO;	// 枠大きさ
@@ -65,7 +65,7 @@ CObjectGauge2D::CObjectGauge2D() : m_nFrame(0)
 CObjectGauge2D::CObjectGauge2D(const int nFrame, const CObject::ELabel label, const int nPriority) : CObject(label, nPriority), m_nFrame(nFrame)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff	= NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff	= nullptr;			// 頂点バッファへのポインタ
 	m_pos		= VEC3_ZERO;	// 位置
 	m_sizeGauge = VEC3_ZERO;	// ゲージ大きさ
 	m_sizeFrame = VEC3_ZERO;	// 枠大きさ
@@ -102,7 +102,7 @@ CObjectGauge2D::~CObjectGauge2D()
 HRESULT CObjectGauge2D::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff	= NULL;				// 頂点バッファへのポインタ
+	m_pVtxBuff	= nullptr;				// 頂点バッファへのポインタ
 	m_pos		= VEC3_ZERO;		// 位置
 	m_sizeGauge = VEC3_ZERO;		// ゲージ大きさ
 	m_sizeFrame = VEC3_ZERO;		// 枠大きさ
@@ -127,7 +127,7 @@ HRESULT CObjectGauge2D::Init(void)
 	// ポインタを宣言
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイスのポインタ
 
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -138,7 +138,7 @@ HRESULT CObjectGauge2D::Init(void)
 			FVF_VERTEX_2D,					// 頂点フォーマット
 			D3DPOOL_MANAGED,				// メモリの指定
 			&m_pVtxBuff,					// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -162,12 +162,12 @@ HRESULT CObjectGauge2D::Init(void)
 void CObjectGauge2D::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// オブジェクトゲージ2Dを破棄
@@ -290,17 +290,17 @@ CObjectGauge2D *CObjectGauge2D::Create
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CObjectGauge2D *pObjectGauge2D = NULL;			// オブジェクトゲージ2D生成用
+	CObjectGauge2D *pObjectGauge2D = nullptr;			// オブジェクトゲージ2D生成用
 
-	if (pObjectGauge2D == NULL)
+	if (pObjectGauge2D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectGauge2D = new CObjectGauge2D(nFrame, label, GAUGE_PRIO);	// オブジェクトゲージ2D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectGauge2D != NULL)
+	if (pObjectGauge2D != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクトゲージ2Dの初期化
@@ -309,10 +309,10 @@ CObjectGauge2D *CObjectGauge2D::Create
 
 			// メモリ開放
 			delete pObjectGauge2D;
-			pObjectGauge2D = NULL;
+			pObjectGauge2D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録・割当
@@ -338,7 +338,7 @@ CObjectGauge2D *CObjectGauge2D::Create
 		// 確保したアドレスを返す
 		return pObjectGauge2D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -442,7 +442,7 @@ void CObjectGauge2D::BindTexture(const int nPolygonID, const char *pTexturePass)
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // テクスチャポインタが存在しない場合
 
 		// 関数を抜ける
@@ -453,7 +453,7 @@ void CObjectGauge2D::BindTexture(const int nPolygonID, const char *pTexturePass)
 	if (nPolygonID < POLYGON_MAX)
 	{ // インデックスが使用する四角形ポリゴン数より小さい場合
 
-		if (pTexturePass != NULL)
+		if (pTexturePass != nullptr)
 		{ // 割り当てるテクスチャパスが存在する場合
 	
 			// テクスチャインデックスを代入
@@ -576,7 +576,7 @@ void CObjectGauge2D::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_2D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得

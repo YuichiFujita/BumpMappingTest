@@ -36,7 +36,7 @@ CTexture::CTexture()
 	for (int nCntTexture = 0; nCntTexture < MAX_TEXTURE; nCntTexture++)
 	{ // テクスチャの最大数分繰り返す
 
-		// NULL文字をコピー
+		// nullptr文字をコピー
 		strcpy(&m_pFileName[nCntTexture][0], NONE_STRING);
 	}
 }
@@ -58,15 +58,15 @@ HRESULT CTexture::Load(void)
 	for (int nCntTexture = 0; nCntTexture < MAX_TEXTURE; nCntTexture++)
 	{ // テクスチャの最大数分繰り返す
 
-		// NULLを代入
-		m_apTexture[nCntTexture] = NULL;
+		// nullptrを代入
+		m_apTexture[nCntTexture] = nullptr;
 	}
 
 	// 読み込んだテクスチャファイル名を初期化
 	for (int nCntTexture = 0; nCntTexture < MAX_TEXTURE; nCntTexture++)
 	{ // テクスチャの最大数分繰り返す
 
-		// NULL文字をコピー
+		// nullptr文字をコピー
 		strcpy(&m_pFileName[nCntTexture][0], NONE_STRING);
 	}
 
@@ -87,12 +87,12 @@ void CTexture::Unload(void)
 	{ // テクスチャの最大数分繰り返す
 
 		// テクスチャの破棄
-		if (m_apTexture[nCntTexture] != NULL)
+		if (m_apTexture[nCntTexture] != nullptr)
 		{ // テクスチャが使用中の場合
 
 			// メモリ開放
 			m_apTexture[nCntTexture]->Release();
-			m_apTexture[nCntTexture] = NULL;
+			m_apTexture[nCntTexture] = nullptr;
 		}
 	}
 }
@@ -108,7 +108,7 @@ int CTexture::Regist(const char *pFileName)
 	// ポインタを宣言
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイスのポインタ
 
-	if (pFileName != NULL)
+	if (pFileName != nullptr)
 	{ // ポインタが使用されている場合
 
 		for (int nCntTexture = 0; nCntTexture < m_nNumAll; nCntTexture++)
@@ -171,15 +171,15 @@ LPDIRECT3DTEXTURE9 CTexture::GetTexture(int nID)
 	else if (nID == NONE_IDX)
 	{ // 引数のインデックスが -1の場合
 
-		// NULLを返す
-		return NULL;
+		// nullptrを返す
+		return nullptr;
 	}
 	else
 	{ // 引数のインデックスが使用不可の場合
 
-		// NULLを返す
+		// nullptrを返す
 		assert(false);
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -189,17 +189,17 @@ LPDIRECT3DTEXTURE9 CTexture::GetTexture(int nID)
 CTexture *CTexture::Create(void)
 {
 	// ポインタを宣言
-	CTexture *pTexture = NULL;	// テクスチャ生成用
+	CTexture *pTexture = nullptr;	// テクスチャ生成用
 
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pTexture = new CTexture;	// テクスチャ
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pTexture != NULL)
+	if (pTexture != nullptr)
 	{ // 確保に成功している場合
 
 		// テクスチャの読込
@@ -208,17 +208,17 @@ CTexture *CTexture::Create(void)
 
 			// メモリ開放
 			delete pTexture;
-			pTexture = NULL;
+			pTexture = nullptr;
 
 			// 失敗を返す
 			assert(false);
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pTexture;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -226,7 +226,7 @@ CTexture *CTexture::Create(void)
 //============================================================
 HRESULT CTexture::Release(CTexture *&prTexture)
 {
-	if (prTexture != NULL)
+	if (prTexture != nullptr)
 	{ // 使用中の場合
 
 		// テクスチャの破棄
@@ -234,7 +234,7 @@ HRESULT CTexture::Release(CTexture *&prTexture)
 
 		// メモリ開放
 		delete prTexture;
-		prTexture = NULL;
+		prTexture = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -259,7 +259,7 @@ void CTexture::LoadSetup(void)
 	// ファイルを読み込み形式で開く
 	pFile = fopen(TEXTURE_SETUP_TXT, "r");
 
-	if (pFile != NULL)
+	if (pFile != nullptr)
 	{ // ファイルが開けた場合
 
 		do
@@ -289,6 +289,6 @@ void CTexture::LoadSetup(void)
 	{ // ファイルが開けなかった場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "テクスチャセットアップファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "テクスチャセットアップファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
 	}
 }

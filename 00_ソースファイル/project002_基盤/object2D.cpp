@@ -26,7 +26,7 @@
 CObject2D::CObject2D()
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファへのポインタ
+	m_pVtxBuff = nullptr;	// 頂点バッファへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_size	= VEC3_ZERO;	// 大きさ
@@ -42,7 +42,7 @@ CObject2D::CObject2D()
 CObject2D::CObject2D(const CObject::ELabel label, const int nPriority) : CObject(label, nPriority)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファへのポインタ
+	m_pVtxBuff = nullptr;	// 頂点バッファへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_size	= VEC3_ZERO;	// 大きさ
@@ -66,7 +66,7 @@ CObject2D::~CObject2D()
 HRESULT CObject2D::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff = NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff = nullptr;		// 頂点バッファへのポインタ
 	m_pos	= VEC3_ZERO;		// 位置
 	m_rot	= VEC3_ZERO;		// 向き
 	m_size	= VEC3_ZERO;		// 大きさ
@@ -78,7 +78,7 @@ HRESULT CObject2D::Init(void)
 	// ポインタを宣言
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイスのポインタ
 
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -89,7 +89,7 @@ HRESULT CObject2D::Init(void)
 			FVF_VERTEX_2D,					// 頂点フォーマット
 			D3DPOOL_MANAGED,				// メモリの指定
 			&m_pVtxBuff,					// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -113,12 +113,12 @@ HRESULT CObject2D::Init(void)
 void CObject2D::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// 2Dオブジェクトを破棄
@@ -162,17 +162,17 @@ void CObject2D::Draw(void)
 CObject2D *CObject2D::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& rSize, const D3DXVECTOR3& rRot, const D3DXCOLOR& rCol)
 {
 	// ポインタを宣言
-	CObject2D *pObject2D = NULL;	// オブジェクト2D生成用
+	CObject2D *pObject2D = nullptr;	// オブジェクト2D生成用
 
-	if (pObject2D == NULL)
+	if (pObject2D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObject2D = new CObject2D;	// オブジェクト2D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObject2D != NULL)
+	if (pObject2D != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクト2Dの初期化
@@ -181,10 +181,10 @@ CObject2D *CObject2D::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& rSize, 
 
 			// メモリ開放
 			delete pObject2D;
-			pObject2D = NULL;
+			pObject2D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -202,7 +202,7 @@ CObject2D *CObject2D::Create(const D3DXVECTOR3& rPos, const D3DXVECTOR3& rSize, 
 		// 確保したアドレスを返す
 		return pObject2D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -226,7 +226,7 @@ void CObject2D::BindTexture(const char *pTexturePass)
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // テクスチャポインタが存在しない場合
 
 		// 関数を抜ける
@@ -234,7 +234,7 @@ void CObject2D::BindTexture(const char *pTexturePass)
 		return;
 	}
 
-	if (pTexturePass != NULL)
+	if (pTexturePass != nullptr)
 	{ // 割り当てるテクスチャパスが存在する場合
 
 		// テクスチャインデックスを代入
@@ -344,7 +344,7 @@ void CObject2D::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_2D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得
@@ -404,7 +404,7 @@ void CObject2D::SetAnimTex(const int nPattern, const int nWidthPtrn, const int n
 	// ポインタを宣言
 	VERTEX_2D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得
@@ -429,7 +429,7 @@ void CObject2D::SetScrollTex(const float fTexU, const float fTexV)
 	// ポインタを宣言
 	VERTEX_2D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得

@@ -83,10 +83,10 @@ CResultManager::CResultManager()
 	// メンバ変数をクリア
 	memset(&m_apResult[0], 0, sizeof(m_apResult));		// リザルト表示の情報
 	memset(&m_apContinue[0], 0, sizeof(m_apContinue));	// コンテニュー表示の情報
-	m_pContLogo		= NULL;			// コンテニューロゴの情報
-	m_pTimeLogo		= NULL;			// タイムロゴの情報
-	m_pFade			= NULL;			// フェードの情報
-	m_pTime			= NULL;			// タイムの情報
+	m_pContLogo		= nullptr;			// コンテニューロゴの情報
+	m_pTimeLogo		= nullptr;			// タイムロゴの情報
+	m_pFade			= nullptr;			// フェードの情報
+	m_pTime			= nullptr;			// タイムの情報
 	m_state			= STATE_NONE;	// 状態
 	m_nCounterState	= 0;			// 状態管理カウンター
 	m_nSelect		= SELECT_YES;	// 現在の選択
@@ -125,10 +125,10 @@ HRESULT CResultManager::Init(void)
 	// メンバ変数を初期化
 	memset(&m_apResult[0], 0, sizeof(m_apResult));		// リザルト表示の情報
 	memset(&m_apContinue[0], 0, sizeof(m_apContinue));	// コンテニュー表示の情報
-	m_pContLogo		= NULL;			// コンテニューロゴの情報
-	m_pTimeLogo		= NULL;			// タイムロゴの情報
-	m_pFade			= NULL;			// フェードの情報
-	m_pTime			= NULL;			// タイムの情報
+	m_pContLogo		= nullptr;			// コンテニューロゴの情報
+	m_pTimeLogo		= nullptr;			// タイムロゴの情報
+	m_pFade			= nullptr;			// フェードの情報
+	m_pTime			= nullptr;			// タイムの情報
 	m_state			= STATE_FADEIN;	// 状態
 	m_nCounterState	= 0;			// 状態管理カウンター
 	m_nSelect		= SELECT_YES;	// 現在の選択
@@ -146,7 +146,7 @@ HRESULT CResultManager::Init(void)
 		VEC3_ZERO,		// 向き
 		INITCOL_FADE	// 色
 	);
-	if (m_pFade == NULL)
+	if (m_pFade == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -169,7 +169,7 @@ HRESULT CResultManager::Init(void)
 			aPosResult[nCntResult],			// 位置
 			SIZE_RESULT * SET_RESULT_SCALE	// 大きさ
 		);
-		if (m_apResult[nCntResult] == NULL)
+		if (m_apResult[nCntResult] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -196,7 +196,7 @@ HRESULT CResultManager::Init(void)
 		POS_TIME_LOGO,					// 位置
 		SIZE_TIME_LOGO * SET_TIME_SCALE	// 大きさ
 	);
-	if (m_pTimeLogo == NULL)
+	if (m_pTimeLogo == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -227,7 +227,7 @@ HRESULT CResultManager::Init(void)
 		SPACE_TIME_VAL,						// 数字の空白
 		SPACE_TIME_PART						// 区切りの空白
 	);
-	if (m_pTime == NULL)
+	if (m_pTime == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -258,7 +258,7 @@ HRESULT CResultManager::Init(void)
 		POS_CONT_LOGO,					// 位置
 		SIZE_CONT_LOGO * SET_CONT_SCALE	// 大きさ
 	);
-	if (m_pContLogo == NULL)
+	if (m_pContLogo == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -287,7 +287,7 @@ HRESULT CResultManager::Init(void)
 			aPosContinue[nCntResult],	// 位置
 			SIZE_CONT * SET_CONT_SCALE	// 大きさ
 		);
-		if (m_apContinue[nCntResult] == NULL)
+		if (m_apContinue[nCntResult] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -487,17 +487,17 @@ void CResultManager::Update(void)
 CResultManager *CResultManager::Create(void)
 {
 	// ポインタを宣言
-	CResultManager *pResultManager = NULL;	// リザルトマネージャー生成用
+	CResultManager *pResultManager = nullptr;	// リザルトマネージャー生成用
 
-	if (pResultManager == NULL)
+	if (pResultManager == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pResultManager = new CResultManager;	// リザルトマネージャー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pResultManager != NULL)
+	if (pResultManager != nullptr)
 	{ // 使用されている場合
 		
 		// リザルトマネージャーの初期化
@@ -506,16 +506,16 @@ CResultManager *CResultManager::Create(void)
 
 			// メモリ開放
 			delete pResultManager;
-			pResultManager = NULL;
+			pResultManager = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pResultManager;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -523,7 +523,7 @@ CResultManager *CResultManager::Create(void)
 //============================================================
 HRESULT CResultManager::Release(CResultManager *&prResultManager)
 {
-	if (prResultManager != NULL)
+	if (prResultManager != nullptr)
 	{ // 使用中の場合
 
 		// リザルトマネージャーの終了
@@ -532,7 +532,7 @@ HRESULT CResultManager::Release(CResultManager *&prResultManager)
 
 			// メモリ開放
 			delete prResultManager;
-			prResultManager = NULL;
+			prResultManager = nullptr;
 
 			// 失敗を返す
 			assert(false);
@@ -541,7 +541,7 @@ HRESULT CResultManager::Release(CResultManager *&prResultManager)
 
 		// メモリ開放
 		delete prResultManager;
-		prResultManager = NULL;
+		prResultManager = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -634,7 +634,7 @@ void CResultManager::UpdateResult(void)
 		default:
 
 			// エラーメッセージボックス
-			MessageBox(NULL, "リザルトなしが設定されています", "警告！", MB_ICONWARNING);
+			MessageBox(nullptr, "リザルトなしが設定されています", "警告！", MB_ICONWARNING);
 
 			// 状態を変更
 			m_state = STATE_TIME_WAIT;	// タイム表示待機状態
@@ -908,7 +908,7 @@ void CResultManager::SetTexResult(void)
 	default:
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "リザルトなしが設定されています", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "リザルトなしが設定されています", "警告！", MB_ICONWARNING);
 
 		break;
 	}

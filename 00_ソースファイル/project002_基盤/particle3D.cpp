@@ -930,17 +930,17 @@ void CParticle3D::BubbleExplosion(const D3DXVECTOR3& rPos)
 CParticle3D *CParticle3D::Create(const EType type, const D3DXVECTOR3& rPos, const D3DXCOLOR& rCol)
 {
 	// ポインタを宣言
-	CParticle3D *pParticle3D = NULL;	// パーティクル3D生成用
+	CParticle3D *pParticle3D = nullptr;	// パーティクル3D生成用
 
-	if (pParticle3D == NULL)
+	if (pParticle3D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pParticle3D = new CParticle3D;	// パーティクル3D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pParticle3D != NULL)
+	if (pParticle3D != nullptr)
 	{ // 確保に成功している場合
 
 		// パーティクル3Dの初期化
@@ -949,14 +949,14 @@ CParticle3D *CParticle3D::Create(const EType type, const D3DXVECTOR3& rPos, cons
 
 			// メモリ開放
 			delete pParticle3D;
-			pParticle3D = NULL;
+			pParticle3D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pParticle3D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

@@ -18,7 +18,7 @@
 //************************************************************
 //	静的メンバ変数宣言
 //************************************************************
-CRankingManager *CSceneRanking::m_pRankingManager = NULL;	// ランキングマネージャー
+CRankingManager *CSceneRanking::m_pRankingManager = nullptr;	// ランキングマネージャー
 
 //************************************************************
 //	子クラス [CSceneRanking] のメンバ関数
@@ -49,7 +49,7 @@ HRESULT CSceneRanking::Init(void)
 	//--------------------------------------------------------
 	// ランキングマネージャーの生成
 	m_pRankingManager = CRankingManager::Create();
-	if (m_pRankingManager == NULL)
+	if (m_pRankingManager == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -105,7 +105,7 @@ void CSceneRanking::Update(void)
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "　[デバッグ情報]\n");
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "======================================\n");
 
-	if (m_pRankingManager != NULL)
+	if (m_pRankingManager != nullptr)
 	{ // 使用中の場合
 
 		// ランキングマネージャーの更新

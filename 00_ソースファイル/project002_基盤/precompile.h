@@ -17,10 +17,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <Windows.h>
-
 #include <stdio.h>
 #include <time.h>
-#include <assert.h>
+#include <assert.h>		// assert使用に必要
+#include <tchar.h>		// Unicodeとマルチバイトの差異解消マクロ使用に必要
 
 // DirectXのデバッグ表示の高精度化
 #define D3D_DEBUG_INFO

@@ -100,7 +100,7 @@ const char *CPlayer::mc_apModelFile[] =	// モデル定数
 CPlayer::CPlayer() : CObjectChara(CObject::LABEL_PLAYER, PRIORITY)
 {
 	// メンバ変数をクリア
-	m_pShadow			= NULL;			// 影の情報
+	m_pShadow			= nullptr;			// 影の情報
 	m_oldPos			= VEC3_ZERO;	// 過去位置
 	m_move				= VEC3_ZERO;	// 移動量
 	m_destRot			= VEC3_ZERO;	// 目標向き
@@ -123,7 +123,7 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Init(void)
 {
 	// メンバ変数を初期化
-	m_pShadow			= NULL;			// 影の情報
+	m_pShadow			= nullptr;			// 影の情報
 	m_oldPos			= VEC3_ZERO;	// 過去位置
 	m_move				= VEC3_ZERO;	// 移動量
 	m_destRot			= VEC3_ZERO;	// 目標向き
@@ -148,7 +148,7 @@ HRESULT CPlayer::Init(void)
 
 	// 影の生成
 	m_pShadow = CShadow::Create(CShadow::TEXTURE_NORMAL, other::SHADOW_SIZE, this);
-	if (m_pShadow == NULL)
+	if (m_pShadow == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -352,9 +352,9 @@ D3DXMATRIX CPlayer::GetMtxWorld(void) const
 CPlayer *CPlayer::Create(CScene::EMode mode)
 {
 	// ポインタを宣言
-	CPlayer *pPlayer = NULL;	// プレイヤー生成用
+	CPlayer *pPlayer = nullptr;	// プレイヤー生成用
 
-	if (pPlayer == NULL)
+	if (pPlayer == nullptr)
 	{ // 使用されていない場合
 
 		switch (mode)
@@ -396,9 +396,9 @@ CPlayer *CPlayer::Create(CScene::EMode mode)
 			break;
 		}
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pPlayer != NULL)
+	if (pPlayer != nullptr)
 	{ // 使用されている場合
 
 		// プレイヤーの初期化
@@ -407,10 +407,10 @@ CPlayer *CPlayer::Create(CScene::EMode mode)
 
 			// メモリ開放
 			delete pPlayer;
-			pPlayer = NULL;
+			pPlayer = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -491,7 +491,7 @@ CPlayer::EMotion CPlayer::UpdateNormal(void)
 
 	// ポインタを宣言
 	CStage *pStage = CScene::GetStage();	// ステージ情報
-	if (pStage == NULL)
+	if (pStage == nullptr)
 	{ // ステージが使用されていない場合
 
 		// 処理を抜ける
@@ -754,7 +754,7 @@ void CPlayer::LoadSetup(void)
 	// ファイルを読み込み形式で開く
 	pFile = fopen(SETUP_TXT, "r");
 
-	if (pFile != NULL)
+	if (pFile != nullptr)
 	{ // ファイルが開けた場合
 
 		do
@@ -925,6 +925,6 @@ void CPlayer::LoadSetup(void)
 	{ // ファイルが開けなかった場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "プレイヤーセットアップファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "プレイヤーセットアップファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
 	}
 }

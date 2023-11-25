@@ -26,7 +26,7 @@
 CObjectTornado::CObjectTornado()
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;	// 頂点バッファ
+	m_pVtxBuff = nullptr;	// 頂点バッファ
 	m_nNumVtx = 0;		// 必要頂点数
 	m_nNumAround = 0;	// 渦の周回数
 	m_nPattern = 0;		// 渦の分割数
@@ -40,7 +40,7 @@ CObjectTornado::CObjectTornado()
 CObjectTornado::CObjectTornado(const CObject::ELabel label, const int nPriority) : CObject(label, nPriority)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;	// 頂点バッファ
+	m_pVtxBuff = nullptr;	// 頂点バッファ
 	m_nNumVtx = 0;		// 必要頂点数
 	m_nNumAround = 0;	// 渦の周回数
 	m_nPattern = 0;		// 渦の分割数
@@ -62,7 +62,7 @@ CObjectTornado::~CObjectTornado()
 HRESULT CObjectTornado::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff = NULL;	// 頂点バッファ
+	m_pVtxBuff = nullptr;	// 頂点バッファ
 	m_nNumVtx = 0;		// 必要頂点数
 	m_nNumAround = 0;	// 渦の周回数
 	m_nPattern = 0;		// 渦の分割数
@@ -73,7 +73,7 @@ HRESULT CObjectTornado::Init(void)
 	m_tornado.rot     = VEC3_ZERO;		// 向き
 	m_tornado.direRot = VEC3_ZERO;		// 成長向き
 	m_tornado.col     = XCOL_WHITE;		// 色
-	m_tornado.pMtxParent  = NULL;		// 親のマトリックス
+	m_tornado.pMtxParent  = nullptr;		// 親のマトリックス
 	m_tornado.fMoveRot    = 0.0f;		// 向きの変更量
 	m_tornado.fThickness  = 0.0f;		// ポリゴンの太さ
 	m_tornado.fOuterPlus  = 0.0f;		// ポリゴン外周の y座標加算量
@@ -106,12 +106,12 @@ HRESULT CObjectTornado::Init(void)
 void CObjectTornado::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// オブジェクト竜巻を破棄
@@ -199,7 +199,7 @@ void CObjectTornado::Draw(void)
 	//--------------------------------------------------------
 	//	マトリックスを掛け合わせる
 	//--------------------------------------------------------
-	if (m_tornado.pMtxParent != NULL)	// TODO：親マトリックスがNULLじゃなくなったときに判断できない
+	if (m_tornado.pMtxParent != nullptr)	// TODO：親マトリックスがnullptrじゃなくなったときに判断できない
 	{ // 親のマトリックスが存在する場合
 
 		// 親のマトリックスと掛け合わせる
@@ -304,17 +304,17 @@ CObjectTornado *CObjectTornado::Create
 )
 {
 	// ポインタを宣言
-	CObjectTornado *pObjectTornado = NULL;	// オブジェクト竜巻生成用
+	CObjectTornado *pObjectTornado = nullptr;	// オブジェクト竜巻生成用
 
-	if (pObjectTornado == NULL)
+	if (pObjectTornado == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectTornado = new CObjectTornado;	// オブジェクト竜巻
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectTornado != NULL)
+	if (pObjectTornado != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクト竜巻の初期化
@@ -323,10 +323,10 @@ CObjectTornado *CObjectTornado::Create
 
 			// メモリ開放
 			delete pObjectTornado;
-			pObjectTornado = NULL;
+			pObjectTornado = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -377,16 +377,16 @@ CObjectTornado *CObjectTornado::Create
 
 			// メモリ開放
 			delete pObjectTornado;
-			pObjectTornado = NULL;
+			pObjectTornado = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pObjectTornado;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -417,16 +417,16 @@ HRESULT CObjectTornado::SetVortex(const int nNumAround, const int nPattern)
 	m_nNumVtx = m_nNumAround * m_nPattern * MAX_OFFSET;
 
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// 頂点バッファの情報を設定
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -437,7 +437,7 @@ HRESULT CObjectTornado::SetVortex(const int nNumAround, const int nPattern)
 			FVF_VERTEX_3D,		// 頂点フォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pVtxBuff,		// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -460,8 +460,8 @@ HRESULT CObjectTornado::SetVortex(const int nNumAround, const int nPattern)
 //============================================================
 void CObjectTornado::DeleteMatrixParent(void)
 {
-	// 親マトリックスをNULLにする
-	m_tornado.pMtxParent = NULL;
+	// 親マトリックスをnullptrにする
+	m_tornado.pMtxParent = nullptr;
 }
 
 //============================================================
@@ -691,7 +691,7 @@ void CObjectTornado::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 竜巻の頂点バッファが使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得

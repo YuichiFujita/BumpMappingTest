@@ -111,17 +111,17 @@ CModelUI *CModelUI::Create
 )
 {
 	// ポインタを宣言
-	CModelUI *pModelUI = NULL;	// モデルUI生成用
+	CModelUI *pModelUI = nullptr;	// モデルUI生成用
 
-	if (pModelUI == NULL)
+	if (pModelUI == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pModelUI = new CModelUI;	// モデルUI
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pModelUI != NULL)
+	if (pModelUI != nullptr)
 	{ // 使用されている場合
 		
 		// モデルUIの初期化
@@ -130,10 +130,10 @@ CModelUI *CModelUI::Create
 
 			// メモリ開放
 			delete pModelUI;
-			pModelUI = NULL;
+			pModelUI = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -148,5 +148,5 @@ CModelUI *CModelUI::Create
 		// 確保したアドレスを返す
 		return pModelUI;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

@@ -27,7 +27,7 @@
 //************************************************************
 //	静的メンバ変数宣言
 //************************************************************
-LPDIRECTINPUT8 CInput::m_pInput = NULL;	// DirectInputオブジェクト
+LPDIRECTINPUT8 CInput::m_pInput = nullptr;	// DirectInputオブジェクト
 int CInput::m_nNumAll = 0;	// 入力デバイスの総数
 
 //************************************************************
@@ -39,7 +39,7 @@ int CInput::m_nNumAll = 0;	// 入力デバイスの総数
 CInput::CInput()
 {
 	// メンバ変数をクリア
-	m_pDevice = NULL;	// DirectInputデバイス
+	m_pDevice = nullptr;	// DirectInputデバイス
 
 	// 入力デバイスの総数を加算
 	m_nNumAll++;
@@ -60,13 +60,13 @@ CInput::~CInput()
 HRESULT CInput::Init(HINSTANCE hInstance, HWND /*hWnd*/)
 {
 	// メンバ変数を初期化
-	m_pDevice = NULL;	// DirectInputデバイス
+	m_pDevice = nullptr;	// DirectInputデバイス
 
-	if (m_pInput == NULL)
+	if (m_pInput == nullptr)
 	{ // 入力デバイスが使用されていない場合
 
 		// DirectInputオブジェクトの生成
-		if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_pInput, NULL)))
+		if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_pInput, nullptr)))
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -85,7 +85,7 @@ HRESULT CInput::Init(HINSTANCE hInstance, HWND /*hWnd*/)
 void CInput::Uninit(void)
 {
 	// DirectInputデバイスの破棄
-	if (m_pDevice != NULL)
+	if (m_pDevice != nullptr)
 	{ // DirectInputデバイスが使用中の場合
 
 		// アクセス権開放
@@ -93,19 +93,19 @@ void CInput::Uninit(void)
 
 		// メモリ開放
 		m_pDevice->Release();
-		m_pDevice = NULL;
+		m_pDevice = nullptr;
 	}
 
 	// DirectInputオブジェクトの破棄
 	if (m_nNumAll <= 1)
 	{ // 最後のDirectInputデバイスが破棄された場合
 
-		if (m_pInput != NULL)
+		if (m_pInput != nullptr)
 		{ // DirectInputオブジェクトが使用中の場合
 
 			// メモリ開放
 			m_pInput->Release();
-			m_pInput = NULL;
+			m_pInput = nullptr;
 		}
 	}
 }
@@ -152,7 +152,7 @@ HRESULT CInputKeyboard::Init(HINSTANCE hInstance, HWND hWnd)
 	}
 
 	// DirectInputデバイスの生成
-	if (FAILED(m_pInput->CreateDevice(GUID_SysKeyboard, &m_pDevice, NULL)))
+	if (FAILED(m_pInput->CreateDevice(GUID_SysKeyboard, &m_pDevice, nullptr)))
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -260,17 +260,17 @@ bool CInputKeyboard::IsRelease(int nKey)
 CInputKeyboard *CInputKeyboard::Create(HINSTANCE hInstance, HWND hWnd)
 {
 	// ポインタを宣言
-	CInputKeyboard *pKeyboard = NULL;	// キーボード生成用
+	CInputKeyboard *pKeyboard = nullptr;	// キーボード生成用
 
-	if (pKeyboard == NULL)
+	if (pKeyboard == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pKeyboard = new CInputKeyboard;	// キーボード
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pKeyboard != NULL)
+	if (pKeyboard != nullptr)
 	{ // 確保に成功している場合
 
 		// キーボードの初期化
@@ -279,16 +279,16 @@ CInputKeyboard *CInputKeyboard::Create(HINSTANCE hInstance, HWND hWnd)
 
 			// メモリ開放
 			delete pKeyboard;
-			pKeyboard = NULL;
+			pKeyboard = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pKeyboard;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -296,7 +296,7 @@ CInputKeyboard *CInputKeyboard::Create(HINSTANCE hInstance, HWND hWnd)
 //============================================================
 HRESULT CInputKeyboard::Release(CInputKeyboard *&prKeyboard)
 {
-	if (prKeyboard != NULL)
+	if (prKeyboard != nullptr)
 	{ // 使用中の場合
 
 		// キーボードの終了
@@ -304,7 +304,7 @@ HRESULT CInputKeyboard::Release(CInputKeyboard *&prKeyboard)
 
 		// メモリ開放
 		delete prKeyboard;
-		prKeyboard = NULL;
+		prKeyboard = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -357,7 +357,7 @@ HRESULT CInputMouse::Init(HINSTANCE hInstance, HWND hWnd)
 	}
 
 	// DirectInputデバイスの生成
-	if (FAILED(m_pInput->CreateDevice(GUID_SysMouse, &m_pDevice, NULL)))
+	if (FAILED(m_pInput->CreateDevice(GUID_SysMouse, &m_pDevice, nullptr)))
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -494,17 +494,17 @@ D3DXVECTOR3 CInputMouse::GetMove(void)
 CInputMouse *CInputMouse::Create(HINSTANCE hInstance, HWND hWnd)
 {
 	// ポインタを宣言
-	CInputMouse *pMouse = NULL;		// マウス生成用
+	CInputMouse *pMouse = nullptr;		// マウス生成用
 
-	if (pMouse == NULL)
+	if (pMouse == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pMouse = new CInputMouse;	// マウス
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pMouse != NULL)
+	if (pMouse != nullptr)
 	{ // 確保に成功している場合
 
 		// マウスの初期化
@@ -513,16 +513,16 @@ CInputMouse *CInputMouse::Create(HINSTANCE hInstance, HWND hWnd)
 
 			// メモリ開放
 			delete pMouse;
-			pMouse = NULL;
+			pMouse = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pMouse;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -530,7 +530,7 @@ CInputMouse *CInputMouse::Create(HINSTANCE hInstance, HWND hWnd)
 //============================================================
 HRESULT CInputMouse::Release(CInputMouse *&prMouse)
 {
-	if (prMouse != NULL)
+	if (prMouse != nullptr)
 	{ // 使用中の場合
 
 		// マウスの終了
@@ -538,7 +538,7 @@ HRESULT CInputMouse::Release(CInputMouse *&prMouse)
 
 		// メモリ開放
 		delete prMouse;
-		prMouse = NULL;
+		prMouse = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -894,17 +894,17 @@ float CInputPad::GetPressRStickRot(int nPlayer)
 CInputPad *CInputPad::Create(void)
 {
 	// ポインタを宣言
-	CInputPad *pPad = NULL;		// パッド生成用
+	CInputPad *pPad = nullptr;		// パッド生成用
 
-	if (pPad == NULL)
+	if (pPad == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pPad = new CInputPad;	// パッド
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pPad != NULL)
+	if (pPad != nullptr)
 	{ // 確保に成功している場合
 
 		// パッドの初期化
@@ -913,16 +913,16 @@ CInputPad *CInputPad::Create(void)
 
 			// メモリ開放
 			delete pPad;
-			pPad = NULL;
+			pPad = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pPad;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -930,7 +930,7 @@ CInputPad *CInputPad::Create(void)
 //============================================================
 HRESULT CInputPad::Release(CInputPad *&prPad)
 {
-	if (prPad != NULL)
+	if (prPad != nullptr)
 	{ // 使用中の場合
 
 		// パッドの終了
@@ -938,7 +938,7 @@ HRESULT CInputPad::Release(CInputPad *&prPad)
 
 		// メモリ開放
 		delete prPad;
-		prPad = NULL;
+		prPad = nullptr;
 
 		// 成功を返す
 		return S_OK;

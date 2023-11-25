@@ -59,9 +59,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 		0,													// 通常は使用しない
 		hInstance,											// インスタンスハンドル
 		LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1)),	// タスクバーのアイコン
-		LoadCursor(NULL, IDC_ARROW),						// マウスカーソル
+		LoadCursor(nullptr, IDC_ARROW),						// マウスカーソル
 		(HBRUSH)(COLOR_WINDOW + 1),							// クライアント領域の背景色
-		NULL,												// メニューバー
+		nullptr,											// メニューバー
 		CLASS_NAME,											// ウインドウクラスの名前
 		LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1))		// ファイルのアイコン
 	};
@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 	MSG   msg;	// メッセージを格納する変数
 	DWORD dwCurrentTime  = 0;				// 現在時刻
 	DWORD dwExecLastTime = timeGetTime();	// 最後に処理した時刻
-	CManager *pManager = NULL;	// マネージャーオブジェクト
+	CManager *pManager   = nullptr;			// マネージャーオブジェクト
 
 	// ウインドウクラスの登録
 	RegisterClassEx(&wcex);
@@ -95,10 +95,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 		CW_USEDEFAULT,				// ウインドウの左上 Y 座標
 		(rect.right - rect.left),	// ウインドウの幅
 		(rect.bottom - rect.top),	// ウインドウの高さ
-		NULL,						// 親ウインドウのハンドル
-		NULL,						// メニューハンドルまたは子ウインドウ ID
+		nullptr,					// 親ウインドウのハンドル
+		nullptr,					// メニューハンドルまたは子ウインドウ ID
 		hInstance,					// インスタンスハンドル
-		NULL						// ウインドウ作成データ
+		nullptr						// ウインドウ作成データ
 	);
 
 	// 分解能を設定
@@ -113,7 +113,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 
 	// マネージャーの生成
 	pManager = CManager::Create(hInstance, hWnd, TRUE);
-	if (pManager == NULL)
+	if (pManager == nullptr)
 	{ // 非使用中の場合
 
 		// 例外を返す
@@ -124,7 +124,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 	while (1)
 	{ // 無限ループ
 
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0)
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) != 0)
 		{ // Windowsの処理
 
 			if (msg.message == WM_QUIT)
@@ -157,7 +157,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 			if ((dwCurrentTime - dwExecLastTime) >= APP_FPS)
 			{ // 60分の1秒経過
 
-				if (pManager != NULL)
+				if (pManager != nullptr)
 				{ // 使用中の場合
 
 					// マネージャーの更新
@@ -165,7 +165,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 				}
 				else { assert(false); return -1; }	// 非使用中
 
-				if (pManager != NULL)
+				if (pManager != nullptr)
 				{ // 使用中の場合
 
 					// マネージャーの描画

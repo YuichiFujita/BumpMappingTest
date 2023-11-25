@@ -21,8 +21,8 @@
 CObjectMeshWall::CObjectMeshWall()
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファ
-	m_pIdxBuff = NULL;		// インデックスバッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
+	m_pIdxBuff = nullptr;		// インデックスバッファ
 	m_part = GRID2_ZERO;	// 分割数
 	m_nNumVtx = 0;			// 必要頂点数
 	m_nNumIdx = 0;			// 必要インデックス数
@@ -36,8 +36,8 @@ CObjectMeshWall::CObjectMeshWall()
 CObjectMeshWall::CObjectMeshWall(const CObject::ELabel label, const int nPriority) : CObject(label, nPriority)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファ
-	m_pIdxBuff = NULL;		// インデックスバッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
+	m_pIdxBuff = nullptr;		// インデックスバッファ
 	m_part = GRID2_ZERO;	// 分割数
 	m_nNumVtx = 0;			// 必要頂点数
 	m_nNumIdx = 0;			// 必要インデックス数
@@ -59,8 +59,8 @@ CObjectMeshWall::~CObjectMeshWall()
 HRESULT CObjectMeshWall::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff = NULL;		// 頂点バッファ
-	m_pIdxBuff = NULL;		// インデックスバッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
+	m_pIdxBuff = nullptr;		// インデックスバッファ
 	m_part = GRID2_ZERO;	// 分割数
 	m_nNumVtx = 0;			// 必要頂点数
 	m_nNumIdx = 0;			// 必要インデックス数
@@ -91,21 +91,21 @@ HRESULT CObjectMeshWall::Init(void)
 void CObjectMeshWall::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// インデックスバッファの破棄
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // インデックスバッファが使用中の場合
 
 		// メモリ開放
 		m_pIdxBuff->Release();
-		m_pIdxBuff = NULL;
+		m_pIdxBuff = nullptr;
 	}
 
 	// オブジェクトメッシュウォールを破棄
@@ -203,7 +203,7 @@ void CObjectMeshWall::BindTexture(const char *pTexturePass)
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // テクスチャポインタが存在しない場合
 
 		// 関数を抜ける
@@ -211,7 +211,7 @@ void CObjectMeshWall::BindTexture(const char *pTexturePass)
 		return;
 	}
 
-	if (pTexturePass != NULL)
+	if (pTexturePass != nullptr)
 	{ // 割り当てるテクスチャパスが存在する場合
 
 		// テクスチャインデックスを代入
@@ -302,6 +302,15 @@ D3DXCOLOR CObjectMeshWall::GetColor(void) const
 }
 
 //============================================================
+//	マトリックス取得処理
+//============================================================
+D3DXMATRIX CObjectMeshWall::GetMtxWorld(void) const
+{
+	// マトリックスを返す
+	return m_meshWall.mtxWorld;
+}
+
+//============================================================
 //	生成処理
 //============================================================
 CObjectMeshWall *CObjectMeshWall::Create
@@ -316,17 +325,17 @@ CObjectMeshWall *CObjectMeshWall::Create
 )
 {
 	// ポインタを宣言
-	CObjectMeshWall *pObjectMeshWall = NULL;		// オブジェクトメッシュウォール生成用
+	CObjectMeshWall *pObjectMeshWall = nullptr;		// オブジェクトメッシュウォール生成用
 
-	if (pObjectMeshWall == NULL)
+	if (pObjectMeshWall == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectMeshWall = new CObjectMeshWall;	// オブジェクトメッシュウォール
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectMeshWall != NULL)
+	if (pObjectMeshWall != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクトメッシュウォールの初期化
@@ -335,10 +344,10 @@ CObjectMeshWall *CObjectMeshWall::Create
 
 			// メモリ開放
 			delete pObjectMeshWall;
-			pObjectMeshWall = NULL;
+			pObjectMeshWall = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -365,16 +374,16 @@ CObjectMeshWall *CObjectMeshWall::Create
 
 			// メモリ開放
 			delete pObjectMeshWall;
-			pObjectMeshWall = NULL;
+			pObjectMeshWall = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pObjectMeshWall;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -429,16 +438,16 @@ HRESULT CObjectMeshWall::SetPattern(const POSGRID2& rPart)
 	m_nNumIdx = (m_part.x + 1) * (((m_part.y + 1) * 2) - 2) + (m_part.y * 2) - 2; // 必要インデックス数
 
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// 頂点バッファの情報を設定
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -449,7 +458,7 @@ HRESULT CObjectMeshWall::SetPattern(const POSGRID2& rPart)
 			FVF_VERTEX_3D,		// 頂点フォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pVtxBuff,		// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -461,16 +470,16 @@ HRESULT CObjectMeshWall::SetPattern(const POSGRID2& rPart)
 	else { assert(false); return E_FAIL; }	// 使用中
 
 	// インデックスバッファの破棄
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // インデックスバッファが使用中の場合
 
 		// メモリ開放
 		m_pIdxBuff->Release();
-		m_pIdxBuff = NULL;
+		m_pIdxBuff = nullptr;
 	}
 
 	// インデックスバッファの情報を設定
-	if (m_pIdxBuff == NULL)
+	if (m_pIdxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// インデックスバッファの生成
@@ -481,7 +490,7 @@ HRESULT CObjectMeshWall::SetPattern(const POSGRID2& rPart)
 			D3DFMT_INDEX16,		// インデックスバッファのフォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pIdxBuff,		// インデックスバッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // インデックスバッファの生成に失敗した場合
 
@@ -517,7 +526,7 @@ void CObjectMeshWall::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得
@@ -564,7 +573,7 @@ void CObjectMeshWall::SetIdx(void)
 	// ポインタを宣言
 	WORD *pIdx;	// インデックス情報へのポインタ
 
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // 使用中の場合
 
 		// インデックスバッファをロックし、頂点番号データへのポインタを取得
@@ -607,7 +616,7 @@ void CObjectMeshWall::SetScrollTex(const float fTexU, const float fTexV)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得

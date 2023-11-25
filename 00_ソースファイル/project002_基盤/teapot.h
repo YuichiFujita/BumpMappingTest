@@ -52,6 +52,9 @@ public:
 private:
 	// 静的メンバ変数
 	static const char *mc_apModelFile[];	// モデル定数
+
+	// メンバ変数
+	ID3DXEffect *m_pEffect;	// エフェクトポインタ
 };
 
 #endif	// _TEAPOT_H_

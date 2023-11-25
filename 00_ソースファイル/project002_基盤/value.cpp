@@ -110,17 +110,17 @@ void CValue::Draw(void)
 CValue *CValue::Create(const ETexture texture)
 {
 	// ポインタを宣言
-	CValue *pValue = NULL;		// 数字生成用
+	CValue *pValue = nullptr;		// 数字生成用
 
-	if (pValue == NULL)
+	if (pValue == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pValue = new CValue;	// 数字
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pValue != NULL)
+	if (pValue != nullptr)
 	{ // 確保に成功している場合
 
 		// 数字の初期化
@@ -129,10 +129,10 @@ CValue *CValue::Create(const ETexture texture)
 
 			// メモリ開放
 			delete pValue;
-			pValue = NULL;
+			pValue = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを設定
@@ -141,7 +141,7 @@ CValue *CValue::Create(const ETexture texture)
 		// 確保したアドレスを返す
 		return pValue;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -150,17 +150,17 @@ CValue *CValue::Create(const ETexture texture)
 CValue *CValue::Create(const ETexture texture, const D3DXVECTOR3& rPos, const D3DXVECTOR3& rSize, const D3DXVECTOR3& rRot, const D3DXCOLOR& rCol)
 {
 	// ポインタを宣言
-	CValue *pValue = NULL;		// 数字生成用
+	CValue *pValue = nullptr;		// 数字生成用
 
-	if (pValue == NULL)
+	if (pValue == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pValue = new CValue;	// 数字
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pValue != NULL)
+	if (pValue != nullptr)
 	{ // 確保に成功している場合
 
 		// 数字の初期化
@@ -169,10 +169,10 @@ CValue *CValue::Create(const ETexture texture, const D3DXVECTOR3& rPos, const D3
 
 			// メモリ開放
 			delete pValue;
-			pValue = NULL;
+			pValue = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを設定
@@ -193,7 +193,7 @@ CValue *CValue::Create(const ETexture texture, const D3DXVECTOR3& rPos, const D3
 		// 確保したアドレスを返す
 		return pValue;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================

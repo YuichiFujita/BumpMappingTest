@@ -23,7 +23,7 @@
 //************************************************************
 const char *CObjectGauge3D::mc_apTextureFile[] =	// テクスチャ定数
 {
-	NULL,	// フレーム無し
+	nullptr,	// フレーム無し
 	"data\\TEXTURE\\lifeGauge3D000.png",	// プレイヤーフレーム
 	"data\\TEXTURE\\lifeGauge3D001.png",	// ターゲットフレーム
 };
@@ -37,7 +37,7 @@ const char *CObjectGauge3D::mc_apTextureFile[] =	// テクスチャ定数
 CObjectGauge3D::CObjectGauge3D() : m_nFrame(0)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff	= NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff	= nullptr;			// 頂点バッファへのポインタ
 	m_pos		= VEC3_ZERO;	// 位置
 	m_sizeGauge	= VEC3_ZERO;	// ゲージ大きさ
 	m_sizeFrame	= VEC3_ZERO;	// 枠大きさ
@@ -66,7 +66,7 @@ CObjectGauge3D::CObjectGauge3D() : m_nFrame(0)
 CObjectGauge3D::CObjectGauge3D(const int nFrame, const CObject::ELabel label, const int nPriority) : CObject(label, nPriority), m_nFrame(nFrame)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff	= NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff	= nullptr;			// 頂点バッファへのポインタ
 	m_pos		= VEC3_ZERO;	// 位置
 	m_sizeGauge = VEC3_ZERO;	// ゲージ大きさ
 	m_sizeFrame = VEC3_ZERO;	// 枠大きさ
@@ -103,7 +103,7 @@ CObjectGauge3D::~CObjectGauge3D()
 HRESULT CObjectGauge3D::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff	= NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff	= nullptr;			// 頂点バッファへのポインタ
 	m_pos		= VEC3_ZERO;	// 位置
 	m_sizeGauge = VEC3_ZERO;	// ゲージ大きさ
 	m_sizeFrame = VEC3_ZERO;	// 枠大きさ
@@ -128,7 +128,7 @@ HRESULT CObjectGauge3D::Init(void)
 	// ポインタを宣言
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイスのポインタ
 
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -139,7 +139,7 @@ HRESULT CObjectGauge3D::Init(void)
 			FVF_VERTEX_3D,					// 頂点フォーマット
 			D3DPOOL_MANAGED,				// メモリの指定
 			&m_pVtxBuff,					// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -163,12 +163,12 @@ HRESULT CObjectGauge3D::Init(void)
 void CObjectGauge3D::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// ゲージ表示オブジェクトの削除
@@ -217,7 +217,7 @@ void CObjectGauge3D::Update(void)
 	for (int nCntGauge = 0; nCntGauge < POLYGON_MAX; nCntGauge++)
 	{ // 使用する四角形ポリゴン数分繰り返す
 
-		if (m_pGauge != NULL)
+		if (m_pGauge != nullptr)
 		{ // ゲージ表示対象が使用されていた場合
 
 			// ワールドマトリックスを取得
@@ -230,7 +230,7 @@ void CObjectGauge3D::Update(void)
 		{ // ゲージ表示対象が使用されていなかった場合
 
 			// ゲージ表示しているオブジェクトの情報を初期化
-			m_pGauge = NULL;
+			m_pGauge = nullptr;
 
 			// オブジェクトの終了
 			Uninit();
@@ -268,7 +268,7 @@ void CObjectGauge3D::Draw(void)
 	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 
 	// ポリゴンをカメラに対して正面に向ける
-	D3DXMatrixInverse(&m_mtxWorld, NULL, &mtxView);	// 逆行列を求める
+	D3DXMatrixInverse(&m_mtxWorld, nullptr, &mtxView);	// 逆行列を求める
 
 	// マトリックスのワールド座標を原点にする
 	m_mtxWorld._41 = 0.0f;
@@ -364,17 +364,17 @@ CObjectGauge3D *CObjectGauge3D::Create
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CObjectGauge3D *pObjectGauge3D = NULL;			// オブジェクトゲージ3D生成用
+	CObjectGauge3D *pObjectGauge3D = nullptr;			// オブジェクトゲージ3D生成用
 
-	if (pObjectGauge3D == NULL)
+	if (pObjectGauge3D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectGauge3D = new CObjectGauge3D(nFrame, label, GAUGE_PRIO);	// オブジェクトゲージ3D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectGauge3D != NULL)
+	if (pObjectGauge3D != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクトゲージ3Dの初期化
@@ -383,10 +383,10 @@ CObjectGauge3D *CObjectGauge3D::Create
 
 			// メモリ開放
 			delete pObjectGauge3D;
-			pObjectGauge3D = NULL;
+			pObjectGauge3D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録・割当
@@ -415,7 +415,7 @@ CObjectGauge3D *CObjectGauge3D::Create
 		// 確保したアドレスを返す
 		return pObjectGauge3D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -499,8 +499,8 @@ int CObjectGauge3D::GetMaxNum(void) const
 //============================================================
 void CObjectGauge3D::DeleteObjectGauge(void)
 {
-	// ゲージ3D表示オブジェクトをNULLにする
-	m_pGauge = NULL;
+	// ゲージ3D表示オブジェクトをnullptrにする
+	m_pGauge = nullptr;
 }
 
 //============================================================
@@ -528,7 +528,7 @@ void CObjectGauge3D::BindTexture(const int nPolygonID, const char *pTexturePass)
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // テクスチャポインタが存在しない場合
 
 		// 関数を抜ける
@@ -539,7 +539,7 @@ void CObjectGauge3D::BindTexture(const int nPolygonID, const char *pTexturePass)
 	if (nPolygonID < POLYGON_MAX)
 	{ // インデックスが使用する四角形ポリゴン数より小さい場合
 
-		if (pTexturePass != NULL)
+		if (pTexturePass != nullptr)
 		{ // 割り当てるテクスチャパスが存在する場合
 	
 			// テクスチャインデックスを代入
@@ -698,7 +698,7 @@ void CObjectGauge3D::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得

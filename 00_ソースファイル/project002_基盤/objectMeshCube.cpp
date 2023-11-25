@@ -72,8 +72,8 @@ const int CObjectMeshCube::aIdxMeshCube[] =			// インデックス設定用
 CObjectMeshCube::CObjectMeshCube()
 {
 	// メンバ変数をクリア
-	m_pVtxBuff	= NULL;	// 頂点バッファ
-	m_pIdxBuff	= NULL;	// インデックスバッファ
+	m_pVtxBuff	= nullptr;	// 頂点バッファ
+	m_pIdxBuff	= nullptr;	// インデックスバッファ
 	m_nNumVtx	= 0;	// 必要頂点数
 	m_nNumIdx	= 0;	// 必要インデックス数
 	m_origin	= ORIGIN_CENTER;	// 原点
@@ -86,8 +86,8 @@ CObjectMeshCube::CObjectMeshCube()
 CObjectMeshCube::CObjectMeshCube(const CObject::ELabel label, const int nPriority) : CObject(label, nPriority)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff	= NULL;	// 頂点バッファ
-	m_pIdxBuff	= NULL;	// インデックスバッファ
+	m_pVtxBuff	= nullptr;	// 頂点バッファ
+	m_pIdxBuff	= nullptr;	// インデックスバッファ
 	m_nNumVtx	= 0;	// 必要頂点数
 	m_nNumIdx	= 0;	// 必要インデックス数
 	m_origin	= ORIGIN_CENTER;	// 原点
@@ -108,8 +108,8 @@ CObjectMeshCube::~CObjectMeshCube()
 HRESULT CObjectMeshCube::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff = NULL;	// 頂点バッファ
-	m_pIdxBuff = NULL;	// インデックスバッファ
+	m_pVtxBuff = nullptr;	// 頂点バッファ
+	m_pIdxBuff = nullptr;	// インデックスバッファ
 	m_nNumVtx = 0;		// 必要頂点数
 	m_nNumIdx = 0;		// 必要インデックス数
 	m_origin = ORIGIN_CENTER;	// 原点
@@ -152,21 +152,21 @@ HRESULT CObjectMeshCube::Init(void)
 void CObjectMeshCube::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// インデックスバッファの破棄
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // インデックスバッファが使用中の場合
 
 		// メモリ開放
 		m_pIdxBuff->Release();
-		m_pIdxBuff = NULL;
+		m_pIdxBuff = nullptr;
 	}
 
 	// オブジェクトメッシュキューブを破棄
@@ -290,7 +290,7 @@ void CObjectMeshCube::Draw(void)
 	{ // 縁取りがONの場合
 
 		// テクスチャの設定
-		pDevice->SetTexture(0, NULL);
+		pDevice->SetTexture(0, nullptr);
 
 		// ポリゴンの裏面のみを表示状態にする
 		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
@@ -430,17 +430,17 @@ CObjectMeshCube *CObjectMeshCube::Create
 )
 {
 	// ポインタを宣言
-	CObjectMeshCube *pObjectMeshCube = NULL;	// オブジェクトメッシュキューブ生成用
+	CObjectMeshCube *pObjectMeshCube = nullptr;	// オブジェクトメッシュキューブ生成用
 
-	if (pObjectMeshCube == NULL)
+	if (pObjectMeshCube == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectMeshCube = new CObjectMeshCube;	// オブジェクトメッシュキューブ
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectMeshCube != NULL)
+	if (pObjectMeshCube != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクトメッシュキューブの初期化
@@ -449,10 +449,10 @@ CObjectMeshCube *CObjectMeshCube::Create
 
 			// メモリ開放
 			delete pObjectMeshCube;
-			pObjectMeshCube = NULL;
+			pObjectMeshCube = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを割当
@@ -482,10 +482,10 @@ CObjectMeshCube *CObjectMeshCube::Create
 
 			// メモリ開放
 			delete pObjectMeshCube;
-			pObjectMeshCube = NULL;
+			pObjectMeshCube = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 縁取りの太さを設定
@@ -512,7 +512,7 @@ CObjectMeshCube *CObjectMeshCube::Create
 		// 確保したアドレスを返す
 		return pObjectMeshCube;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -557,16 +557,16 @@ HRESULT CObjectMeshCube::SetBorderState(const EBorder bordState)
 	m_meshCube.bordState = bordState;
 
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// 頂点バッファの情報を設定
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -577,7 +577,7 @@ HRESULT CObjectMeshCube::SetBorderState(const EBorder bordState)
 			FVF_VERTEX_3D,		// 頂点フォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pVtxBuff,		// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -589,16 +589,16 @@ HRESULT CObjectMeshCube::SetBorderState(const EBorder bordState)
 	else { assert(false); return E_FAIL; }	// 使用中
 
 	// インデックスバッファの破棄
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // インデックスバッファが使用中の場合
 
 		// メモリ開放
 		m_pIdxBuff->Release();
-		m_pIdxBuff = NULL;
+		m_pIdxBuff = nullptr;
 	}
 
 	// インデックスバッファの情報を設定
-	if (m_pIdxBuff == NULL)
+	if (m_pIdxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// インデックスバッファの生成
@@ -609,7 +609,7 @@ HRESULT CObjectMeshCube::SetBorderState(const EBorder bordState)
 			D3DFMT_INDEX16,		// インデックスバッファのフォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pIdxBuff,		// インデックスバッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // インデックスバッファの生成に失敗した場合
 
@@ -806,7 +806,7 @@ void CObjectMeshCube::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得
@@ -897,7 +897,7 @@ void CObjectMeshCube::SetIdx(void)
 	// ポインタを宣言
 	WORD *pIdx;	// インデックス情報へのポインタ
 
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // 使用中の場合
 
 		// インデックスバッファをロックし、頂点番号データへのポインタを取得

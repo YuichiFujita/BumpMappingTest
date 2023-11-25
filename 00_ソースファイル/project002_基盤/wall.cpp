@@ -11,6 +11,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "texture.h"
+#include "camera.h"
 
 //************************************************************
 //	マクロ定義
@@ -33,7 +34,8 @@ const char *CWall::mc_apTextureFile[] =	// テクスチャ定数
 //============================================================
 CWall::CWall() : CObjectMeshWall(CObject::LABEL_WALL, WALL_PRIO)
 {
-
+	// メンバ変数をクリア
+	m_pEffect = nullptr;	// エフェクトポインタ
 }
 
 //============================================================
@@ -49,6 +51,9 @@ CWall::~CWall()
 //============================================================
 HRESULT CWall::Init(void)
 {
+	// メンバ変数を初期化
+	m_pEffect = nullptr;	// エフェクトポインタ
+
 	// オブジェクトメッシュウォールの初期化
 	if (FAILED(CObjectMeshWall::Init()))
 	{ // 初期化に失敗した場合
@@ -57,6 +62,19 @@ HRESULT CWall::Init(void)
 		assert(false);
 		return E_FAIL;
 	}
+
+	// エフェクトファイルの読み込み
+	D3DXCreateEffectFromFile
+	( // 引数
+		CManager::GetInstance()->GetRenderer()->GetDevice(),	// デバイスへのポインタ
+		_T("first_create_mat.fx"),	// エフェクトファイル
+		nullptr,	// プリプロセッサ定義
+		nullptr,	// インクルード操作
+		0,			// 読込オプションフラグ
+		nullptr,	// グローバル変数インターフェース
+		&m_pEffect,	// エフェクトインターフェース
+		nullptr		// コンパイルエラー情報
+	);
 
 	// 成功を返す
 	return S_OK;
@@ -67,6 +85,9 @@ HRESULT CWall::Init(void)
 //============================================================
 void CWall::Uninit(void)
 {
+	// エフェクトの破棄
+	SAFE_RELEASE(m_pEffect);
+
 	// オブジェクトメッシュウォールの終了
 	CObjectMeshWall::Uninit();
 }
@@ -85,8 +106,33 @@ void CWall::Update(void)
 //============================================================
 void CWall::Draw(void)
 {
+		// カメラ情報
+	CCamera::SCamera cameraInfo = CManager::GetInstance()->GetCamera()->GetCamera(CCamera::TYPE_MAIN);	// カメラ取得
+
+	// ビュー変換・射影変換
+	D3DXMATRIX View = cameraInfo.mtxView;
+	D3DXMATRIX Projection = cameraInfo.mtxProjection;
+
+	// ワールドマトリックス・ワールドビュー射影変換行列
+	D3DXMATRIX mtxWorld = GetMtxWorld();
+	D3DXMATRIX mtxWorldViewProj;
+
+	// エフェクト内のワールドビュー射影変換行列を設定
+	mtxWorldViewProj = mtxWorld * View * Projection;
+	m_pEffect->SetMatrix("mtxWorldViewProj", &mtxWorldViewProj);
+
+	// 描画開始
+	m_pEffect->SetTechnique("BasicTec");
+	UINT numPass;
+	m_pEffect->Begin(&numPass, 0);
+	m_pEffect->BeginPass(0);
+
 	// オブジェクトメッシュウォールの描画
 	CObjectMeshWall::Draw();
+
+	// 描画終了
+	m_pEffect->EndPass();
+	m_pEffect->End();
 }
 
 //============================================================
@@ -109,17 +155,17 @@ CWall *CWall::Create
 
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CWall *pWall = NULL;	// 壁生成用
+	CWall *pWall = nullptr;	// 壁生成用
 
-	if (pWall == NULL)
+	if (pWall == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pWall = new CWall;	// 壁
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pWall != NULL)
+	if (pWall != nullptr)
 	{ // 確保に成功している場合
 
 		// 壁の初期化
@@ -128,10 +174,10 @@ CWall *CWall::Create
 
 			// メモリ開放
 			delete pWall;
-			pWall = NULL;
+			pWall = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録
@@ -164,14 +210,14 @@ CWall *CWall::Create
 
 			// メモリ開放
 			delete pWall;
-			pWall = NULL;
+			pWall = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pWall;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

@@ -114,17 +114,17 @@ CGameManager::EState CGameManager::GetState(void) const
 CGameManager *CGameManager::Create(void)
 {
 	// ポインタを宣言
-	CGameManager *pGameManager = NULL;	// ゲームマネージャー生成用
+	CGameManager *pGameManager = nullptr;	// ゲームマネージャー生成用
 
-	if (pGameManager == NULL)
+	if (pGameManager == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pGameManager = new CGameManager;	// ゲームマネージャー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pGameManager != NULL)
+	if (pGameManager != nullptr)
 	{ // 使用されている場合
 		
 		// ゲームマネージャーの初期化
@@ -133,16 +133,16 @@ CGameManager *CGameManager::Create(void)
 
 			// メモリ開放
 			delete pGameManager;
-			pGameManager = NULL;
+			pGameManager = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pGameManager;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -150,7 +150,7 @@ CGameManager *CGameManager::Create(void)
 //============================================================
 HRESULT CGameManager::Release(CGameManager *&prGameManager)
 {
-	if (prGameManager != NULL)
+	if (prGameManager != nullptr)
 	{ // 使用中の場合
 
 		// ゲームマネージャーの終了
@@ -158,7 +158,7 @@ HRESULT CGameManager::Release(CGameManager *&prGameManager)
 
 		// メモリ開放
 		delete prGameManager;
-		prGameManager = NULL;
+		prGameManager = nullptr;
 
 		// 成功を返す
 		return S_OK;

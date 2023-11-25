@@ -21,8 +21,8 @@
 CObjectMeshDome::CObjectMeshDome()
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファ
-	m_pIdxBuff = NULL;		// インデックスバッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
+	m_pIdxBuff = nullptr;		// インデックスバッファ
 	m_part = GRID2_ZERO;	// 分割数
 	m_texPart = GRID2_ZERO;	// テクスチャ分割数
 	m_nNumVtx = 0;			// 必要頂点数
@@ -37,8 +37,8 @@ CObjectMeshDome::CObjectMeshDome()
 CObjectMeshDome::CObjectMeshDome(const CObject::ELabel label, const int nPriority) : CObject(label, nPriority)
 {
 	// メンバ変数をクリア
-	m_pVtxBuff = NULL;		// 頂点バッファ
-	m_pIdxBuff = NULL;		// インデックスバッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
+	m_pIdxBuff = nullptr;		// インデックスバッファ
 	m_part = GRID2_ZERO;	// 分割数
 	m_texPart = GRID2_ZERO;	// テクスチャ分割数
 	m_nNumVtx = 0;			// 必要頂点数
@@ -61,8 +61,8 @@ CObjectMeshDome::~CObjectMeshDome()
 HRESULT CObjectMeshDome::Init(void)
 {
 	// メンバ変数を初期化
-	m_pVtxBuff = NULL;		// 頂点バッファ
-	m_pIdxBuff = NULL;		// インデックスバッファ
+	m_pVtxBuff = nullptr;		// 頂点バッファ
+	m_pIdxBuff = nullptr;		// インデックスバッファ
 	m_part = GRID2_ZERO;	// 分割数
 	m_texPart = GRID2_ONE;	// テクスチャ分割数
 	m_nNumVtx = 0;			// 必要頂点数
@@ -94,21 +94,21 @@ HRESULT CObjectMeshDome::Init(void)
 void CObjectMeshDome::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// インデックスバッファの破棄
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // インデックスバッファが使用中の場合
 
 		// メモリ開放
 		m_pIdxBuff->Release();
-		m_pIdxBuff = NULL;
+		m_pIdxBuff = nullptr;
 	}
 
 	// オブジェクトメッシュドームを破棄
@@ -179,7 +179,7 @@ void CObjectMeshDome::Draw(void)
 	);
 
 	// テクスチャの設定
-	pDevice->SetTexture(0, NULL);
+	pDevice->SetTexture(0, nullptr);
 
 	// 上蓋ポリゴンの描画
 	pDevice->DrawIndexedPrimitive
@@ -220,7 +220,7 @@ void CObjectMeshDome::BindTexture(const char *pTexturePass)
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // テクスチャポインタが存在しない場合
 
 		// 関数を抜ける
@@ -228,7 +228,7 @@ void CObjectMeshDome::BindTexture(const char *pTexturePass)
 		return;
 	}
 
-	if (pTexturePass != NULL)
+	if (pTexturePass != nullptr)
 	{ // 割り当てるテクスチャパスが存在する場合
 
 		// テクスチャインデックスを代入
@@ -333,17 +333,17 @@ CObjectMeshDome *CObjectMeshDome::Create
 )
 {
 	// ポインタを宣言
-	CObjectMeshDome *pObjectMeshDome = NULL;	// オブジェクトメッシュドーム生成用
+	CObjectMeshDome *pObjectMeshDome = nullptr;	// オブジェクトメッシュドーム生成用
 
-	if (pObjectMeshDome == NULL)
+	if (pObjectMeshDome == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectMeshDome = new CObjectMeshDome;	// オブジェクトメッシュドーム
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectMeshDome != NULL)
+	if (pObjectMeshDome != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクトメッシュドームの初期化
@@ -352,10 +352,10 @@ CObjectMeshDome *CObjectMeshDome::Create
 
 			// メモリ開放
 			delete pObjectMeshDome;
-			pObjectMeshDome = NULL;
+			pObjectMeshDome = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -382,16 +382,16 @@ CObjectMeshDome *CObjectMeshDome::Create
 
 			// メモリ開放
 			delete pObjectMeshDome;
-			pObjectMeshDome = NULL;
+			pObjectMeshDome = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pObjectMeshDome;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -446,16 +446,16 @@ HRESULT CObjectMeshDome::SetPattern(const POSGRID2& rPart)
 	m_nNumIdx = ((m_part.x + 1) * (((m_part.y + 1) * 2) - 2) + (m_part.y * 2) - 2) - (m_part.x + 2); // 必要インデックス数
 
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// 頂点バッファの情報を設定
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -466,7 +466,7 @@ HRESULT CObjectMeshDome::SetPattern(const POSGRID2& rPart)
 			FVF_VERTEX_3D,		// 頂点フォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pVtxBuff,		// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -478,16 +478,16 @@ HRESULT CObjectMeshDome::SetPattern(const POSGRID2& rPart)
 	else { assert(false); return E_FAIL; }	// 使用中
 
 	// インデックスバッファの破棄
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // インデックスバッファが使用中の場合
 
 		// メモリ開放
 		m_pIdxBuff->Release();
-		m_pIdxBuff = NULL;
+		m_pIdxBuff = nullptr;
 	}
 
 	// インデックスバッファの情報を設定
-	if (m_pIdxBuff == NULL)
+	if (m_pIdxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// インデックスバッファの生成
@@ -498,7 +498,7 @@ HRESULT CObjectMeshDome::SetPattern(const POSGRID2& rPart)
 			D3DFMT_INDEX16,		// インデックスバッファのフォーマット
 			D3DPOOL_MANAGED,	// メモリの指定
 			&m_pIdxBuff,		// インデックスバッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // インデックスバッファの生成に失敗した場合
 
@@ -562,7 +562,7 @@ void CObjectMeshDome::SetVtx(void)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得
@@ -626,7 +626,7 @@ void CObjectMeshDome::SetIdx(void)
 	// ポインタを宣言
 	WORD *pIdx;	// インデックス情報へのポインタ
 
-	if (m_pIdxBuff != NULL)
+	if (m_pIdxBuff != nullptr)
 	{ // 使用中の場合
 
 		// インデックスバッファをロックし、頂点番号データへのポインタを取得
@@ -688,7 +688,7 @@ void CObjectMeshDome::SetScrollTex(const float fTexU, const float fTexV)
 	// ポインタを宣言
 	VERTEX_3D *pVtx;	// 頂点情報へのポインタ
 
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 使用中の場合
 
 		// 頂点バッファをロックし、頂点情報へのポインタを取得

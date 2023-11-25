@@ -13,7 +13,7 @@
 #include "renderer.h"
 
 // 静的メンバ変数宣言
-LPD3DXFONT CDebugProc::m_pFont = NULL;	// デバッグフォントへのポインタ
+LPD3DXFONT CDebugProc::m_pFont = nullptr;	// デバッグフォントへのポインタ
 
 //**********************************************************
 //マクロ定義
@@ -27,7 +27,7 @@ CDebugProc::CDebugProc()
 {
 	//デバッグ表示情報のクリア
 	m_bDisp = false;
-	m_pFont = NULL;
+	m_pFont = nullptr;
 	memset(&m_aStr[0][0], 0, sizeof(m_aStr));
 }
 
@@ -46,7 +46,7 @@ void CDebugProc::Init(void)
 {
 	//デバッグ表示情報の初期化
 	m_bDisp = false;
-	m_pFont = NULL;
+	m_pFont = nullptr;
 	memset(&m_aStr[0][0], 0, sizeof(m_aStr));
 
 	LPDIRECT3DDEVICE9 pDevice;		//デバイスへのポインタ
@@ -76,10 +76,10 @@ void CDebugProc::Init(void)
 void CDebugProc::Uninit(void)
 {
 	//デバッグ表示用フォントの廃棄
-	if (m_pFont != NULL)
+	if (m_pFont != nullptr)
 	{
 		m_pFont->Release();
-		m_pFont = NULL;
+		m_pFont = nullptr;
 	}
 }
 
@@ -111,9 +111,9 @@ void CDebugProc::Draw(void)
 	{//デバックモードがオンの時
 
 		//テキストの描画
-		m_pFont->DrawText(NULL, &m_aStr[POINT_CENTER][0], NONE_IDX, &rect, DT_CENTER, D3DCOLOR_RGBA(0, 0, 0, 255));
-		m_pFont->DrawText(NULL, &m_aStr[POINT_LEFT][0],   NONE_IDX, &rect, DT_LEFT,   D3DCOLOR_RGBA(0, 0, 0, 255));
-		m_pFont->DrawText(NULL, &m_aStr[POINT_RIGHT][0],  NONE_IDX, &rect, DT_RIGHT,  D3DCOLOR_RGBA(0, 0, 0, 255));
+		m_pFont->DrawText(nullptr, &m_aStr[POINT_CENTER][0], NONE_IDX, &rect, DT_CENTER, D3DCOLOR_RGBA(0, 0, 0, 255));
+		m_pFont->DrawText(nullptr, &m_aStr[POINT_LEFT][0],   NONE_IDX, &rect, DT_LEFT,   D3DCOLOR_RGBA(0, 0, 0, 255));
+		m_pFont->DrawText(nullptr, &m_aStr[POINT_RIGHT][0],  NONE_IDX, &rect, DT_RIGHT,  D3DCOLOR_RGBA(0, 0, 0, 255));
 	}
 
 	//デバッグ表示情報のクリア
@@ -221,17 +221,17 @@ void CDebugProc::Print(const EPoint point, const char *fmt, ...)
 CDebugProc *CDebugProc::Create(void)
 {
 	// ポインタを宣言
-	CDebugProc *pDebugProc = NULL;		// デバッグ表示生成用
+	CDebugProc *pDebugProc = nullptr;		// デバッグ表示生成用
 
-	if (pDebugProc == NULL)
+	if (pDebugProc == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pDebugProc = new CDebugProc;	// デバッグ表示
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pDebugProc != NULL)
+	if (pDebugProc != nullptr)
 	{ // 確保に成功している場合
 
 		// デバッグ表示の初期化
@@ -240,7 +240,7 @@ CDebugProc *CDebugProc::Create(void)
 		// 確保したアドレスを返す
 		return pDebugProc;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //==========================================================
@@ -248,7 +248,7 @@ CDebugProc *CDebugProc::Create(void)
 //==========================================================
 HRESULT CDebugProc::Release(CDebugProc *&prDebugProc)
 {
-	if (prDebugProc != NULL)
+	if (prDebugProc != nullptr)
 	{ // 使用中の場合
 
 		// デバッグプロックの終了
@@ -256,7 +256,7 @@ HRESULT CDebugProc::Release(CDebugProc *&prDebugProc)
 
 		// メモリ開放
 		delete prDebugProc;
-		prDebugProc = NULL;
+		prDebugProc = nullptr;
 
 		// 成功を返す
 		return S_OK;

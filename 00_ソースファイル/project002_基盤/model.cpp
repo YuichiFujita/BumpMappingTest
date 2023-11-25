@@ -86,30 +86,30 @@ void CModel::Unload(void)
 	{ // モデルの最大数分繰り返す
 
 		// テクスチャインデックスの破棄
-		if (m_aModel[nCntModel].pTextureID != NULL)
+		if (m_aModel[nCntModel].pTextureID != nullptr)
 		{ // テクスチャインデックスが使用中の場合
 
 			// メモリ開放
 			free(m_aModel[nCntModel].pTextureID);
-			m_aModel[nCntModel].pTextureID = NULL;
+			m_aModel[nCntModel].pTextureID = nullptr;
 		}
 
 		// メッシュの破棄
-		if (m_aModel[nCntModel].pMesh != NULL)
+		if (m_aModel[nCntModel].pMesh != nullptr)
 		{ // メッシュが使用中の場合
 
 			// メモリ開放
 			m_aModel[nCntModel].pMesh->Release();
-			m_aModel[nCntModel].pMesh = NULL;
+			m_aModel[nCntModel].pMesh = nullptr;
 		}
 
 		// マテリアルの破棄
-		if (m_aModel[nCntModel].pBuffMat != NULL)
+		if (m_aModel[nCntModel].pBuffMat != nullptr)
 		{ // マテリアルが使用中の場合
 
 			// メモリ開放
 			m_aModel[nCntModel].pBuffMat->Release();
-			m_aModel[nCntModel].pBuffMat = NULL;
+			m_aModel[nCntModel].pBuffMat = nullptr;
 		}
 	}
 }
@@ -122,7 +122,7 @@ int CModel::Regist(const char *pFileName)
 	// 変数を宣言
 	int nID = m_nNumAll;	// モデル読込番号
 
-	if (pFileName != NULL)
+	if (pFileName != nullptr)
 	{ // ポインタが使用されている場合
 
 		for (int nCntModel = 0; nCntModel < m_nNumAll; nCntModel++)
@@ -194,7 +194,7 @@ CModel::SModel *CModel::GetModel(const int nID)
 		// 引数のモデルアドレスを返す
 		return &m_aModel[nID];
 	}
-	else { assert(false); return NULL; }	// 範囲外
+	else { assert(false); return nullptr; }	// 範囲外
 }
 
 //============================================================
@@ -203,17 +203,17 @@ CModel::SModel *CModel::GetModel(const int nID)
 CModel *CModel::Create(void)
 {
 	// ポインタを宣言
-	CModel *pModel = NULL;	// モデル生成用
+	CModel *pModel = nullptr;	// モデル生成用
 
-	if (pModel == NULL)
+	if (pModel == nullptr)
 	{ // 使用されていない場合
 
 		// メモリを確保
 		pModel = new CModel;	// モデル
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pModel != NULL)
+	if (pModel != nullptr)
 	{ // 確保に成功している場合
 
 		// モデルの読込
@@ -222,17 +222,17 @@ CModel *CModel::Create(void)
 
 			// メモリ開放
 			delete pModel;
-			pModel = NULL;
+			pModel = nullptr;
 
 			// 失敗を返す
 			assert(false);
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pModel;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -240,7 +240,7 @@ CModel *CModel::Create(void)
 //============================================================
 HRESULT CModel::Release(CModel *&prModel)
 {
-	if (prModel != NULL)
+	if (prModel != nullptr)
 	{ // 使用中の場合
 
 		// モデルの破棄
@@ -248,7 +248,7 @@ HRESULT CModel::Release(CModel *&prModel)
 
 		// メモリ開放
 		delete prModel;
-		prModel = NULL;
+		prModel = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -273,9 +273,9 @@ HRESULT CModel::LoadXFileModel(const int nID, const char *pFileName)
 		pFileName,					// モデルの相対パス
 		D3DXMESH_SYSTEMMEM,			// メッシュ作成用オプション
 		pDevice,					// デバイスへのポインタ
-		NULL,						// 隣接性データ
+		nullptr,					// 隣接性データ
 		&m_aModel[nID].pBuffMat,	// マテリアルへのポインタ
-		NULL,						// エフェクトデータ
+		nullptr,					// エフェクトデータ
 		&m_aModel[nID].dwNumMat,	// マテリアルの数
 		&m_aModel[nID].pMesh		// メッシュ (頂点情報) へのポインタ
 	);
@@ -284,24 +284,24 @@ HRESULT CModel::LoadXFileModel(const int nID, const char *pFileName)
 	{ // xファイルの読み込みに失敗した場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "xファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "xファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
 
 		// 失敗を返す
 		return E_FAIL;
 	}
 
-	if (m_aModel[nID].pTextureID == NULL)
+	if (m_aModel[nID].pTextureID == nullptr)
 	{ // 使用されていない場合
 
 		// 確保したメモリのアドレスを取得
 		m_aModel[nID].pTextureID = (int*)malloc(m_aModel[nID].dwNumMat * sizeof(int*));
 	}
 
-	if (m_aModel[nID].pTextureID == NULL)
+	if (m_aModel[nID].pTextureID == nullptr)
 	{ // 動的確保に失敗した場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "動的確保に失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "動的確保に失敗！", "警告！", MB_ICONWARNING);
 
 		// 失敗を返す
 		return E_FAIL;
@@ -326,7 +326,7 @@ HRESULT CModel::LoadTextureModel(const int nID)
 	for (int nCntMat = 0; nCntMat < (int)m_aModel[nID].dwNumMat; nCntMat++)
 	{ // マテリアルの数分繰り返す
 
-		if (pMat[nCntMat].pTextureFilename != NULL)
+		if (pMat[nCntMat].pTextureFilename != nullptr)
 		{ // テクスチャファイルが存在する場合
 
 			// テクスチャを登録
@@ -443,7 +443,7 @@ void CModel::LoadSetup(void)
 	// ファイルを読み込み形式で開く
 	pFile = fopen(MODEL_SETUP_TXT, "r");
 
-	if (pFile != NULL)
+	if (pFile != nullptr)
 	{ // ファイルが開けた場合
 
 		do
@@ -473,6 +473,6 @@ void CModel::LoadSetup(void)
 	{ // ファイルが開けなかった場合
 
 		// エラーメッセージボックス
-		MessageBox(NULL, "モデルセットアップファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
+		MessageBox(nullptr, "モデルセットアップファイルの読み込みに失敗！", "警告！", MB_ICONWARNING);
 	}
 }

@@ -200,17 +200,17 @@ CEffect2D *CEffect2D::Create
 
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CEffect2D *pEffect2D = NULL;	// エフェクト2D生成用
+	CEffect2D *pEffect2D = nullptr;	// エフェクト2D生成用
 
-	if (pEffect2D == NULL)
+	if (pEffect2D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pEffect2D = new CEffect2D(type, label);	// エフェクト2D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pEffect2D != NULL)
+	if (pEffect2D != nullptr)
 	{ // 確保に成功している場合
 
 		// エフェクト2Dの初期化
@@ -219,10 +219,10 @@ CEffect2D *CEffect2D::Create
 
 			// メモリ開放
 			delete pEffect2D;
-			pEffect2D = NULL;
+			pEffect2D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録
@@ -253,5 +253,5 @@ CEffect2D *CEffect2D::Create
 		// 確保したアドレスを返す
 		return pEffect2D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

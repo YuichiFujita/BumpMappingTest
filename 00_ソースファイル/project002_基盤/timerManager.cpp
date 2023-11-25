@@ -47,7 +47,7 @@ CTimerManager::CTimerManager()
 	// メンバ変数をクリア
 	memset(&m_apValue[0], 0, sizeof(m_apValue));	// 数値の情報
 	memset(&m_apPart[0], 0, sizeof(m_apPart));		// 区切りの情報
-	m_pLogo				= NULL;			// ロゴの情報
+	m_pLogo				= nullptr;			// ロゴの情報
 	m_pos				= VEC3_ZERO;	// 位置
 	m_sizeValue			= VEC3_ZERO;	// 数字の大きさ
 	m_sizePart			= VEC3_ZERO;	// 区切りの大きさ
@@ -82,7 +82,7 @@ HRESULT CTimerManager::Init(void)
 	// メンバ変数を初期化
 	memset(&m_apValue[0], 0, sizeof(m_apValue));	// 数値の情報
 	memset(&m_apPart[0], 0, sizeof(m_apPart));		// 区切りの情報
-	m_pLogo				= NULL;			// ロゴの情報
+	m_pLogo				= nullptr;			// ロゴの情報
 	m_pos				= VEC3_ZERO;	// 位置
 	m_sizeValue			= VEC3_ZERO;	// 数字の大きさ
 	m_sizePart			= VEC3_ZERO;	// 区切りの大きさ
@@ -102,7 +102,7 @@ HRESULT CTimerManager::Init(void)
 
 		// 数字の生成
 		m_apValue[nCntTimer] = CValue::Create(CValue::TEXTURE_NORMAL);
-		if (m_apValue[nCntTimer] == NULL)
+		if (m_apValue[nCntTimer] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -119,7 +119,7 @@ HRESULT CTimerManager::Init(void)
 
 		// 区切りの生成
 		m_apPart[nCntTimer] = CObject2D::Create(VEC3_ZERO);
-		if (m_apPart[nCntTimer] == NULL)
+		if (m_apPart[nCntTimer] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -136,7 +136,7 @@ HRESULT CTimerManager::Init(void)
 
 	// ロゴの生成
 	m_pLogo = CObject2D::Create(VEC3_ZERO, SIZE_LOGO);
-	if (m_pLogo == NULL)
+	if (m_pLogo == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -296,17 +296,17 @@ CTimerManager *CTimerManager::Create
 )
 {
 	// ポインタを宣言
-	CTimerManager *pTimerManager = NULL;	// タイマーマネージャー生成用
+	CTimerManager *pTimerManager = nullptr;	// タイマーマネージャー生成用
 
-	if (pTimerManager == NULL)
+	if (pTimerManager == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pTimerManager = new CTimerManager;	// タイマーマネージャー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pTimerManager != NULL)
+	if (pTimerManager != nullptr)
 	{ // 確保に成功している場合
 
 		// タイマーマネージャーの初期化
@@ -315,10 +315,10 @@ CTimerManager *CTimerManager::Create
 
 			// メモリ開放
 			delete pTimerManager;
-			pTimerManager = NULL;
+			pTimerManager = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 制限時間を設定
@@ -342,7 +342,7 @@ CTimerManager *CTimerManager::Create
 		// 確保したアドレスを返す
 		return pTimerManager;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -350,7 +350,7 @@ CTimerManager *CTimerManager::Create
 //============================================================
 HRESULT CTimerManager::Release(CTimerManager *&prTimerManager)
 {
-	if (prTimerManager != NULL)
+	if (prTimerManager != nullptr)
 	{ // 使用中の場合
 
 		// タイマーマネージャーの終了
@@ -358,7 +358,7 @@ HRESULT CTimerManager::Release(CTimerManager *&prTimerManager)
 
 		// メモリ開放
 		delete prTimerManager;
-		prTimerManager = NULL;
+		prTimerManager = nullptr;
 
 		// 成功を返す
 		return S_OK;
@@ -900,7 +900,7 @@ void CTimerManager::SetSpacePart(const D3DXVECTOR3& rSpace)
 //============================================================
 void CTimerManager::SetColor(const D3DXCOLOR& rCol)
 {
-	if (m_apValue[0] != NULL)
+	if (m_apValue[0] != nullptr)
 	{ // スコアの先頭の数値が使用されている場合
 
 		for (int nCntTimer = 0; nCntTimer < MAX_TIMER; nCntTimer++)
@@ -925,7 +925,7 @@ void CTimerManager::SetColor(const D3DXCOLOR& rCol)
 //============================================================
 void CTimerManager::SetPriority(const int nPriority)
 {
-	if (m_apValue[0] != NULL)
+	if (m_apValue[0] != nullptr)
 	{ // スコアの先頭の数値が使用されている場合
 
 		// 数字オブジェクトの優先順位を設定
@@ -950,7 +950,7 @@ void CTimerManager::SetPriority(const int nPriority)
 //============================================================
 void CTimerManager::SetEnableUpdate(const bool bUpdate)
 {
-	if (m_apValue[0] != NULL)
+	if (m_apValue[0] != nullptr)
 	{ // スコアの先頭の数値が使用されている場合
 
 		// 数字オブジェクトの更新状況を設定
@@ -975,7 +975,7 @@ void CTimerManager::SetEnableUpdate(const bool bUpdate)
 //============================================================
 void CTimerManager::SetEnableDraw(const bool bDraw)
 {
-	if (m_apValue[0] != NULL)
+	if (m_apValue[0] != nullptr)
 	{ // スコアの先頭の数値が使用されている場合
 
 		// 数字オブジェクトの描画状況を設定
@@ -995,7 +995,7 @@ void CTimerManager::SetEnableDraw(const bool bDraw)
 	else { assert(false); }	// 非使用中
 
 	// ロゴオブジェクトの描画状況を設定		
-	if (m_pLogo != NULL)
+	if (m_pLogo != nullptr)
 	{ // ロゴが使用されている場合
 
 		m_pLogo->SetEnableDraw(bDraw);
@@ -1008,7 +1008,7 @@ void CTimerManager::SetEnableDraw(const bool bDraw)
 //============================================================
 void CTimerManager::SetEnableLogoDraw(const bool bDraw)
 {
-	if (m_pLogo != NULL)
+	if (m_pLogo != nullptr)
 	{ // ロゴが使用されている場合
 
 		// 引数をロゴの描画状況に設定		
@@ -1074,7 +1074,7 @@ void CTimerManager::SetDrawValue(void)
 	int nNumValue = 0;	// 数字の生成数
 	int nNumPart = 0;	// 区切りの生成数
 
-	if (m_apValue[0] != NULL && m_apPart[0] != NULL)
+	if (m_apValue[0] != nullptr && m_apPart[0] != nullptr)
 	{ // タイマーの先頭数値、タイマーの先頭区切りが使用されている場合
 
 		for (int nCntTimer = 0; nCntTimer < MAX_TIMER + MAX_PART; nCntTimer++)
@@ -1120,7 +1120,7 @@ void CTimerManager::SetDrawValue(void)
 	}
 	else { assert(false); }	// 非使用中
 
-	if (m_pLogo != NULL)
+	if (m_pLogo != nullptr)
 	{ // ロゴが使用されている場合
 
 		// ロゴの位置を設定		

@@ -49,9 +49,9 @@
 //************************************************************
 //	静的メンバ変数宣言
 //************************************************************
-CGameManager	*CSceneGame::m_pGameManager  = NULL;	// ゲームマネージャー
-CTimerManager	*CSceneGame::m_pTimerManager = NULL;	// タイマーマネージャー
-CPause	*CSceneGame::m_pPause	= NULL;					// ポーズ
+CGameManager	*CSceneGame::m_pGameManager  = nullptr;	// ゲームマネージャー
+CTimerManager	*CSceneGame::m_pTimerManager = nullptr;	// タイマーマネージャー
+CPause	*CSceneGame::m_pPause	= nullptr;					// ポーズ
 
 bool CSceneGame::m_bControlCamera = true;	// カメラの操作状況
 bool CSceneGame::m_bDrawUI = false;			// UIの描画状況
@@ -95,7 +95,7 @@ HRESULT CSceneGame::Init(void)
 		TIME_VAL_SPACE,				// 数字の空白
 		TIME_PART_SPACE				// 区切りの空白
 	);
-	if (m_pTimerManager == NULL)
+	if (m_pTimerManager == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -111,7 +111,7 @@ HRESULT CSceneGame::Init(void)
 
 	// ゲームマネージャーの生成
 	m_pGameManager = CGameManager::Create();
-	if (m_pGameManager == NULL)
+	if (m_pGameManager == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -121,7 +121,7 @@ HRESULT CSceneGame::Init(void)
 
 	// ポーズの生成
 	m_pPause = CPause::Create();
-	if (m_pPause == NULL)
+	if (m_pPause == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -133,7 +133,10 @@ HRESULT CSceneGame::Init(void)
 #if 1
 
 	// ティーポットの生成
-	CTeapot::Create(D3DXVECTOR3(0.0f, 200.0f, 0.0f), VEC3_ZERO);
+	CTeapot::Create(D3DXVECTOR3(800.0f, 200.0f, 0.0f), VEC3_ZERO);
+
+	// 壁の生成
+	CWall::Create(CWall::TEXTURE_NORMAL, D3DXVECTOR3(-800.0f, 200.0f, 0.0f), VEC3_ZERO, D3DXVECTOR2(400.0f, 400.0f), XCOL_RED, POSGRID2(8, 8));
 
 #endif
 
@@ -246,7 +249,7 @@ void CSceneGame::Update(void)
 
 #endif
 
-	if (m_pGameManager != NULL)
+	if (m_pGameManager != nullptr)
 	{ // 使用中の場合
 
 		// ゲームマネージャーの更新
@@ -257,7 +260,7 @@ void CSceneGame::Update(void)
 	if (m_pGameManager->GetState() == CGameManager::STATE_NORMAL)
 	{ // ゲームマネージャーが通常状態の場合
 
-		if (m_pTimerManager != NULL)
+		if (m_pTimerManager != nullptr)
 		{ // 使用中の場合
 
 			// タイマーマネージャーの更新
@@ -265,7 +268,7 @@ void CSceneGame::Update(void)
 		}
 		else { assert(false); }	// 非使用中
 
-		if (m_pPause != NULL)
+		if (m_pPause != nullptr)
 		{ // 使用中の場合
 
 			// ポーズの更新

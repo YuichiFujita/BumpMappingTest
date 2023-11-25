@@ -209,17 +209,17 @@ CScrollMeshField *CScrollMeshField::Create
 )
 {
 	// ポインタを宣言
-	CScrollMeshField *pScrollMeshField = NULL;	// スクロールメッシュフィールド生成用
+	CScrollMeshField *pScrollMeshField = nullptr;	// スクロールメッシュフィールド生成用
 
-	if (pScrollMeshField == NULL)
+	if (pScrollMeshField == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pScrollMeshField = new CScrollMeshField;	// スクロールメッシュフィールド
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pScrollMeshField != NULL)
+	if (pScrollMeshField != nullptr)
 	{ // 確保に成功している場合
 
 		// スクロールメッシュフィールドの初期化
@@ -228,10 +228,10 @@ CScrollMeshField *CScrollMeshField::Create
 
 			// メモリ開放
 			delete pScrollMeshField;
-			pScrollMeshField = NULL;
+			pScrollMeshField = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 位置を設定
@@ -258,16 +258,16 @@ CScrollMeshField *CScrollMeshField::Create
 
 			// メモリ開放
 			delete pScrollMeshField;
-			pScrollMeshField = NULL;
+			pScrollMeshField = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pScrollMeshField;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================

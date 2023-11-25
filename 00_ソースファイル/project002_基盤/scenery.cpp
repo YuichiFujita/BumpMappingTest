@@ -123,17 +123,17 @@ CScenery *CScenery::Create
 
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CScenery *pScenery = NULL;	// 景色生成用
+	CScenery *pScenery = nullptr;	// 景色生成用
 
-	if (pScenery == NULL)
+	if (pScenery == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pScenery = new CScenery;	// 景色
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pScenery != NULL)
+	if (pScenery != nullptr)
 	{ // 確保に成功している場合
 
 		// 景色の初期化
@@ -142,10 +142,10 @@ CScenery *CScenery::Create
 
 			// メモリ開放
 			delete pScenery;
-			pScenery = NULL;
+			pScenery = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録
@@ -181,14 +181,14 @@ CScenery *CScenery::Create
 
 			// メモリ開放
 			delete pScenery;
-			pScenery = NULL;
+			pScenery = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pScenery;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

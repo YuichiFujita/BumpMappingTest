@@ -160,17 +160,17 @@ void CAnim2D::Draw(void)
 CAnim2D *CAnim2D::Create(const int nWidthPtrn, const int nHeightPtrn, const D3DXVECTOR3& rPos, const D3DXVECTOR3& rSize, const D3DXVECTOR3& rRot, const D3DXCOLOR& rCol)
 {
 	// ポインタを宣言
-	CAnim2D *pAnim2D = NULL;	// アニメーション2D生成用
+	CAnim2D *pAnim2D = nullptr;	// アニメーション2D生成用
 
-	if (pAnim2D == NULL)
+	if (pAnim2D == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pAnim2D = new CAnim2D;	// アニメーション2D
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pAnim2D != NULL)
+	if (pAnim2D != nullptr)
 	{ // 確保に成功している場合
 
 		// アニメーション2Dの初期化
@@ -179,10 +179,10 @@ CAnim2D *CAnim2D::Create(const int nWidthPtrn, const int nHeightPtrn, const D3DX
 
 			// メモリ開放
 			delete pAnim2D;
-			pAnim2D = NULL;
+			pAnim2D = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャ横分割数を設定
@@ -206,7 +206,7 @@ CAnim2D *CAnim2D::Create(const int nWidthPtrn, const int nHeightPtrn, const D3DX
 		// 確保したアドレスを返す
 		return pAnim2D;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================

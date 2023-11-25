@@ -28,7 +28,7 @@ CObjectBillboard::CObjectBillboard()
 {
 	// メンバ変数をクリア
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));	// ワールドマトリックス
-	m_pVtxBuff = NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff = nullptr;			// 頂点バッファへのポインタ
 	m_pos      = VEC3_ZERO;		// 位置
 	m_rot      = VEC3_ZERO;		// 向き
 	m_size     = VEC3_ZERO;		// 大きさ
@@ -49,7 +49,7 @@ CObjectBillboard::CObjectBillboard(const CObject::ELabel label, const int nPrior
 {
 	// メンバ変数をクリア
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));	// ワールドマトリックス
-	m_pVtxBuff = NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff = nullptr;			// 頂点バッファへのポインタ
 	m_pos      = VEC3_ZERO;		// 位置
 	m_rot      = VEC3_ZERO;		// 向き
 	m_size     = VEC3_ZERO;		// 大きさ
@@ -81,7 +81,7 @@ HRESULT CObjectBillboard::Init(void)
 
 	// メンバ変数を初期化
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));	// ワールドマトリックス
-	m_pVtxBuff = NULL;			// 頂点バッファへのポインタ
+	m_pVtxBuff = nullptr;			// 頂点バッファへのポインタ
 	m_pos      = VEC3_ZERO;		// 位置
 	m_rot      = VEC3_ZERO;		// 向き
 	m_size     = VEC3_ZERO;		// 大きさ
@@ -94,7 +94,7 @@ HRESULT CObjectBillboard::Init(void)
 	m_fLength  = 0.0f;			// 対角線の長さ
 	m_nTextureID = NONE_IDX;	// テクスチャインデックス
 
-	if (m_pVtxBuff == NULL)
+	if (m_pVtxBuff == nullptr)
 	{ // 非使用中の場合
 
 		// 頂点バッファの生成
@@ -105,7 +105,7 @@ HRESULT CObjectBillboard::Init(void)
 			FVF_VERTEX_3D,					// 頂点フォーマット
 			D3DPOOL_MANAGED,				// メモリの指定
 			&m_pVtxBuff,					// 頂点バッファへのポインタ
-			NULL
+			nullptr
 		)))
 		{ // 頂点バッファの生成に失敗した場合
 
@@ -129,12 +129,12 @@ HRESULT CObjectBillboard::Init(void)
 void CObjectBillboard::Uninit(void)
 {
 	// 頂点バッファの破棄
-	if (m_pVtxBuff != NULL)
+	if (m_pVtxBuff != nullptr)
 	{ // 頂点バッファが使用中の場合
 
 		// メモリ開放
 		m_pVtxBuff->Release();
-		m_pVtxBuff = NULL;
+		m_pVtxBuff = nullptr;
 	}
 
 	// オブジェクトビルボードを破棄
@@ -177,7 +177,7 @@ void CObjectBillboard::Draw(void)
 	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 
 	// ポリゴンをカメラに対して正面に向ける
-	D3DXMatrixInverse(&m_mtxWorld, NULL, &mtxView);	// 逆行列を求める
+	D3DXMatrixInverse(&m_mtxWorld, nullptr, &mtxView);	// 逆行列を求める
 
 	// マトリックスのワールド座標を原点にする
 	m_mtxWorld._41 = 0.0f;
@@ -248,17 +248,17 @@ CObjectBillboard *CObjectBillboard::Create
 )
 {
 	// ポインタを宣言
-	CObjectBillboard *pObjectBillboard = NULL;	// オブジェクトビルボード生成用
+	CObjectBillboard *pObjectBillboard = nullptr;	// オブジェクトビルボード生成用
 
-	if (pObjectBillboard == NULL)
+	if (pObjectBillboard == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pObjectBillboard = new CObjectBillboard;	// オブジェクトビルボード
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pObjectBillboard != NULL)
+	if (pObjectBillboard != nullptr)
 	{ // 確保に成功している場合
 
 		// オブジェクトビルボードの初期化
@@ -267,10 +267,10 @@ CObjectBillboard *CObjectBillboard::Create
 
 			// メモリ開放
 			delete pObjectBillboard;
-			pObjectBillboard = NULL;
+			pObjectBillboard = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 原点を設定
@@ -300,7 +300,7 @@ CObjectBillboard *CObjectBillboard::Create
 		// 確保したアドレスを返す
 		return pObjectBillboard;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -324,7 +324,7 @@ void CObjectBillboard::BindTexture(const char *pTexturePass)
 {
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	if (pTexture == NULL)
+	if (pTexture == nullptr)
 	{ // テクスチャポインタが存在しない場合
 
 		// 関数を抜ける
@@ -332,7 +332,7 @@ void CObjectBillboard::BindTexture(const char *pTexturePass)
 		return;
 	}
 
-	if (pTexturePass != NULL)
+	if (pTexturePass != nullptr)
 	{ // 割り当てるテクスチャパスが存在する場合
 
 		// テクスチャインデックスを代入

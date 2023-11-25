@@ -18,7 +18,7 @@
 //************************************************************
 //	静的メンバ変数宣言
 //************************************************************
-CTitleManager *CSceneTitle::m_pTitleManager = NULL;	// タイトルマネージャー
+CTitleManager *CSceneTitle::m_pTitleManager = nullptr;	// タイトルマネージャー
 
 //************************************************************
 //	子クラス [CSceneTitle] のメンバ関数
@@ -49,7 +49,7 @@ HRESULT CSceneTitle::Init(void)
 	//--------------------------------------------------------
 	// タイトルマネージャーの生成
 	m_pTitleManager = CTitleManager::Create();
-	if (m_pTitleManager == NULL)
+	if (m_pTitleManager == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -106,7 +106,7 @@ void CSceneTitle::Update(void)
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "　[デバッグ情報]\n");
 	CManager::GetInstance()->GetDebugProc()->Print(CDebugProc::POINT_LEFT, "======================================\n");
 
-	if (m_pTitleManager != NULL)
+	if (m_pTitleManager != nullptr)
 	{ // 使用中の場合
 
 		// タイトルマネージャーの更新

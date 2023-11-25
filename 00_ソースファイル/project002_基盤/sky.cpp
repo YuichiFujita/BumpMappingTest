@@ -117,17 +117,17 @@ CSky *CSky::Create
 
 	// ポインタを宣言
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャへのポインタ
-	CSky *pSky = NULL;	// 空生成用
+	CSky *pSky = nullptr;	// 空生成用
 
-	if (pSky == NULL)
+	if (pSky == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pSky = new CSky;	// 空
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pSky != NULL)
+	if (pSky != nullptr)
 	{ // 確保に成功している場合
 
 		// 空の初期化
@@ -136,10 +136,10 @@ CSky *CSky::Create
 
 			// メモリ開放
 			delete pSky;
-			pSky = NULL;
+			pSky = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャを登録
@@ -172,10 +172,10 @@ CSky *CSky::Create
 
 			// メモリ開放
 			delete pSky;
-			pSky = NULL;
+			pSky = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// テクスチャ分割数の設定
@@ -184,5 +184,5 @@ CSky *CSky::Create
 		// 確保したアドレスを返す
 		return pSky;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }

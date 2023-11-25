@@ -23,7 +23,7 @@ CObjectChara::CObjectChara()
 {
 	// メンバ変数をクリア
 	memset(&m_apMultiModel[0], 0, sizeof(m_apMultiModel));	// モデルの情報
-	m_pMotion = NULL;	// モーションの情報
+	m_pMotion = nullptr;	// モーションの情報
 	m_pos = VEC3_ZERO;	// 位置
 	m_rot = VEC3_ZERO;	// 向き
 	m_nNumModel = 0;	// パーツの総数
@@ -36,7 +36,7 @@ CObjectChara::CObjectChara(const CObject::ELabel label, const int nPriority) : C
 {
 	// メンバ変数をクリア
 	memset(&m_apMultiModel[0], 0, sizeof(m_apMultiModel));	// モデルの情報
-	m_pMotion = NULL;	// モーションの情報
+	m_pMotion = nullptr;	// モーションの情報
 	m_pos = VEC3_ZERO;	// 位置
 	m_rot = VEC3_ZERO;	// 向き
 	m_nNumModel = 0;	// パーツの総数
@@ -62,7 +62,7 @@ HRESULT CObjectChara::Init(void)
 
 	// モーションオブジェクトの生成
 	m_pMotion = CMotion::Create();
-	if (m_pMotion == NULL)
+	if (m_pMotion == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -82,7 +82,7 @@ void CObjectChara::Uninit(void)
 	for (int nCntObjectChara = 0; nCntObjectChara < MAX_PARTS; nCntObjectChara++)
 	{ // パーツの最大数分繰り返す
 
-		if (m_apMultiModel[nCntObjectChara] != NULL)
+		if (m_apMultiModel[nCntObjectChara] != nullptr)
 		{ // パーツが使用中の場合
 
 			// マルチモデルの終了
@@ -90,7 +90,7 @@ void CObjectChara::Uninit(void)
 		}
 	}
 
-	if (m_pMotion != NULL)
+	if (m_pMotion != nullptr)
 	{ // モーションが使われている場合
 
 		// モーションを破棄
@@ -209,7 +209,7 @@ void CObjectChara::SetPartsInfo
 	const char *pFileName		// ファイル名
 )
 {
-	if (nID < MAX_PARTS && nParentID < MAX_PARTS && pFileName != NULL)
+	if (nID < MAX_PARTS && nParentID < MAX_PARTS && pFileName != nullptr)
 	{ // パーツ・親インデックスが配列範囲内且つ、ファイル名が存在する場合
 
 		// モデルの生成
@@ -222,8 +222,8 @@ void CObjectChara::SetPartsInfo
 		if (nParentID == NONE_IDX)
 		{ // 親がない場合
 
-			// NULLを設定
-			m_apMultiModel[nID]->SetParentModel(NULL);
+			// nullptrを設定
+			m_apMultiModel[nID]->SetParentModel(nullptr);
 		}
 		else
 		{ // 親がいる場合

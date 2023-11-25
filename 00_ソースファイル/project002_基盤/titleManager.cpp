@@ -70,8 +70,8 @@ CTitleManager::CTitleManager()
 	// メンバ変数をクリア
 	memset(&m_apLogo[0], 0, sizeof(m_apLogo));		// タイトル表示の情報
 	memset(&m_apSelect[0], 0, sizeof(m_apSelect));	// 選択表示の情報
-	m_pFade = NULL;			// フェードの情報
-	m_pSelectBG = NULL;		// 選択背景の情報
+	m_pFade = nullptr;			// フェードの情報
+	m_pSelectBG = nullptr;		// 選択背景の情報
 	m_state = STATE_NONE;	// 状態
 	m_fScale = 0.0f;		// タイトル拡大率
 	m_nSelect = 0;			// 現在の選択
@@ -105,8 +105,8 @@ HRESULT CTitleManager::Init(void)
 	// メンバ変数を初期化
 	memset(&m_apLogo[0], 0, sizeof(m_apLogo));		// タイトル表示の情報
 	memset(&m_apSelect[0], 0, sizeof(m_apSelect));	// 選択表示の情報
-	m_pFade = NULL;				// フェードの情報
-	m_pSelectBG = NULL;			// 選択背景の情報
+	m_pFade = nullptr;				// フェードの情報
+	m_pSelectBG = nullptr;			// 選択背景の情報
 	m_state = STATE_FADEOUT;	// 状態
 	m_fScale = INIT_SCALE;		// タイトル拡大率
 	m_nSelect = 0;				// 現在の選択
@@ -123,7 +123,7 @@ HRESULT CTitleManager::Init(void)
 		VEC3_ZERO,		// 向き
 		COL_SELECTBG	// 色
 	);
-	if (m_pSelectBG == NULL)
+	if (m_pSelectBG == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -151,7 +151,7 @@ HRESULT CTitleManager::Init(void)
 			VEC3_ZERO,		// 向き
 			DEFAULT_COL		// 色
 		);
-		if (m_apSelect[nCntTitle] == NULL)
+		if (m_apSelect[nCntTitle] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -181,7 +181,7 @@ HRESULT CTitleManager::Init(void)
 			aPosLogo[nCntTitle],	// 位置
 			SIZE_TITLE	// 大きさ
 		);
-		if (m_apLogo[nCntTitle] == NULL)
+		if (m_apLogo[nCntTitle] == nullptr)
 		{ // 生成に失敗した場合
 
 			// 失敗を返す
@@ -210,7 +210,7 @@ HRESULT CTitleManager::Init(void)
 		VEC3_ZERO,		// 向き
 		COL_FADE		// 色
 	);
-	if (m_pFade == NULL)
+	if (m_pFade == nullptr)
 	{ // 生成に失敗した場合
 
 		// 失敗を返す
@@ -320,17 +320,17 @@ void CTitleManager::Update(void)
 CTitleManager *CTitleManager::Create(void)
 {
 	// ポインタを宣言
-	CTitleManager *pTitleManager = NULL;	// タイトルマネージャー生成用
+	CTitleManager *pTitleManager = nullptr;	// タイトルマネージャー生成用
 
-	if (pTitleManager == NULL)
+	if (pTitleManager == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
 		pTitleManager = new CTitleManager;	// タイトルマネージャー
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pTitleManager != NULL)
+	if (pTitleManager != nullptr)
 	{ // 使用されている場合
 		
 		// タイトルマネージャーの初期化
@@ -339,16 +339,16 @@ CTitleManager *CTitleManager::Create(void)
 
 			// メモリ開放
 			delete pTitleManager;
-			pTitleManager = NULL;
+			pTitleManager = nullptr;
 
 			// 失敗を返す
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pTitleManager;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -356,7 +356,7 @@ CTitleManager *CTitleManager::Create(void)
 //============================================================
 HRESULT CTitleManager::Release(CTitleManager *&prTitleManager)
 {
-	if (prTitleManager != NULL)
+	if (prTitleManager != nullptr)
 	{ // 使用中の場合
 
 		// タイトルマネージャーの終了
@@ -364,7 +364,7 @@ HRESULT CTitleManager::Release(CTitleManager *&prTitleManager)
 
 		// メモリ開放
 		delete prTitleManager;
-		prTitleManager = NULL;
+		prTitleManager = nullptr;
 
 		// 成功を返す
 		return S_OK;

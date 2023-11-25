@@ -32,6 +32,11 @@
 #define HALF_PI	(D3DX_PI * 0.5f)	// 二分の一の円周率 (π/２)
 #define QRTR_PI	(D3DX_PI * 0.25f)	// 四分の一の円周率 (π/４)
 
+// メモリ開放マクロ
+#define SAFE_RELEASE(p)		if (p) { (p)->Release(); (p) = nullptr; }	// Release関数のある場合の破棄マクロ
+#define SAFE_DELETE(p)		if (p) { delete (p); (p) = nullptr; }		// 配列を使用しないdeleteを使用する破棄マクロ
+#define SAFE_DEL_ARRAY(p)	if (p) { delete[] (p); (p) = nullptr; }		// 配列を使用したdelete[]を使用する破棄マクロ
+
 // D3DXVECTOR2関係
 #define VEC2_ZERO	(D3DXVECTOR2(0.0f, 0.0f))	// 0クリア
 #define VEC2_ONE	(D3DXVECTOR2(1.0f, 1.0f))	// 1クリア

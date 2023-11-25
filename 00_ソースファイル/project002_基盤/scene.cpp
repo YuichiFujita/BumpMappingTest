@@ -24,8 +24,8 @@
 //************************************************************
 //	静的メンバ変数宣言
 //************************************************************
-CStage *CScene::m_pStage = NULL;	// ステージ
-CPlayer	*CScene::m_pPlayer = NULL;	// プレイヤーオブジェクト
+CStage *CScene::m_pStage = nullptr;	// ステージ
+CPlayer	*CScene::m_pPlayer = nullptr;	// プレイヤーオブジェクト
 
 //************************************************************
 //	親クラス [CScene] のメンバ関数
@@ -57,7 +57,7 @@ HRESULT CScene::Init(void)
 
 	// ステージの生成
 	m_pStage = CStage::Create(load);
-	if (m_pStage == NULL)
+	if (m_pStage == nullptr)
 	{ // 非使用中の場合
 
 		// 失敗を返す
@@ -86,8 +86,8 @@ HRESULT CScene::Uninit(void)
 		return E_FAIL;
 	}
 
-	// 終了済みのオブジェクトポインタをNULLにする
-	//m_pPlayer = NULL;	// プレイヤーオブジェクト
+	// 終了済みのオブジェクトポインタをnullptrにする
+	//m_pPlayer = nullptr;	// プレイヤーオブジェクト
 
 	// 成功を返す
 	return S_OK;
@@ -98,7 +98,7 @@ HRESULT CScene::Uninit(void)
 //============================================================
 void CScene::Update(void)
 {
-	if (m_pStage != NULL)
+	if (m_pStage != nullptr)
 	{ // 使用中の場合
 
 		// ステージの更新
@@ -106,7 +106,7 @@ void CScene::Update(void)
 	}
 	else { assert(false); }	// 非使用中
 
-	if (CManager::GetInstance()->GetLight() != NULL)
+	if (CManager::GetInstance()->GetLight() != nullptr)
 	{ // 使用中の場合
 
 		// ライトの更新
@@ -114,7 +114,7 @@ void CScene::Update(void)
 	}
 	else { assert(false); }	// 非使用中
 
-	if (CManager::GetInstance()->GetCamera() != NULL)
+	if (CManager::GetInstance()->GetCamera() != nullptr)
 	{ // 使用中の場合
 
 		// カメラの更新
@@ -122,7 +122,7 @@ void CScene::Update(void)
 	}
 	else { assert(false); }	// 非使用中
 
-	if (CManager::GetInstance()->GetRenderer() != NULL)
+	if (CManager::GetInstance()->GetRenderer() != nullptr)
 	{ // 使用中の場合
 
 		// レンダラーの更新
@@ -137,9 +137,9 @@ void CScene::Update(void)
 CScene *CScene::Create(EMode mode)
 {
 	// ポインタを宣言
-	CScene *pScene = NULL;	// シーン生成用
+	CScene *pScene = nullptr;	// シーン生成用
 
-	if (pScene == NULL)
+	if (pScene == nullptr)
 	{ // 使用されていない場合
 
 		// メモリ確保
@@ -185,9 +185,9 @@ CScene *CScene::Create(EMode mode)
 			break;
 		}
 	}
-	else { assert(false); return NULL; }	// 使用中
+	else { assert(false); return nullptr; }	// 使用中
 
-	if (pScene != NULL)
+	if (pScene != nullptr)
 	{ // 確保に成功している場合
 
 		// シーンの初期化
@@ -200,26 +200,26 @@ CScene *CScene::Create(EMode mode)
 
 				// メモリ開放
 				delete pScene;
-				pScene = NULL;
+				pScene = nullptr;
 
 				// 失敗を返す
 				assert(false);
-				return NULL;
+				return nullptr;
 			}
 
 			// メモリ開放
 			delete pScene;
-			pScene = NULL;
+			pScene = nullptr;
 
 			// 失敗を返す
 			assert(false);
-			return NULL;
+			return nullptr;
 		}
 
 		// 確保したアドレスを返す
 		return pScene;
 	}
-	else { assert(false); return NULL; }	// 確保失敗
+	else { assert(false); return nullptr; }	// 確保失敗
 }
 
 //============================================================
@@ -227,7 +227,7 @@ CScene *CScene::Create(EMode mode)
 //============================================================
 HRESULT CScene::Release(CScene *&prScene)
 {
-	if (prScene != NULL)
+	if (prScene != nullptr)
 	{ // 使用中の場合
 
 		// シーンの終了
@@ -241,7 +241,7 @@ HRESULT CScene::Release(CScene *&prScene)
 
 		// メモリ開放
 		delete prScene;
-		prScene = NULL;
+		prScene = nullptr;
 
 		// 成功を返す
 		return S_OK;
