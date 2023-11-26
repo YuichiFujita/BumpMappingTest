@@ -59,8 +59,8 @@ private:
 	// メンバ変数
 	LPD3DXEFFECT m_pEffect;	// エフェクトポインタ
 
-	D3DXHANDLE m_pTechnique, m_pWVP, m_pLightDir, m_pEyePos, m_pAmbient, m_pSpecular, m_pSpecularPower;
-	D3DXMATRIX m_matView, m_matProj;
+	D3DXHANDLE m_pTechnique, m_mtxWorldViewProj, m_pLightDir, m_pEyePos, m_pAmbient, m_pSpecular, m_pSpecularPower;
+	D3DXMATRIX m_mtxView, m_mtxProjection;
 };
 
 #endif	// _BUMPMAP_H_

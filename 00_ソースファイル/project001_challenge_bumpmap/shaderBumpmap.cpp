@@ -79,7 +79,7 @@ HRESULT CBumpMap::Init(void)
 
 			// 情報を初期化
 			m_pTechnique		= m_pEffect->GetTechniqueByName("TShader");
-			m_pWVP				= m_pEffect->GetParameterByName(nullptr, "m_WVP");
+			m_mtxWorldViewProj	= m_pEffect->GetParameterByName(nullptr, "m_mtxWorldViewProj");
 			m_pLightDir			= m_pEffect->GetParameterByName(nullptr, "m_LightDir");
 			m_pEyePos			= m_pEffect->GetParameterByName(nullptr, "m_EyePos");
 			m_pAmbient			= m_pEffect->GetParameterByName(nullptr, "m_Ambient");
@@ -103,6 +103,15 @@ HRESULT CBumpMap::Init(void)
 }
 
 //============================================================
+//	終了処理
+//============================================================
+void CBumpMap::Uninit(void)
+{
+	// エフェクトの破棄
+	SAFE_RELEASE(m_pEffect);
+}
+
+//============================================================
 //	開始処理
 //============================================================
 void CBumpMap::Begin(void)
@@ -113,8 +122,8 @@ void CBumpMap::Begin(void)
 	if (m_pEffect)
 	{ // エフェクトが使用されている場合
 
-		pDevice->GetTransform(D3DTS_VIEW, &m_matView);
-		pDevice->GetTransform(D3DTS_PROJECTION, &m_matProj);
+		pDevice->GetTransform(D3DTS_VIEW, &m_mtxView);
+		pDevice->GetTransform(D3DTS_PROJECTION, &m_mtxProjection);
 
 		// 開始
 		m_pEffect->Begin(nullptr, 0);
@@ -234,11 +243,11 @@ void CBumpMap::SetMatrix
 		D3DXVECTOR4 LightDir;
 		D3DXVECTOR4 v;
 
-		m = (*pMtxWorld) * m_matView * m_matProj;
-		m_pEffect->SetMatrix(m_pWVP, &m);
+		m = (*pMtxWorld) * m_mtxView * m_mtxProjection;
+		m_pEffect->SetMatrix(m_mtxWorldViewProj, &m);
 
 		// カメラ位置
-		m1 = (*pMtxWorld) * m_matView;
+		m1 = (*pMtxWorld) * m_mtxView;
 		D3DXMatrixInverse(&m1, nullptr, &m1);
 		D3DXVec4Transform(&v, pPosCamera, &m1);
 		m_pEffect->SetVector(m_pEyePos, &v);
@@ -286,15 +295,6 @@ LPD3DXEFFECT CBumpMap::GetEffect(void) const
 {
 	// エフェクトを返す
 	return m_pEffect;
-}
-
-//============================================================
-//	終了処理
-//============================================================
-void CBumpMap::Uninit(void)
-{
-	// エフェクトの破棄
-	SAFE_RELEASE(m_pEffect);
 }
 
 //============================================================

@@ -16,7 +16,7 @@ float	m_Specular = 0.0f;		// ハイライトの範囲
 float	m_SpecularPower = 0.0f;	// ハイライトの強度
 
 //************************************************************
-//	これは何？？？宣言
+//	サンプラー宣言
 //************************************************************
 sampler s0 : register(s0);	// オブジェクトのテクスチャー
 sampler s1 : register(s1);	// 法線マップ
@@ -27,10 +27,10 @@ sampler s1 : register(s1);	// 法線マップ
 // 頂点シェーダー出力情報
 struct VS_OUTPUT
 {
-   float4 Pos      : POSITION;  //頂点座標
-   float2 Tex      : TEXCOORD0; //テクセル座標
-   float3 Eye      : TEXCOORD1; //頂点座標系での視線方向ベクトル
-   float3 Light    : TEXCOORD2; //頂点座標系での頂点 → ライト位置ベクトル
+   float4 Pos	: POSITION;  // 頂点座標
+   float2 Tex	: TEXCOORD0; // テクセル座標
+   float3 Eye	: TEXCOORD1; // 頂点座標系での視線方向ベクトル
+   float3 Light	: TEXCOORD2; // 頂点座標系での頂点 → ライト位置ベクトル
 };
 
 //************************************************************
@@ -51,7 +51,7 @@ VS_OUTPUT VS
 	// 変数を宣言
 	VS_OUTPUT Out;
 
-	Out.Pos = mul( float4( Pos, 1.0f ), m_WVP );
+	Out.Pos = mul( float4( Pos, 1.0f ), m_mtxWorldViewProj  );
 	Out.Tex = Tex;
 
 	// 視線ベクトルを計算

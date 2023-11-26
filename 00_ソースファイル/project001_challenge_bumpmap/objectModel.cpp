@@ -518,6 +518,369 @@ void CObjectModel::SetMtxWorld(const D3DXMATRIX& rMtxWorld)
 	m_mtxWorld = rMtxWorld;
 }
 
+HRESULT CObjectModel::SetVertexDecl
+(
+	const LPDIRECT3DDEVICE9 pDevice,
+	const D3DVERTEXELEMENT9 *pDecl,
+	bool bAutoComputeNormals,
+	bool bAutoComputeTangents, 
+	bool bSplitVertexForOptimalTangents
+)
+#if 0
+{
+	// 変数を宣言
+	HRESULT hr;		// 
+
+	// ポインタを宣言
+	LPD3DXMESH pTempMesh = nullptr;	// メッシュ
+	
+	if (m_modelData.pMesh)
+	{
+		// メッシュの複製
+		hr = m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(), pDecl, pDevice, &pTempMesh);
+		if (FAILED(hr))
+		{
+			SAFE_RELEASE(pTempMesh);
+			return E_FAIL;
+		}
+	}
+	
+	
+	// Check if the old declaration contains a normal.
+	bool bHadNormal = false;
+	bool bHadTangent = false;
+	D3DVERTEXELEMENT9 aOldDecl[MAX_FVF_DECL_SIZE];
+	if (m_modelData.pMesh && SUCCEEDED(m_modelData.pMesh->GetDeclaration(aOldDecl)))
+	{
+		for (UINT index = 0; index < D3DXGetDeclLength(aOldDecl); index++)
+		{
+			if (aOldDecl[index].Usage == D3DDECLUSAGE_NORMAL)
+			{
+				bHadNormal = true;
+			}
+			if (aOldDecl[index].Usage == D3DDECLUSAGE_TANGENT)
+			{
+				bHadTangent = true;
+			}
+		}
+	}
+	
+	// Check if the new declaration contains a normal.
+	bool bHaveNormalNow = false;
+	bool bHaveTangentNow = false;
+	D3DVERTEXELEMENT9 aNewDecl[MAX_FVF_DECL_SIZE];
+	if (pTempMesh && SUCCEEDED(pTempMesh->GetDeclaration(aNewDecl)))
+	{
+		for (UINT index = 0; index < D3DXGetDeclLength(aNewDecl); index++)
+		{
+			if (aNewDecl[index].Usage == D3DDECLUSAGE_NORMAL)
+			{
+				bHaveNormalNow = true;
+			}
+			if (aNewDecl[index].Usage == D3DDECLUSAGE_TANGENT)
+			{
+				bHaveTangentNow = true;
+			}
+		}
+	}
+	
+	SAFE_RELEASE(m_modelData.pMesh);
+	
+	if (pTempMesh)
+	{
+		m_modelData.pMesh = pTempMesh;
+
+		if (!bHadNormal && bHaveNormalNow && bAutoComputeNormals)
+		{
+			// Compute normals in case the meshes have them
+			D3DXComputeNormals(m_modelData.pMesh, nullptr);
+		}
+
+		if (bHaveNormalNow && !bHadTangent && bHaveTangentNow && bAutoComputeTangents)
+		{
+			ID3DXMesh* pNewMesh;
+
+			DWORD *rgdwAdjacency = nullptr;
+			rgdwAdjacency = new DWORD[m_modelData.pMesh->GetNumFaces() * 3];
+			if (rgdwAdjacency == nullptr)
+			{
+				return E_OUTOFMEMORY;
+			}
+
+			//V(m_modelData.pMesh->GenerateAdjacency(1e-6f,rgdwAdjacency));
+			if (FAILED(m_modelData.pMesh->GenerateAdjacency(1e-6f, rgdwAdjacency)))
+			{
+				return E_FAIL;
+			}
+
+			float fPartialEdgeThreshold;
+			float fSingularPointThreshold;
+			float fNormalEdgeThreshold;
+			if (bSplitVertexForOptimalTangents)
+			{
+				fPartialEdgeThreshold = 0.01f;
+				fSingularPointThreshold = 0.25f;
+				fNormalEdgeThreshold = 0.01f;
+			}
+			else
+			{
+				fPartialEdgeThreshold = -1.01f;
+				fSingularPointThreshold = 0.01f;
+				fNormalEdgeThreshold = -1.01f;
+			}
+
+			// Compute tangents, which are required for normal mapping
+			hr = D3DXComputeTangentFrameEx
+			( // 引数
+				m_modelData.pMesh,
+				D3DDECLUSAGE_TEXCOORD,
+				0,
+				D3DDECLUSAGE_TANGENT,
+				0,
+				D3DX_DEFAULT,
+				0,
+				D3DDECLUSAGE_NORMAL,
+				0,
+				0,
+				rgdwAdjacency,
+				fPartialEdgeThreshold,
+				fSingularPointThreshold,
+				fNormalEdgeThreshold,
+				&pNewMesh,
+				nullptr
+			);
+
+			SAFE_DEL_ARRAY(rgdwAdjacency);
+			if (FAILED(hr))
+			{
+				return hr;
+			}
+
+			SAFE_RELEASE(m_modelData.pMesh);
+			m_modelData.pMesh = pNewMesh;
+		}
+	}
+	
+	return S_OK;
+}
+#else
+{
+#if 0
+	// 変数を宣言
+	HRESULT hr;		// 
+
+	// ポインタを宣言
+	LPD3DXMESH pTempMesh = nullptr;	// メッシュ
+	
+	if (m_modelData.pMesh)
+	{
+		// メッシュの複製
+		hr = m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(), pDecl, pDevice, &pTempMesh);
+		if (FAILED(hr))
+		{
+			SAFE_RELEASE(pTempMesh);
+			return E_FAIL;
+		}
+	}
+	
+	
+	// Check if the old declaration contains a normal.
+	bool bHadNormal = false;
+	bool bHadTangent = false;
+	D3DVERTEXELEMENT9 aOldDecl[MAX_FVF_DECL_SIZE];
+	if (m_modelData.pMesh && SUCCEEDED(m_modelData.pMesh->GetDeclaration(aOldDecl)))
+	{
+		for (UINT index = 0; index < D3DXGetDeclLength(aOldDecl); index++)
+		{
+			if (aOldDecl[index].Usage == D3DDECLUSAGE_NORMAL)
+			{
+				bHadNormal = true;
+			}
+			if (aOldDecl[index].Usage == D3DDECLUSAGE_TANGENT)
+			{
+				bHadTangent = true;
+			}
+		}
+	}
+	
+	// Check if the new declaration contains a normal.
+	bool bHaveNormalNow = false;
+	bool bHaveTangentNow = false;
+	D3DVERTEXELEMENT9 aNewDecl[MAX_FVF_DECL_SIZE];
+	if (pTempMesh && SUCCEEDED(pTempMesh->GetDeclaration(aNewDecl)))
+	{
+		for (UINT index = 0; index < D3DXGetDeclLength(aNewDecl); index++)
+		{
+			if (aNewDecl[index].Usage == D3DDECLUSAGE_NORMAL)
+			{
+				bHaveNormalNow = true;
+			}
+			if (aNewDecl[index].Usage == D3DDECLUSAGE_TANGENT)
+			{
+				bHaveTangentNow = true;
+			}
+		}
+	}
+	
+	SAFE_RELEASE(m_modelData.pMesh);
+	
+	if (pTempMesh)
+	{
+		m_modelData.pMesh = pTempMesh;
+
+		if (!bHadNormal && bHaveNormalNow && bAutoComputeNormals)
+		{
+			// Compute normals in case the meshes have them
+			D3DXComputeNormals(m_modelData.pMesh, nullptr);
+		}
+
+		if (bHaveNormalNow && !bHadTangent && bHaveTangentNow && bAutoComputeTangents)
+		{
+			ID3DXMesh* pNewMesh;
+
+			DWORD *rgdwAdjacency = nullptr;
+			rgdwAdjacency = new DWORD[m_modelData.pMesh->GetNumFaces() * 3];
+			if (rgdwAdjacency == nullptr)
+			{
+				return E_OUTOFMEMORY;
+			}
+
+			//V(m_modelData.pMesh->GenerateAdjacency(1e-6f,rgdwAdjacency));
+			if (FAILED(m_modelData.pMesh->GenerateAdjacency(1e-6f, rgdwAdjacency)))
+			{
+				return E_FAIL;
+			}
+
+			float fPartialEdgeThreshold;
+			float fSingularPointThreshold;
+			float fNormalEdgeThreshold;
+			if (bSplitVertexForOptimalTangents)
+			{
+				fPartialEdgeThreshold = 0.01f;
+				fSingularPointThreshold = 0.25f;
+				fNormalEdgeThreshold = 0.01f;
+			}
+			else
+			{
+				fPartialEdgeThreshold = -1.01f;
+				fSingularPointThreshold = 0.01f;
+				fNormalEdgeThreshold = -1.01f;
+			}
+
+			// Compute tangents, which are required for normal mapping
+			hr = D3DXComputeTangentFrameEx
+			( // 引数
+				m_modelData.pMesh,
+				D3DDECLUSAGE_TEXCOORD,
+				0,
+				D3DDECLUSAGE_TANGENT,
+				0,
+				D3DX_DEFAULT,
+				0,
+				D3DDECLUSAGE_NORMAL,
+				0,
+				0,
+				rgdwAdjacency,
+				fPartialEdgeThreshold,
+				fSingularPointThreshold,
+				fNormalEdgeThreshold,
+				&pNewMesh,
+				nullptr
+			);
+
+			SAFE_DEL_ARRAY(rgdwAdjacency);
+			if (FAILED(hr))
+			{
+				return hr;
+			}
+
+			SAFE_RELEASE(m_modelData.pMesh);
+			m_modelData.pMesh = pNewMesh;
+		}
+	}
+#endif
+
+	// ここから追加
+	LPD3DXMESH pTempSysMemMesh = NULL;
+	//LPD3DXMESH m_modelData.pMesh  = NULL;
+
+	//メッシュ情報をコピーする
+	if (m_modelData.pMesh)
+	{
+			if (FAILED(m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(),
+				pDecl,
+				pDevice, &pTempSysMemMesh)))
+				return E_FAIL;
+	}
+
+	//頂点情報を参照し、法線ベクトル、接線ベクトル、従法線ベクトルがあるか調べる
+	DWORD Normal = D3DX_DEFAULT;
+	DWORD Tangent = D3DX_DEFAULT;
+	DWORD Binormal = D3DX_DEFAULT;
+	if (pTempSysMemMesh)
+	{
+			for (UINT index = 0; index < D3DXGetDeclLength(pDecl); ++index)
+			{
+				if (pDecl[index].Usage == D3DDECLUSAGE_NORMAL)
+					Normal = D3DDECLUSAGE_NORMAL;
+				else if (pDecl[index].Usage == D3DDECLUSAGE_TANGENT)
+					Tangent = D3DDECLUSAGE_TANGENT;
+				else if (pDecl[index].Usage == D3DDECLUSAGE_BINORMAL)
+					Binormal = D3DDECLUSAGE_BINORMAL;
+		   }
+	}
+
+	//SAFE_RELEASE( pTempSysMemMesh );
+
+	if (pTempSysMemMesh)
+	{
+		m_modelData.pMesh = pTempSysMemMesh;
+
+
+		if (m_modelData.pMesh)
+		{
+			//頂点情報に基づき頂点データを再生成する   
+			if (Normal != D3DX_DEFAULT || Tangent != D3DX_DEFAULT || Binormal != D3DX_DEFAULT)
+			{
+				//D3DXComputeTangent( m_modelData.pMesh, 0, 0, 0, 0, NULL );
+				//D3DXComputeTangentFrame( m_modelData.pMesh, 0 );
+				//m_modelData.pMesh->CloneMesh( m_modelData.pMesh->GetOptions(), pDecl,
+				//                                 pDevice, &m_modelData.pMesh );
+
+				D3DXComputeTangentFrameEx(m_modelData.pMesh,
+					D3DDECLUSAGE_TEXCOORD,
+					0,
+					D3DDECLUSAGE_TANGENT,
+					0,
+					D3DDECLUSAGE_BINORMAL,
+					0,
+					D3DDECLUSAGE_NORMAL,
+					0,
+					0,
+					NULL,
+					0.01f,    //ボケ具合.値をおおきくするとぼけなくなる
+					0.25f,
+					0.01f,
+					&m_modelData.pMesh,
+					NULL
+				);
+			}
+			//頂点データを再生成しない
+			else
+			{
+				m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(),
+					pDecl,
+					pDevice,
+					&m_modelData.pMesh);
+			}
+			//SAFE_RELEASE(m_modelData.pMesh);
+		}
+	}
+
+	return S_OK;
+}
+#endif
+
 //============================================================
 //	元マテリアルの設定処理
 //============================================================

@@ -11,6 +11,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "camera.h"
+#include "shaderBumpmap.h"
 
 //************************************************************
 //	マクロ定義
@@ -22,8 +23,20 @@
 //************************************************************
 const char *CTeapot::mc_apModelFile[] =	// モデル定数
 {
-	"data\\MODEL\\TEAPOT\\teapot000.x",	// ティーポット
+	"data\\MODEL\\TEAPOT\\teapot001.x",	// ティーポット
 };
+
+//************************************************************
+//	グローバル変数宣言
+//************************************************************
+LPDIRECT3DVERTEXDECLARATION9 m_pDecl = NULL;	// 頂点シェーダー
+
+LPDIRECT3DTEXTURE9	m_pNormalMap	= nullptr;	// 法線マップ
+CBumpMap*			m_pBumpMap		= nullptr;	// バンプマップ
+
+D3DXVECTOR4 LightPos	= D3DXVECTOR4(72.0f, 100.0f, 620.0f, 0.0f);	// 太陽の位置ベクトル
+D3DXVECTOR4 LightDir	= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);		// 平行光源の光の方向ベクトル
+D3DXVECTOR4 EyePos		= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f);		// 視点の位置ベクトル
 
 //************************************************************
 //	子クラス [CTeapot] のメンバ関数
@@ -62,18 +75,73 @@ HRESULT CTeapot::Init(void)
 		return E_FAIL;
 	}
 
-	// エフェクトファイルの読み込み
-	D3DXCreateEffectFromFile
-	( // 引数
-		CManager::GetInstance()->GetRenderer()->GetDevice(),	// デバイスへのポインタ
-		_T("first_create_mat.fx"),	// エフェクトファイル
-		nullptr,	// プリプロセッサ定義
-		nullptr,	// インクルード操作
-		0,			// 読込オプションフラグ
-		nullptr,	// グローバル変数インターフェース
-		&m_pEffect,	// エフェクトインターフェース
-		nullptr		// コンパイルエラー情報
+	// モデルを登録・割当
+	BindModel(mc_apModelFile[MODEL_TEAPOT]);
+
+	// バンプマップの生成
+	m_pBumpMap = CBumpMap::Create();
+	if (m_pBumpMap == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	// 頂点データを定義する(詳細はオンラインマニュアルを参照)
+	D3DVERTEXELEMENT9 decl[] =
+	{
+		{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
+		{ 0, 24, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0 },
+		{ 0, 36, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
+		{ 0, 48, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+		D3DDECL_END()
+	};
+
+	//LPD3DXMESH *ppMesh = NULL;	// メッシュ (頂点情報) へのポインタ
+	//CModel::SModel model = GetModelData();
+
+	// 新しい頂点情報に基づき頂点データを再生成する
+	//GetModelData().pMesh->SetVertexDecl(m_pd3dDevice, decl);
+	if (FAILED(SetVertexDecl(CManager::GetInstance()->GetRenderer()->GetDevice(), decl)))
+	//if (FAILED(model.pMesh->CloneMesh(model.pMesh->GetOptions(), &decl[0], CManager::GetInstance()->GetRenderer()->GetDevice(), &model.pMesh)))
+	{
+		return E_FAIL;
+	}
+
+	//model.pMesh = *ppMesh;
+	//SetModelData(model);
+
+	//// バンプマッピング用に頂点シェーダ宣言を作成する
+	//if (FAILED(CManager::GetInstance()->GetRenderer()->GetDevice()->CreateVertexDeclaration(decl, &m_pDecl)))
+	//{
+	//	return E_FAIL;
+	//}
+
+	// 法線マップをロード
+	HRESULT hr = D3DXCreateTextureFromFileEx
+	(
+		CManager::GetInstance()->GetRenderer()->GetDevice(),
+		_T("data\\TEXTURE\\normal3.png"),
+		D3DX_DEFAULT,
+		D3DX_DEFAULT,
+		1,
+		0,
+		D3DFMT_UNKNOWN,
+		D3DPOOL_MANAGED,
+		D3DX_DEFAULT,
+		D3DX_DEFAULT,
+		0x0,
+		NULL,
+		NULL,
+		&m_pNormalMap
 	);
+	if (FAILED(hr))
+	{
+		return E_FAIL;
+	}
+
+	// 平行光源の位置ベクトルから方向ベクトルを計算する
+	LightDir = D3DXVECTOR4(-LightPos.x, -LightPos.y, -LightPos.z, 0.0f);
+	D3DXVec3Normalize((D3DXVECTOR3*)&LightDir, (D3DXVECTOR3*)&LightDir);
 
 	// 成功を返す
 	return S_OK;
@@ -84,8 +152,8 @@ HRESULT CTeapot::Init(void)
 //============================================================
 void CTeapot::Uninit(void)
 {
-	// エフェクトの破棄
-	SAFE_RELEASE(m_pEffect);
+	// バンプマップの破棄
+	CBumpMap::Release(m_pBumpMap);
 
 	// オブジェクトモデルの終了
 	CObjectModel::Uninit();
@@ -105,33 +173,57 @@ void CTeapot::Update(void)
 //============================================================
 void CTeapot::Draw(void)
 {
+	// ポインタを宣言
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイス情報
+
 	// カメラ情報
 	CCamera::SCamera cameraInfo = CManager::GetInstance()->GetCamera()->GetCamera(CCamera::TYPE_MAIN);	// カメラ取得
 
-	// ビュー変換・射影変換
-	D3DXMATRIX View = cameraInfo.mtxView;
-	D3DXMATRIX Projection = cameraInfo.mtxProjection;
+	// サンプラーステートを設定
+	pDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	pDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	pDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+	pDevice->SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	pDevice->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	pDevice->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
-	// ワールドマトリックス・ワールドビュー射影変換行列
+	//LightPos = D3DXVECTOR4(cameraInfo.posV.x, cameraInfo.posV.y, cameraInfo.posV.z, 0.0f);	// 太陽の位置ベクトル
+	//EyePos = D3DXVECTOR4(cameraInfo.posV.x, cameraInfo.posV.y, cameraInfo.posV.z, 1.0f);	// 視点の位置ベクトル
+
+	// 平行光源の位置ベクトルから方向ベクトルを計算する
+	//LightDir = D3DXVECTOR4(-LightPos.x, -LightPos.y, -LightPos.z, 0.0f);
+	//D3DXVec3Normalize((D3DXVECTOR3*)&LightDir, (D3DXVECTOR3*)&LightDir);
+
+	// ワールドマトリックス
 	D3DXMATRIX mtxWorld = GetMtxWorld();
-	D3DXMATRIX mtxWorldViewProj;
 
-	// エフェクト内のワールドビュー射影変換行列を設定
-	mtxWorldViewProj = mtxWorld * View * Projection;
-	m_pEffect->SetMatrix("mtxWorldViewProj", &mtxWorldViewProj);
+	// 法線マップをステージ１にセットする
+	pDevice->SetTexture(1, m_pNormalMap);
+
+	// 頂点シェーダ宣言をバンプマッピング用に設定する
+	//pDevice->SetVertexDeclaration(m_pDecl);
 
 	// 描画開始
-	m_pEffect->SetTechnique("BasicTec");
-	UINT numPass;
-	m_pEffect->Begin(&numPass, 0);
-	m_pEffect->BeginPass(0);
+	m_pBumpMap->Begin();
+
+	// マテリアルを設定
+	m_pBumpMap->SetAmbient(1.5f);
+	m_pBumpMap->SetSpecular(0.5f);
+	m_pBumpMap->SetSpecularPower(1.0f);
+	m_pBumpMap->SetMatrix(&mtxWorld, &EyePos, &LightDir);
+
+	// パスを設定
+	m_pBumpMap->BeginPass(0);
 
 	// オブジェクトモデルの描画
 	CObjectModel::Draw();
 
+	// ステージ１を初期化する
+	pDevice->SetTexture(1, NULL);
+
 	// 描画終了
-	m_pEffect->EndPass();
-	m_pEffect->End();
+	m_pBumpMap->EndPass();
+	m_pBumpMap->End();
 }
 
 //============================================================
@@ -168,9 +260,6 @@ CTeapot *CTeapot::Create
 			// 失敗を返す
 			return nullptr;
 		}
-
-		// モデルを登録・割当
-		pTeapot->BindModel(mc_apModelFile[MODEL_TEAPOT]);
 
 		// 位置を設定
 		pTeapot->SetVec3Position(rPos);

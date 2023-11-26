@@ -68,6 +68,15 @@ public:
 	CModel::SModel GetModelData(void) const;			// モデル情報取得
 	void SetMtxWorld(const D3DXMATRIX& rMtxWorld);		// マトリックス設定
 
+	HRESULT SetVertexDecl
+	(
+		const LPDIRECT3DDEVICE9 pDevice,
+		const D3DVERTEXELEMENT9 *pDecl,
+		bool bAutoComputeNormals = true,
+		bool bAutoComputeTangents = true,
+		bool bSplitVertexForOptimalTangents = false
+	);
+
 private:
 	// メンバ関数
 	HRESULT SetOriginMaterial(const LPD3DXBUFFER pBuffMat, const int nNumMat);	// 元マテリアル設定
