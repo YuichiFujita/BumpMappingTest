@@ -11,7 +11,11 @@
 #include "manager.h"
 #include "renderer.h"
 #include "camera.h"
+#include "light.h"
 #include "shaderBumpmap.h"
+
+#include "input.h"
+#include "texture.h"
 
 //************************************************************
 //	マクロ定義
@@ -23,20 +27,23 @@
 //************************************************************
 const char *CTeapot::mc_apModelFile[] =	// モデル定数
 {
-	"data\\MODEL\\TEAPOT\\teapot001.x",	// ティーポット
+	"data\\MODEL\\TEAPOT\\teapot005.x",	// ティーポット
 };
 
 //************************************************************
 //	グローバル変数宣言
 //************************************************************
-LPDIRECT3DVERTEXDECLARATION9 m_pDecl = NULL;	// 頂点シェーダー
-
-LPDIRECT3DTEXTURE9	m_pNormalMap	= nullptr;	// 法線マップ
-CBumpMap*			m_pBumpMap		= nullptr;	// バンプマップ
-
-D3DXVECTOR4 LightPos	= D3DXVECTOR4(72.0f, 100.0f, 620.0f, 0.0f);	// 太陽の位置ベクトル
-D3DXVECTOR4 LightDir	= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);		// 平行光源の光の方向ベクトル
-D3DXVECTOR4 EyePos		= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f);		// 視点の位置ベクトル
+namespace
+{
+	//LPDIRECT3DVERTEXDECLARATION9 m_pDecl = NULL;	// 頂点シェーダー
+	
+	LPDIRECT3DTEXTURE9	m_pNormalMap	= nullptr;	// 法線マップ
+	CBumpMap*			m_pBumpMap		= nullptr;	// バンプマップ
+	
+	D3DXVECTOR4 LightPos	= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);	// 太陽の位置ベクトル
+	D3DXVECTOR4 LightDir	= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);	// 平行光源の光の方向ベクトル
+	D3DXVECTOR4 EyePos		= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f);	// 視点の位置ベクトル
+}
 
 //************************************************************
 //	子クラス [CTeapot] のメンバ関数
@@ -120,7 +127,7 @@ HRESULT CTeapot::Init(void)
 	HRESULT hr = D3DXCreateTextureFromFileEx
 	(
 		CManager::GetInstance()->GetRenderer()->GetDevice(),
-		_T("data\\TEXTURE\\normal3.png"),
+		_T("data\\TEXTURE\\normal2.jpg"),
 		D3DX_DEFAULT,
 		D3DX_DEFAULT,
 		1,
@@ -139,9 +146,12 @@ HRESULT CTeapot::Init(void)
 		return E_FAIL;
 	}
 
+	//D3DLIGHT9 light = CManager::GetInstance()->GetLight()->GetLight(0);
+	//LightPos = D3DXVECTOR4(light.Position.x, light.Position.y, light.Position.z, 0.0f);	// 太陽の位置ベクトル
+
 	// 平行光源の位置ベクトルから方向ベクトルを計算する
-	LightDir = D3DXVECTOR4(-LightPos.x, -LightPos.y, -LightPos.z, 0.0f);
-	D3DXVec3Normalize((D3DXVECTOR3*)&LightDir, (D3DXVECTOR3*)&LightDir);
+	//LightDir = D3DXVECTOR4(-LightPos.x, -LightPos.y, -LightPos.z, 0.0f);
+	//D3DXVec3Normalize((D3DXVECTOR3*)&LightDir, (D3DXVECTOR3*)&LightDir);
 
 	// 成功を返す
 	return S_OK;
@@ -164,6 +174,10 @@ void CTeapot::Uninit(void)
 //============================================================
 void CTeapot::Update(void)
 {
+	//D3DXVECTOR3 pos = GetVec3Position();
+	//pos.x += 1.0f;
+	//SetVec3Position(pos);
+
 	// オブジェクトモデルの更新
 	CObjectModel::Update();
 }
@@ -207,9 +221,9 @@ void CTeapot::Draw(void)
 	m_pBumpMap->Begin();
 
 	// マテリアルを設定
-	m_pBumpMap->SetAmbient(1.5f);
-	m_pBumpMap->SetSpecular(0.5f);
-	m_pBumpMap->SetSpecularPower(1.0f);
+	m_pBumpMap->SetAmbient(0.75f);
+	m_pBumpMap->SetSpecular(1.5f);
+	m_pBumpMap->SetSpecularPower(0.25f);
 	m_pBumpMap->SetMatrix(&mtxWorld, &EyePos, &LightDir);
 
 	// パスを設定
@@ -219,7 +233,9 @@ void CTeapot::Draw(void)
 	CObjectModel::Draw();
 
 	// ステージ１を初期化する
-	pDevice->SetTexture(1, NULL);
+	pDevice->SetTexture(1, nullptr);
+	//IDirect3DBaseTexture9 *pTex;
+	//pDevice->GetTexture(1, &pTex);
 
 	// 描画終了
 	m_pBumpMap->EndPass();
