@@ -177,7 +177,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\学校\\Git\\BumpMappingTest\\00_ソ\ースファイル\\project001_challenge_bumpmap\\data\\MODEL\\TEXTURE\\gravel.jpg";
+    "data\\MODEL\\TEXTURE\\gravel.jpg";
    }
   }
  }

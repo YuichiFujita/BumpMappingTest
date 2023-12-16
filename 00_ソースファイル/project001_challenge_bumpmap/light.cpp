@@ -110,7 +110,7 @@ D3DLIGHT9 CLight::GetLight(const int nID)
 		// 引数インデックスのライトの情報を返す
 		return m_aLight[nID];
 	}
-	else { assert(false); m_aLight[0]; }	// 範囲外
+	else { assert(false); return m_aLight[0]; }	// 範囲外
 }
 
 //============================================================

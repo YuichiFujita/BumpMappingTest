@@ -127,7 +127,7 @@ HRESULT CTeapot::Init(void)
 	HRESULT hr = D3DXCreateTextureFromFileEx
 	(
 		CManager::GetInstance()->GetRenderer()->GetDevice(),
-		_T("data\\TEXTURE\\normal2.jpg"),
+		_T("data\\TEXTURE\\normal5.png"),
 		D3DX_DEFAULT,
 		D3DX_DEFAULT,
 		1,
@@ -222,12 +222,15 @@ void CTeapot::Draw(void)
 
 	// マテリアルを設定
 	m_pBumpMap->SetAmbient(0.75f);
-	m_pBumpMap->SetSpecular(1.5f);
+	m_pBumpMap->SetSpecular(5.5f);
 	m_pBumpMap->SetSpecularPower(0.25f);
 	m_pBumpMap->SetMatrix(&mtxWorld, &EyePos, &LightDir);
 
 	// パスを設定
 	m_pBumpMap->BeginPass(0);
+
+	// 状態変更の伝達
+	//m_pBumpMap->CommitChanges();
 
 	// オブジェクトモデルの描画
 	CObjectModel::Draw();
