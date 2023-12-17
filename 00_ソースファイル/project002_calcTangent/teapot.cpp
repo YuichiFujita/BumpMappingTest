@@ -10,8 +10,6 @@
 #include "teapot.h"
 #include "manager.h"
 #include "renderer.h"
-#include "camera.h"
-#include "light.h"
 #include "texture.h"
 #include "shaderBumpmap.h"
 
@@ -37,9 +35,8 @@ namespace
 //************************************************************
 namespace
 {
-	D3DXVECTOR4 LightPos	= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);	// 太陽の位置ベクトル
-	D3DXVECTOR4 LightDir	= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);	// 平行光源の光の方向ベクトル
-	D3DXVECTOR4 EyePos		= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f);	// 視点の位置ベクトル
+	D3DXVECTOR4 DIR_LIGHT	= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);	// 平行光源の光の方向ベクトル
+	D3DXVECTOR4 POS_EYE		= D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f);	// 視点の位置ベクトル
 }
 
 //************************************************************
@@ -66,6 +63,17 @@ CTeapot::~CTeapot()
 //============================================================
 HRESULT CTeapot::Init(void)
 {
+	// 変数配列を宣言
+	D3DVERTEXELEMENT9 decl[] =	// 頂点データ定義
+	{
+		{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
+		{ 0, 24, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0 },
+		{ 0, 36, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
+		{ 0, 48, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
+		D3DDECL_END()
+	};
+
 	// オブジェクトモデルの初期化
 	if (FAILED(CObjectModel::Init()))
 	{ // 初期化に失敗した場合
@@ -78,20 +86,11 @@ HRESULT CTeapot::Init(void)
 	// モデルを登録・割当
 	BindModel(MODEL_FILE[MODEL_TEAPOT]);
 
-	// 頂点データを定義する(詳細はオンラインマニュアルを参照)
-	D3DVERTEXELEMENT9 decl[] =
-	{
-		{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
-		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
-		{ 0, 24, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0 },
-		{ 0, 36, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL,   0 },
-		{ 0, 48, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },
-		D3DDECL_END()
-	};
-
-	// xファイルモデルの頂点データを変換
+	// モデルの頂点データを変換
 	if (FAILED(SetVertexDecl(CManager::GetInstance()->GetRenderer()->GetDevice(), decl)))
-	{
+	{ // 変換に失敗した場合
+
+		// 失敗を返す
 		return E_FAIL;
 	}
 
@@ -125,39 +124,33 @@ void CTeapot::Draw(void)
 	// ポインタを宣言
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイス情報
 	CTexture *pTexture = CManager::GetInstance()->GetTexture();	// テクスチャ情報
+	CBumpMap *pBumpMap = CBumpMap::GetInstance();				// バンプマッピング情報
 
-	// カメラ情報
-	CCamera::SCamera cameraInfo = CManager::GetInstance()->GetCamera()->GetCamera(CCamera::TYPE_MAIN);	// カメラ取得
+	if (pDevice == nullptr || pTexture == nullptr || pBumpMap == nullptr)
+	{ // 情報が無いものがあった場合
 
-	// サンプラーステートを設定
-	pDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	pDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	pDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-	pDevice->SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	pDevice->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	pDevice->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+		// オブジェクトモデルの描画
+		CObjectModel::Draw();
 
-	// ワールドマトリックスを取得
-	D3DXMATRIX mtxWorld = GetMtxWorld();
-
-	// バンプマップの取得
-	CBumpMap *pBumpMap = CBumpMap::GetInstance();
-	assert(pBumpMap != nullptr);	// 未使用
+		// 処理を抜ける
+		assert(false);
+		return;
+	}
 
 	if (pBumpMap->IsEffectOK())
 	{ // エフェクトが使用可能な場合
 
-		// 法線マップをステージ１にセットする
-		pDevice->SetTexture(1, pTexture->GetTexture(pTexture->Regist(TEXTURE_FILE[TEXTURE_NORMAL])));
+		// ステージ1のテクスチャを設定
+		pDevice->SetTexture(1, pTexture->GetTexture(pTexture->Regist(TEXTURE_FILE[TEXTURE_NORMAL])));	// 法線テクスチャ
 
 		// 描画開始
 		pBumpMap->Begin();
 
-		// マテリアルを設定
+		// マテリアル情報を設定
 		pBumpMap->SetAmbient(0.75f);
 		pBumpMap->SetSpecular(5.5f);
 		pBumpMap->SetSpecularPower(0.25f);
-		pBumpMap->SetMatrix(&mtxWorld, &EyePos, &LightDir);
+		pBumpMap->SetMatrix(GetPtrMtxWorld(), &POS_EYE, &DIR_LIGHT);
 
 		// 状態変更の伝達
 		pBumpMap->CommitChanges();
@@ -172,7 +165,7 @@ void CTeapot::Draw(void)
 		pBumpMap->EndPass();
 		pBumpMap->End();
 
-		// ステージ１を初期化する
+		// ステージ1のテクスチャを初期化
 		pDevice->SetTexture(1, nullptr);
 	}
 }

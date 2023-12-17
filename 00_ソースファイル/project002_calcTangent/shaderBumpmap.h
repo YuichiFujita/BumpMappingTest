@@ -57,10 +57,14 @@ private:
 	static CBumpMap *m_pBumpMap;	// バンプマッピング
 
 	// メンバ変数
-	LPD3DXEFFECT m_pEffect;	// エフェクトポインタ
-
-	D3DXHANDLE m_pTechnique, m_mtxWorldViewProj, m_pLightDir, m_pEyePos, m_pAmbient, m_pSpecular, m_pSpecularPower;
-	D3DXMATRIX m_mtxView, m_mtxProjection;
+	LPD3DXEFFECT m_pEffect;			// エフェクトポインタ
+	D3DXHANDLE m_pTechnique;		// テクニック関数
+	D3DXHANDLE m_pMtxWorldViewProj;	// ワールドビュー射影変換マトリックス
+	D3DXHANDLE m_pLightDir;			// 平行光源の方向ベクトル
+	D3DXHANDLE m_pEyePos;			// 視点位置ベクトル
+	D3DXHANDLE m_pAmbient;			// 環境光
+	D3DXHANDLE m_pSpecular;			// ハイライトの範囲
+	D3DXHANDLE m_pSpecularPower;	// ハイライトの強度
 };
 
 #endif	// _BUMPMAP_H_

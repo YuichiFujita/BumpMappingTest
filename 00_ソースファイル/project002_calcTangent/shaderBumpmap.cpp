@@ -51,17 +51,17 @@ CBumpMap::~CBumpMap()
 HRESULT CBumpMap::Init(void)
 {
 	// 変数を宣言
-	D3DCAPS9 caps;
-	HRESULT hr;
+	D3DCAPS9 caps;	// ハードウェア機能
+	HRESULT hr;		// 異常終了の確認用
 
 	// ポインタを宣言
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイス情報
-	LPD3DXBUFFER pErr = nullptr;	// コンパイルエラー情報
+	LPD3DXBUFFER pError = nullptr;	// コンパイルエラー情報
 
 	// メンバ変数を初期化
 	m_pEffect = nullptr;	// エフェクトポインタ
 
-	// 
+	// ハードウェア機能を取得
 	pDevice->GetDeviceCaps(&caps);
 
 	if (caps.VertexShaderVersion >= D3DVS_VERSION(1, 1)
@@ -78,30 +78,35 @@ HRESULT CBumpMap::Init(void)
 			0,			// 読込オプションフラグ
 			nullptr,	// グローバル変数インターフェース
 			&m_pEffect,	// エフェクトインターフェース
-			&pErr		// コンパイルエラー情報
+			&pError		// コンパイルエラー情報
 		);
 		if (SUCCEEDED(hr))
 		{ // 読込に成功した場合
 
-			// 情報を初期化
-			m_pTechnique		= m_pEffect->GetTechniqueByName("TShader");
-			m_mtxWorldViewProj	= m_pEffect->GetParameterByName(nullptr, "m_mtxWorldViewProj");
-			m_pLightDir			= m_pEffect->GetParameterByName(nullptr, "m_LightDir");
-			m_pEyePos			= m_pEffect->GetParameterByName(nullptr, "m_EyePos");
-			m_pAmbient			= m_pEffect->GetParameterByName(nullptr, "m_Ambient");
-			m_pSpecularPower	= m_pEffect->GetParameterByName(nullptr, "m_SpecularPower");
-			m_pSpecular			= m_pEffect->GetParameterByName(nullptr, "m_Specular");
+			// テクニック関数を取得
+			m_pTechnique = m_pEffect->GetTechniqueByName("TShader");
+			m_pEffect->SetTechnique(m_pTechnique);	// エフェクトにテクニック関数を設定
 
-			m_pEffect->SetTechnique(m_pTechnique);
+			// グローバル変数を取得
+			m_pMtxWorldViewProj	= m_pEffect->GetParameterByName(nullptr, "m_mtxWorldViewProj");	// ワールドビュー射影変換マトリックス
+			m_pLightDir			= m_pEffect->GetParameterByName(nullptr, "m_LightDir");			// 平行光源の方向ベクトル
+			m_pEyePos			= m_pEffect->GetParameterByName(nullptr, "m_EyePos");			// 視点位置ベクトル
+			m_pAmbient			= m_pEffect->GetParameterByName(nullptr, "m_Ambient");			// 環境光
+			m_pSpecular			= m_pEffect->GetParameterByName(nullptr, "m_Specular");			// ハイライトの範囲
+			m_pSpecularPower	= m_pEffect->GetParameterByName(nullptr, "m_SpecularPower");	// ハイライトの強度
 		}
 		else
-		{
-			return -1;
+		{ // 読込に失敗した場合
+
+			// 読み込み失敗を返す
+			return E_FAIL;
 		}
 	}
 	else
-	{
-		return -2;
+	{ // バージョンが使用不可な場合
+
+		// 古いバージョンによる失敗を返す
+		return E_FAIL;
 	}
 
 	// 成功を返す
@@ -122,14 +127,8 @@ void CBumpMap::Uninit(void)
 //============================================================
 void CBumpMap::Begin(void)
 {
-	// ポインタを宣言
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイス情報
-
 	if (m_pEffect != nullptr)
 	{ // エフェクトが使用されている場合
-
-		pDevice->GetTransform(D3DTS_VIEW, &m_mtxView);
-		pDevice->GetTransform(D3DTS_PROJECTION, &m_mtxProjection);
 
 		// 開始
 		m_pEffect->Begin(nullptr, 0);
@@ -180,26 +179,14 @@ void CBumpMap::End(void)
 //============================================================
 void CBumpMap::SetAmbient(float Ambient)
 {
-	// ポインタを宣言
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイス情報
-
 	if (m_pEffect != nullptr)
 	{ // エフェクトが使用されている場合
 
-		D3DXVECTOR4 A;
-		A = D3DXVECTOR4(Ambient, Ambient, Ambient, 1.0f);
-		m_pEffect->SetVector(m_pAmbient, &A);
-	}
-	else
-	{ // エフェクトが使用されていない場合
+		// 変数を宣言
+		D3DXVECTOR4 ambient = D3DXVECTOR4(Ambient, Ambient, Ambient, 1.0f);	// 環境光
 
-		D3DMATERIAL9 tempMat;
-		pDevice->GetMaterial(&tempMat);
-		tempMat.Ambient.r = Ambient;
-		tempMat.Ambient.g = Ambient;
-		tempMat.Ambient.b = Ambient;
-		tempMat.Ambient.a = 1.0f;
-		pDevice->SetMaterial(&tempMat);
+		// エフェクトに環境光を設定
+		m_pEffect->SetVector(m_pAmbient, &ambient);
 	}
 }
 
@@ -211,7 +198,7 @@ void CBumpMap::SetSpecular(const float fSpecular)
 	if (m_pEffect != nullptr)
 	{ // エフェクトが使用されている場合
 
-		// 反射光の設定
+		// エフェクトに反射光を設定
 		m_pEffect->SetFloat(m_pSpecular, fSpecular);
 	}
 }
@@ -224,7 +211,7 @@ void CBumpMap::SetSpecularPower(const float fPower)
 	if (m_pEffect != nullptr)
 	{ // エフェクトが使用されている場合
 
-		// 反射ハイライトの設定
+		// エフェクトに反射ハイライトを設定
 		m_pEffect->SetFloat(m_pSpecularPower, fPower);
 	}
 }
@@ -239,36 +226,47 @@ void CBumpMap::SetMatrix
 	D3DXVECTOR4* pDirLight		// ライト方向
 )
 {
-	// ポインタを宣言
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイス情報
-
 	if (m_pEffect != nullptr)
 	{ // エフェクトが使用されている場合
 
-		D3DXMATRIX m, m1;
-		D3DXVECTOR4 LightDir;
-		D3DXVECTOR4 v;
+		// 変数を宣言
+		D3DXMATRIX mtxView;			// ビューマトリックス
+		D3DXMATRIX mtxProjection;	// プロジェクションマトリックス
+		D3DXMATRIX mtxWorld;		// ワールドマトリックス
+		D3DXMATRIX mtxWorldView;	// ワールドビューマトリックス
+		D3DXMATRIX mtxWVP;			// ワールドビュー射影変換マトリックス
+		D3DXVECTOR4 dirLight;		// 平行光源の方向ベクトル
+		D3DXVECTOR4 posEye;			// 視点位置ベクトル
 
-		m = (*pMtxWorld) * m_mtxView * m_mtxProjection;
-		m_pEffect->SetMatrix(m_mtxWorldViewProj, &m);
+		// ポインタを宣言
+		LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイス情報
 
-		// カメラ位置
-		m1 = (*pMtxWorld) * m_mtxView;
-		D3DXMatrixInverse(&m1, nullptr, &m1);
-		D3DXVec4Transform(&v, pPosCamera, &m1);
-		m_pEffect->SetVector(m_pEyePos, &v);
+		// ビューマトリックス・プロジェクションマトリックスを取得
+		pDevice->GetTransform(D3DTS_VIEW, &mtxView);
+		pDevice->GetTransform(D3DTS_PROJECTION, &mtxProjection);
 
-		// Light
-		LightDir = *pDirLight;
-		D3DXMatrixInverse(&m1, nullptr, pMtxWorld);
-		D3DXVec4Transform(&v, &LightDir, &m1);
-		D3DXVec3Normalize((D3DXVECTOR3*)&v, (D3DXVECTOR3*)&v);
-		m_pEffect->SetVector(m_pLightDir, &v);
-	}
-	else
-	{ // エフェクトが使用されていない場合
+		// ワールドビュー射影変換マトリックスを計算
+		mtxWVP = (*pMtxWorld) * mtxView * mtxProjection;
 
-		pDevice->SetTransform(D3DTS_WORLD, pMtxWorld);
+		// エフェクトにワールドビュー射影変換マトリックスを設定
+		m_pEffect->SetMatrix(m_pMtxWorldViewProj, &mtxWVP);
+
+		// カメラの視点位置ベクトルを計算
+		mtxWorldView = (*pMtxWorld) * mtxView;						// ワールドビューマトリックスを計算
+		D3DXMatrixInverse(&mtxWorldView, nullptr, &mtxWorldView);	// ワールドビューマトリックスの逆行列を計算
+		D3DXVec4Transform(&posEye, pPosCamera, &mtxWorldView);		// マトリックスをベクトルに変換
+
+		// エフェクトに視点位置ベクトルを設定
+		m_pEffect->SetVector(m_pEyePos, &posEye);
+
+		// 平行光源の方向ベクトルを計算
+		dirLight = *pDirLight;
+		D3DXMatrixInverse(&mtxWorld, nullptr, pMtxWorld);						// ワールドマトリックスの逆行列を計算
+		D3DXVec4Transform(&dirLight, &dirLight, &mtxWorld);						// マトリックスをベクトルに変換
+		D3DXVec3Normalize((D3DXVECTOR3*)&dirLight, (D3DXVECTOR3*)&dirLight);	// ベクトルを三次元変換し正規化
+
+		// エフェクトに平行光源の方向ベクトルを設定
+		m_pEffect->SetVector(m_pLightDir, &dirLight);
 	}
 }
 
@@ -299,7 +297,7 @@ bool CBumpMap::IsEffectOK(void) const
 //============================================================
 LPD3DXEFFECT CBumpMap::GetEffect(void) const
 {
-	// エフェクトを返す
+	// エフェクトポインタを返す
 	return m_pEffect;
 }
 
