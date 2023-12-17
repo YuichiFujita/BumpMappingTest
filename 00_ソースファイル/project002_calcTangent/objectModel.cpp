@@ -23,7 +23,8 @@ CObjectModel::CObjectModel()
 	// メンバ変数をクリア
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pMat	= nullptr;			// マテリアルへのポインタ
+	m_pMesh	= nullptr;		// メッシュへのポインタ
+	m_pMat	= nullptr;		// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ZERO;	// 拡大率
@@ -38,7 +39,8 @@ CObjectModel::CObjectModel(const CObject::ELabel label, const int nPriority) : C
 	// メンバ変数をクリア
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pMat	= nullptr;			// マテリアルへのポインタ
+	m_pMesh	= nullptr;		// メッシュへのポインタ
+	m_pMat	= nullptr;		// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ZERO;	// 拡大率
@@ -61,7 +63,8 @@ HRESULT CObjectModel::Init(void)
 	// メンバ変数を初期化
 	memset(&m_modelData, 0, sizeof(m_modelData));	// モデル情報
 	memset(&m_mtxWorld, 0, sizeof(m_mtxWorld));		// ワールドマトリックス
-	m_pMat	= nullptr;			// マテリアルへのポインタ
+	m_pMesh	= nullptr;		// メッシュへのポインタ
+	m_pMat	= nullptr;		// マテリアルへのポインタ
 	m_pos	= VEC3_ZERO;	// 位置
 	m_rot	= VEC3_ZERO;	// 向き
 	m_scale	= VEC3_ONE;		// 拡大率
@@ -76,6 +79,15 @@ HRESULT CObjectModel::Init(void)
 //============================================================
 void CObjectModel::Uninit(void)
 {
+	// メッシュへのポインタを破棄
+	if (m_pMesh != nullptr)
+	{ // ポインタが使用されていた場合
+
+		// メモリ開放
+		m_pMesh->Release();
+		m_pMesh = nullptr;
+	}
+
 	// マテリアルへのポインタを破棄
 	if (m_pMat != nullptr)
 	{ // ポインタが使用されていた場合
@@ -148,7 +160,16 @@ void CObjectModel::Draw(void)
 		}
 
 		// モデルの描画
-		m_modelData.pMesh->DrawSubset(nCntMat);
+		if (m_pMesh == nullptr)
+		{ // 独自メッシュが存在しない場合
+
+			m_modelData.pMesh->DrawSubset(nCntMat);
+		}
+		else
+		{ // 独自メッシュが存在する場合
+
+			m_pMesh->DrawSubset(nCntMat);
+		}
 
 		// 頂点法線の自動正規化を無効にする
 		pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
@@ -518,368 +539,147 @@ void CObjectModel::SetMtxWorld(const D3DXMATRIX& rMtxWorld)
 	m_mtxWorld = rMtxWorld;
 }
 
-HRESULT CObjectModel::SetVertexDecl
-(
-	const LPDIRECT3DDEVICE9 pDevice,
-	const D3DVERTEXELEMENT9 *pDecl,
-	bool bAutoComputeNormals,
-	bool bAutoComputeTangents, 
-	bool bSplitVertexForOptimalTangents
-)
-#if 0
+//============================================================
+//	頂点情報の設定処理
+//============================================================
+HRESULT CObjectModel::SetVertexDecl(const D3DVERTEXELEMENT9 *pDecl)
 {
-	// 変数を宣言
-	HRESULT hr;		// 
-
+#if 1
 	// ポインタを宣言
-	LPD3DXMESH pTempMesh = nullptr;	// メッシュ
-	
-	if (m_modelData.pMesh)
-	{
-		// メッシュの複製
-		hr = m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(), pDecl, pDevice, &pTempMesh);
-		if (FAILED(hr))
-		{
-			SAFE_RELEASE(pTempMesh);
-			return E_FAIL;
-		}
-	}
-	
-	
-	// Check if the old declaration contains a normal.
-	bool bHadNormal = false;
-	bool bHadTangent = false;
-	D3DVERTEXELEMENT9 aOldDecl[MAX_FVF_DECL_SIZE];
-	if (m_modelData.pMesh && SUCCEEDED(m_modelData.pMesh->GetDeclaration(aOldDecl)))
-	{
-		for (UINT index = 0; index < D3DXGetDeclLength(aOldDecl); index++)
-		{
-			if (aOldDecl[index].Usage == D3DDECLUSAGE_NORMAL)
-			{
-				bHadNormal = true;
-			}
-			if (aOldDecl[index].Usage == D3DDECLUSAGE_TANGENT)
-			{
-				bHadTangent = true;
-			}
-		}
-	}
-	
-	// Check if the new declaration contains a normal.
-	bool bHaveNormalNow = false;
-	bool bHaveTangentNow = false;
-	D3DVERTEXELEMENT9 aNewDecl[MAX_FVF_DECL_SIZE];
-	if (pTempMesh && SUCCEEDED(pTempMesh->GetDeclaration(aNewDecl)))
-	{
-		for (UINT index = 0; index < D3DXGetDeclLength(aNewDecl); index++)
-		{
-			if (aNewDecl[index].Usage == D3DDECLUSAGE_NORMAL)
-			{
-				bHaveNormalNow = true;
-			}
-			if (aNewDecl[index].Usage == D3DDECLUSAGE_TANGENT)
-			{
-				bHaveTangentNow = true;
-			}
-		}
-	}
-	
-	SAFE_RELEASE(m_modelData.pMesh);
-	
-	if (pTempMesh)
-	{
-		m_modelData.pMesh = pTempMesh;
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイスのポインタ
+	LPD3DXMESH pTempMesh = NULL;	// 情報変更の保持メッシュ
 
-		if (!bHadNormal && bHaveNormalNow && bAutoComputeNormals)
-		{
-			// Compute normals in case the meshes have them
-			D3DXComputeNormals(m_modelData.pMesh, nullptr);
-		}
-
-		if (bHaveNormalNow && !bHadTangent && bHaveTangentNow && bAutoComputeTangents)
-		{
-			ID3DXMesh* pNewMesh;
-
-			DWORD *rgdwAdjacency = nullptr;
-			rgdwAdjacency = new DWORD[m_modelData.pMesh->GetNumFaces() * 3];
-			if (rgdwAdjacency == nullptr)
-			{
-				return E_OUTOFMEMORY;
-			}
-
-			//V(m_modelData.pMesh->GenerateAdjacency(1e-6f,rgdwAdjacency));
-			if (FAILED(m_modelData.pMesh->GenerateAdjacency(1e-6f, rgdwAdjacency)))
-			{
-				return E_FAIL;
-			}
-
-			float fPartialEdgeThreshold;
-			float fSingularPointThreshold;
-			float fNormalEdgeThreshold;
-			if (bSplitVertexForOptimalTangents)
-			{
-				fPartialEdgeThreshold = 0.01f;
-				fSingularPointThreshold = 0.25f;
-				fNormalEdgeThreshold = 0.01f;
-			}
-			else
-			{
-				fPartialEdgeThreshold = -1.01f;
-				fSingularPointThreshold = 0.01f;
-				fNormalEdgeThreshold = -1.01f;
-			}
-
-			// Compute tangents, which are required for normal mapping
-			hr = D3DXComputeTangentFrameEx
-			( // 引数
-				m_modelData.pMesh,
-				D3DDECLUSAGE_TEXCOORD,
-				0,
-				D3DDECLUSAGE_TANGENT,
-				0,
-				D3DX_DEFAULT,
-				0,
-				D3DDECLUSAGE_NORMAL,
-				0,
-				0,
-				rgdwAdjacency,
-				fPartialEdgeThreshold,
-				fSingularPointThreshold,
-				fNormalEdgeThreshold,
-				&pNewMesh,
-				nullptr
-			);
-
-			SAFE_DEL_ARRAY(rgdwAdjacency);
-			if (FAILED(hr))
-			{
-				return hr;
-			}
-
-			SAFE_RELEASE(m_modelData.pMesh);
-			m_modelData.pMesh = pNewMesh;
-		}
-	}
-	
-	return S_OK;
-}
-#else
-{
-#if 0
 	// 変数を宣言
-	HRESULT hr;		// 
+	HRESULT hr;	// 異常終了の確認用
+	bool bReCreate = false;	// 再生成が必要かの判定
+	int nNumDecl = (int)D3DXGetDeclLength(pDecl);	// 頂点データ定義の要素数
 
-	// ポインタを宣言
-	LPD3DXMESH pTempMesh = nullptr;	// メッシュ
-	
-	if (m_modelData.pMesh)
-	{
-		// メッシュの複製
-		hr = m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(), pDecl, pDevice, &pTempMesh);
-		if (FAILED(hr))
-		{
-			SAFE_RELEASE(pTempMesh);
-			return E_FAIL;
+	for (int nCntDecl = 0; nCntDecl < nNumDecl; nCntDecl++)
+	{ // 頂点データ定義の要素数分繰り返す
+
+		if (pDecl[nCntDecl].Usage == D3DDECLUSAGE_NORMAL
+		||  pDecl[nCntDecl].Usage == D3DDECLUSAGE_TANGENT
+		||  pDecl[nCntDecl].Usage == D3DDECLUSAGE_BINORMAL)
+		{ // 法線ベクトル・接線ベクトル・従法線ベクトルのいずれかが必要な場合
+
+			// 再生成が必要な状態にする
+			bReCreate = true;
+
+			// 処理を抜ける
+			break;
 		}
 	}
-	
-	
-	// Check if the old declaration contains a normal.
-	bool bHadNormal = false;
-	bool bHadTangent = false;
-	D3DVERTEXELEMENT9 aOldDecl[MAX_FVF_DECL_SIZE];
-	if (m_modelData.pMesh && SUCCEEDED(m_modelData.pMesh->GetDeclaration(aOldDecl)))
-	{
-		for (UINT index = 0; index < D3DXGetDeclLength(aOldDecl); index++)
-		{
-			if (aOldDecl[index].Usage == D3DDECLUSAGE_NORMAL)
-			{
-				bHadNormal = true;
-			}
-			if (aOldDecl[index].Usage == D3DDECLUSAGE_TANGENT)
-			{
-				bHadTangent = true;
-			}
-		}
-	}
-	
-	// Check if the new declaration contains a normal.
-	bool bHaveNormalNow = false;
-	bool bHaveTangentNow = false;
-	D3DVERTEXELEMENT9 aNewDecl[MAX_FVF_DECL_SIZE];
-	if (pTempMesh && SUCCEEDED(pTempMesh->GetDeclaration(aNewDecl)))
-	{
-		for (UINT index = 0; index < D3DXGetDeclLength(aNewDecl); index++)
-		{
-			if (aNewDecl[index].Usage == D3DDECLUSAGE_NORMAL)
-			{
-				bHaveNormalNow = true;
-			}
-			if (aNewDecl[index].Usage == D3DDECLUSAGE_TANGENT)
-			{
-				bHaveTangentNow = true;
-			}
-		}
-	}
-	
-	SAFE_RELEASE(m_modelData.pMesh);
-	
-	if (pTempMesh)
-	{
-		m_modelData.pMesh = pTempMesh;
 
-		if (!bHadNormal && bHaveNormalNow && bAutoComputeNormals)
-		{
-			// Compute normals in case the meshes have them
-			D3DXComputeNormals(m_modelData.pMesh, nullptr);
-		}
+	if (bReCreate)
+	{ // 再生成が必要な場合
 
-		if (bHaveNormalNow && !bHadTangent && bHaveTangentNow && bAutoComputeTangents)
-		{
-			ID3DXMesh* pNewMesh;
+		// 独自メッシュを生成する
+		if (m_pMesh == nullptr)
+		{ // 独自メッシュが使用されていない場合
 
-			DWORD *rgdwAdjacency = nullptr;
-			rgdwAdjacency = new DWORD[m_modelData.pMesh->GetNumFaces() * 3];
-			if (rgdwAdjacency == nullptr)
-			{
-				return E_OUTOFMEMORY;
-			}
+			if (m_modelData.pMesh != nullptr)
+			{ // モデル情報のメッシュが存在する場合
 
-			//V(m_modelData.pMesh->GenerateAdjacency(1e-6f,rgdwAdjacency));
-			if (FAILED(m_modelData.pMesh->GenerateAdjacency(1e-6f, rgdwAdjacency)))
-			{
-				return E_FAIL;
-			}
-
-			float fPartialEdgeThreshold;
-			float fSingularPointThreshold;
-			float fNormalEdgeThreshold;
-			if (bSplitVertexForOptimalTangents)
-			{
-				fPartialEdgeThreshold = 0.01f;
-				fSingularPointThreshold = 0.25f;
-				fNormalEdgeThreshold = 0.01f;
-			}
-			else
-			{
-				fPartialEdgeThreshold = -1.01f;
-				fSingularPointThreshold = 0.01f;
-				fNormalEdgeThreshold = -1.01f;
-			}
-
-			// Compute tangents, which are required for normal mapping
-			hr = D3DXComputeTangentFrameEx
-			( // 引数
-				m_modelData.pMesh,
-				D3DDECLUSAGE_TEXCOORD,
-				0,
-				D3DDECLUSAGE_TANGENT,
-				0,
-				D3DX_DEFAULT,
-				0,
-				D3DDECLUSAGE_NORMAL,
-				0,
-				0,
-				rgdwAdjacency,
-				fPartialEdgeThreshold,
-				fSingularPointThreshold,
-				fNormalEdgeThreshold,
-				&pNewMesh,
-				nullptr
-			);
-
-			SAFE_DEL_ARRAY(rgdwAdjacency);
-			if (FAILED(hr))
-			{
-				return hr;
-			}
-
-			SAFE_RELEASE(m_modelData.pMesh);
-			m_modelData.pMesh = pNewMesh;
-		}
-	}
-#endif
-
-	// ここから追加
-	LPD3DXMESH pTempSysMemMesh = NULL;
-	//LPD3DXMESH m_modelData.pMesh  = NULL;
-
-	//メッシュ情報をコピーする
-	if (m_modelData.pMesh)
-	{
-			if (FAILED(m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(),
-				pDecl,
-				pDevice, &pTempSysMemMesh)))
-				return E_FAIL;
-	}
-
-	//頂点情報を参照し、法線ベクトル、接線ベクトル、従法線ベクトルがあるか調べる
-	DWORD Normal = D3DX_DEFAULT;
-	DWORD Tangent = D3DX_DEFAULT;
-	DWORD Binormal = D3DX_DEFAULT;
-	if (pTempSysMemMesh)
-	{
-			for (UINT index = 0; index < D3DXGetDeclLength(pDecl); ++index)
-			{
-				if (pDecl[index].Usage == D3DDECLUSAGE_NORMAL)
-					Normal = D3DDECLUSAGE_NORMAL;
-				else if (pDecl[index].Usage == D3DDECLUSAGE_TANGENT)
-					Tangent = D3DDECLUSAGE_TANGENT;
-				else if (pDecl[index].Usage == D3DDECLUSAGE_BINORMAL)
-					Binormal = D3DDECLUSAGE_BINORMAL;
-		   }
-	}
-
-	//SAFE_RELEASE( pTempSysMemMesh );
-
-	if (pTempSysMemMesh)
-	{
-		m_modelData.pMesh = pTempSysMemMesh;
-
-
-		if (m_modelData.pMesh)
-		{
-			//頂点情報に基づき頂点データを再生成する   
-			if (Normal != D3DX_DEFAULT || Tangent != D3DX_DEFAULT || Binormal != D3DX_DEFAULT)
-			{
-				//D3DXComputeTangent( m_modelData.pMesh, 0, 0, 0, 0, NULL );
-				//D3DXComputeTangentFrame( m_modelData.pMesh, 0 );
-				//m_modelData.pMesh->CloneMesh( m_modelData.pMesh->GetOptions(), pDecl,
-				//                                 pDevice, &m_modelData.pMesh );
-
-				D3DXComputeTangentFrameEx(m_modelData.pMesh,
-					D3DDECLUSAGE_TEXCOORD,
-					0,
-					D3DDECLUSAGE_TANGENT,
-					0,
-					D3DDECLUSAGE_BINORMAL,
-					0,
-					D3DDECLUSAGE_NORMAL,
-					0,
-					0,
-					NULL,
-					0.01f,    //ボケ具合.値をおおきくするとぼけなくなる
-					0.25f,
-					0.01f,
-					&m_modelData.pMesh,
-					NULL
+				// メッシュのコピー
+				hr = m_modelData.pMesh->CloneMesh
+				( // 引数
+					m_modelData.pMesh->GetOptions(),	// メッシュ作成オプション
+					pDecl,		// 頂点データ定義
+					pDevice,	// デバイスへのポインタ
+					&m_pMesh	// 複製されたメッシュの出力ポインタ
 				);
+				if (FAILED(hr))
+				{ // コピーに失敗した場合
+
+					// 失敗を返す
+					return E_FAIL;
+				}
 			}
-			//頂点データを再生成しない
-			else
-			{
-				m_modelData.pMesh->CloneMesh(m_modelData.pMesh->GetOptions(),
-					pDecl,
-					pDevice,
-					&m_modelData.pMesh);
+		}
+
+		// 独自メッシュをコピーする
+		if (m_pMesh != nullptr)
+		{ // 独自メッシュが使用されている場合
+
+			// メッシュのコピー
+			hr = m_pMesh->CloneMesh
+			( // 引数
+				m_pMesh->GetOptions(),	// メッシュ作成オプション
+				pDecl,		// 頂点データ定義
+				pDevice,	// デバイスへのポインタ
+				&pTempMesh	// 複製されたメッシュの出力ポインタ
+			);
+			if (FAILED(hr))
+			{ // コピーに失敗した場合
+
+				// 失敗を返す
+				return E_FAIL;
 			}
-			//SAFE_RELEASE(m_modelData.pMesh);
+		}
+
+		// 独自メッシュを一時的に破棄
+		SAFE_RELEASE(m_pMesh);
+
+		if (pTempMesh != nullptr && m_pMesh == nullptr)
+		{ // 一時メッシュが使用されている且つ、再生成を保存するメッシュが使用されていない場合
+
+			// 頂点データを再生成する
+			hr = D3DXComputeTangentFrameEx
+			( // 引数
+				pTempMesh,
+				D3DDECLUSAGE_TEXCOORD,
+				0,
+				D3DDECLUSAGE_TANGENT,
+				0,
+				D3DDECLUSAGE_BINORMAL,
+				0,
+				D3DDECLUSAGE_NORMAL,
+				0,
+				0,
+				nullptr,
+				0.01f,		// ボケ具合.値をおおきくするとぼけなくなる
+				0.25f,
+				0.01f,
+				&m_pMesh,	// 独自メッシュに再生成したメッシュを適用
+				nullptr
+			);
+			if (FAILED(hr))
+			{ // 再生成に失敗した場合
+
+				// 失敗を返す
+				return E_FAIL;
+			}
+
+			// 情報変更の保持メッシュを破棄
+			SAFE_RELEASE(pTempMesh);
 		}
 	}
+#else
+	// ポインタを宣言
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();	// デバイスのポインタ
 
+	// 変数を宣言
+	HRESULT hr;	// 異常終了の確認用
+
+	// メッシュのコピー
+	hr = m_modelData.pMesh->CloneMesh
+	( // 引数
+		m_modelData.pMesh->GetOptions(),	// メッシュ作成オプション
+		pDecl,		// 頂点データ定義
+		pDevice,	// デバイスへのポインタ
+		&m_pMesh	// 複製されたメッシュの出力ポインタ
+	);
+	if (FAILED(hr))
+	{ // コピーに失敗した場合
+
+		// 失敗を返す
+		return E_FAIL;
+	}
+#endif
+
+	// 成功を返す
 	return S_OK;
 }
-#endif
 
 //============================================================
 //	元マテリアルの設定処理

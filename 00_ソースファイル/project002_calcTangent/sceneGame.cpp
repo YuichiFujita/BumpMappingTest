@@ -138,8 +138,11 @@ HRESULT CSceneGame::Init(void)
 		return E_FAIL;
 	}
 
-	CTeapot::Create(D3DXVECTOR3( 800.0f, 0.0f, 0.0f), VEC3_ZERO);
-	CTeapot::Create(D3DXVECTOR3(-800.0f, 0.0f, 0.0f), VEC3_ZERO);
+	//for (int i = 0; i < 32; i++)
+	//{
+	//	CTeapot::Create(D3DXVECTOR3(800.0f, 0.0f, 0.0f), VEC3_ZERO);
+	//	CTeapot::Create(D3DXVECTOR3(-800.0f, 0.0f, 0.0f), VEC3_ZERO);
+	//}
 
 	// •Ç‚Ì¶¬
 	//CWall::Create(CWall::TEXTURE_NORMAL, D3DXVECTOR3(0.0f, 00.0f, 0.0f), VEC3_ZERO, D3DXVECTOR2(400.0f, 400.0f), XCOL_RED, POSGRID2(8, 8));

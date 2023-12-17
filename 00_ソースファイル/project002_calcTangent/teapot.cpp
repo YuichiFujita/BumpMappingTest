@@ -64,7 +64,7 @@ CTeapot::~CTeapot()
 HRESULT CTeapot::Init(void)
 {
 	// 変数配列を宣言
-	D3DVERTEXELEMENT9 decl[] =	// 頂点データ定義
+	D3DVERTEXELEMENT9 aDecl[] =	// 頂点データ定義
 	{
 		{ 0,  0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
 		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT,  0 },
@@ -87,7 +87,7 @@ HRESULT CTeapot::Init(void)
 	BindModel(MODEL_FILE[MODEL_TEAPOT]);
 
 	// モデルの頂点データを変換
-	if (FAILED(SetVertexDecl(CManager::GetInstance()->GetRenderer()->GetDevice(), decl)))
+	if (FAILED(SetVertexDecl(&aDecl[0])))
 	{ // 変換に失敗した場合
 
 		// 失敗を返す

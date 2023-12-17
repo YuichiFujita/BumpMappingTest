@@ -68,14 +68,7 @@ public:
 	CModel::SModel GetModelData(void) const;			// モデル情報取得
 	void SetMtxWorld(const D3DXMATRIX& rMtxWorld);		// マトリックス設定
 
-	HRESULT SetVertexDecl
-	(
-		const LPDIRECT3DDEVICE9 pDevice,
-		const D3DVERTEXELEMENT9 *pDecl,
-		bool bAutoComputeNormals = true,
-		bool bAutoComputeTangents = true,
-		bool bSplitVertexForOptimalTangents = false
-	);
+	HRESULT SetVertexDecl(const D3DVERTEXELEMENT9 *pDecl);
 
 private:
 	// メンバ関数
@@ -83,6 +76,7 @@ private:
 
 	// メンバ変数
 	CModel::SModel	m_modelData;	// モデル情報
+	LPD3DXMESH		m_pMesh;		// メッシュへのポインタ
 	D3DXMATERIAL	*m_pMat;		// マテリアルへのポインタ
 	D3DXMATRIX		m_mtxWorld;		// ワールドマトリックス
 	D3DXVECTOR3		m_pos;			// 位置
