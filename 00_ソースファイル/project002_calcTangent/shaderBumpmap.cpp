@@ -64,8 +64,9 @@ HRESULT CBumpMap::Init(void)
 	// 
 	pDevice->GetDeviceCaps(&caps);
 
-	if (caps.VertexShaderVersion >= D3DVS_VERSION(1, 1) && caps.PixelShaderVersion >= D3DPS_VERSION(2, 0))
-	{ // 頂点シェーダーとピクセルシェーダのバージョンが今回使用するバージョン以上の場合
+	if (caps.VertexShaderVersion >= D3DVS_VERSION(1, 1)
+	&&  caps.PixelShaderVersion  >= D3DPS_VERSION(2, 0))
+	{ // 頂点・ピクセルシェーダのバージョンが使用可能な場合
 
 		// エフェクトファイルの読込
 		hr = D3DXCreateEffectFromFile
